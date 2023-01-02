@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { getPosts } from '../api';
+import { Home } from '../pages';
 
 function App() {
   useEffect(() => {
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">Hello world from React!</header>
+      <Home />
     </div>
   );
 }
