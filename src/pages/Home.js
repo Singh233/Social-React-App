@@ -1,9 +1,13 @@
+import styles from '../styles/home.module.css';
 
+const Home = ({ posts }) => {
 
-const Home = () => {
 
     return (
-        <div>Home</div>
+        <div>
+            Home
+            
+        </div>
     );
 };
 
