@@ -1,8 +1,6 @@
-import Home from "./Home";
-import Loader from "../components/Loader";
+import Home from "./home/Home";
 
 
 export {
     Home,
-    Loader,
 };

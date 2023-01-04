@@ -1,0 +1,11 @@
+
+
+
+.homeContainer {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-gap: 10px;
+    min-height: 90vh;
+    max-height: 100vh;
+    margin: 10px;
+}

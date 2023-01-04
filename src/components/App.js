@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api';
+
 import { Home } from '../pages';
-import { Loader } from '../pages';
+import { Loader, Navbar } from './';
+
+
+
+
 function App() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +31,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">Hello world from React!</header>
+      <Navbar />
       <Home posts={posts}/>
     </div>
   );

@@ -1,0 +1,251 @@
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.displayPosts {
+    min-width: 400px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    margin-top: 20px;
+    transition: all .5s ease;
+
+}
+
+
+
+.displayPosts .post img {
+    height: 500px;
+    width: 400px;
+    object-fit: cover;
+    border-radius: 30px;
+
+}
+
+.displayPosts .header {
+    position: relative;
+
+    margin-bottom: -70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 20px;
+    /* background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(0,128,241,0) 15%, rgba(5,5,5,1) 100%); */
+}
+
+.displayPosts .userInfo {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    padding-right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+
+}
+
+.displayPosts .actions {
+    padding: 2px 20px;
+    padding-top: 60px;
+    margin-top: -130px;
+    display: flex;
+    justify-content: space-between;
+
+    background: rgb(0, 0, 0);
+    background: linear-gradient(183deg, rgba(0,128,241,0) 15%, rgba(5,5,5,1) 100%);
+
+}
+
+
+.displayPosts .actions .leftIcons {
+    display: flex;
+}
+
+
+.iconBg {
+    height: 24px;
+    width: 24px;
+    
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.blurBg {
+    background: rgba(0, 0, 0, 0.5);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+}
+
+.likeButton, .commentButton, .saveButton {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    margin: 10px 6px;
+    transition: all .5s ease;
+    cursor: pointer;
+    color: black;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba(255, 255, 255, 0.7);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+    border-radius: 50%;
+
+}
+
+.likeButton, .commentButton {
+    height: 45px;
+    padding: 0px 5px;
+    border-radius: 30px;
+}
+
+.likeCount {
+    margin-right: 10px;
+    font-size: 0.9rem;
+    margin-left: -5px;
+}
+
+
+
+
+
+
+
+
+/* Comments Section */
+
+.displayPosts .comments {
+    overflow: hidden;
+    transition: all .5s ease;
+    height: 0;
+    margin-bottom: 20px;
+    background-color: #0F1216;
+    border-radius: 30px;
+    /* overflow-y: scroll; */
+    padding: 0px 20px 0px 20px;
+    padding-bottom: 20px;
+    
+}
+
+.displayPosts:hover .comments {
+    height: 200px;
+}
+
+
+.comments .commentDisplay {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    margin-top: 10px;
+    /* border-bottom: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    border-radius: 30px;
+    /* background-color: #000000; */
+}
+
+.comments .commentDisplay .middleSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.comments .commentDisplay .middleSection .upper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.comments .commentDisplay .middleSection .upper .commentUserContent {
+    font-size: 0.9rem;
+    margin: 5px;
+    color: rgb(187, 187, 187);
+}
+
+
+.comments .commentDisplay .middleSection .upper .commentUserName {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+}
+
+.comments .commentDisplay .middleSection .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+
+    
+}
+
+.bottom p {
+    margin: 5px;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+
+
+#comment-time {
+    margin-right: 10px;
+}
+
+#reply-button {
+    margin-right: 10px;
+}
+
+.commentLikeButton {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    margin: 10px 6px;
+    transition: all .5s ease;
+    cursor: pointer;
+    color: white;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba(0, 0, 0, 0.5);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+    border-radius: 50%;
+
+}
+
+.commentLikeButton {
+    height: 40px;
+    padding: 0px 5px;
+    border-radius: 30px;
+}
+
+.commentLikeButton img {
+    height: 20px;
+    width: 20px;
+}
+.commentLikeButton p {
+    font-size: 0.8rem;
+}
+
+.commentAvatar {
+    background-color: #000000;
+    border-radius: 50%;
+    padding: 2.5px;
+    margin-right: 5px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.text {
+    background-color: #000000;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    padding: 15px;
+}
