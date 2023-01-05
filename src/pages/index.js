@@ -1,6 +1,7 @@
-import Home from "./home/Home";
-
+import Home from "./Home/Home";
+import Login from "./Login";
 
 export {
     Home,
+    Login
 };

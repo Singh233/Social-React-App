@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Routes, Route, Switch } from 'react-router-dom';
 import { getPosts } from '../api';
 
-import { Home } from '../pages';
+import { Home, Login } from '../pages';
 import { Loader, Navbar } from './';
 
 
-
+const Page404 = () => {
+  return <div style={{color: 'white'}}>404</div>
+}
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -32,7 +35,14 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Home posts={posts}/>
+      <Routes>
+
+        <Route path='/' element={<Home posts={posts} />}/>
+        <Route path='/login' element={<Login posts={posts} />}/>
+        <Route element={<Login />} />
+
+      </Routes>
+      
     </div>
   );
 }

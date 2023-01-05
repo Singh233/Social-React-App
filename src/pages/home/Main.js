@@ -12,11 +12,21 @@ import comment from '../../styles/icon/document.png';
 import dummyImg from '../../styles/img/dummy.jpeg';
 import avatar from '../../styles/memojis/memo3.png';
 
+import { onHover } from '../../styles/js/main.js';
+import { useEffect } from 'react';
+
 
 
 
 
 const Main = ({posts}) => {
+
+    // useEffect(() => {
+    //     return () => {
+    //         onHover();
+    //     }
+        
+    // }, []);
 
 
     return (
@@ -67,7 +77,7 @@ const Main = ({posts}) => {
             <div className={styles.comments}>
                 <p className={styles.text}>Comments</p>
                 {post.comments.map((comment, index) => (
-                    
+
                     <Comment comment={comment}/>
 
                 ))}
