@@ -12,6 +12,7 @@ import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import profile from '../styles/memojis/memo3.png';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -19,7 +20,8 @@ const Navbar = () => {
         <div className={styles.navContainer}>
 
             <div className={styles.branding}>
-                Logo and name
+                <Link to='/'> Logo and name </Link>
+                
             </div>
 
             <div className={styles.currentMenu}>
@@ -37,7 +39,7 @@ const Navbar = () => {
                 <img style={{height: 24, width: 24}}  src={send} />
                 <img style={{height: 28, width: 28}}  src={notification} />
                 <img style={{height: 28, width: 28}}  src={notification} />
-                <img className={styles.avatar}  src={profile} />
+                <Link className={styles.avatar} to='/login'> <img className={styles.avatar}  src={profile} /> </Link> 
                 <img style={{height: 28, width: 28}}  src={explore} />
                 
             </div>
