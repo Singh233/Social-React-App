@@ -90,5 +90,10 @@ const Main = ({posts}) => {
     );
 };
 
+Main.propTypes = {
+    posts: PropTypes.array.isRequired,
+}
+
+
 
 export default Main;

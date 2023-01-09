@@ -144,11 +144,15 @@
 
 .navOptions {
     justify-self: flex-end;
-    margin-right: 20px;
+    margin-right: 30px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     width: 50%;
+    min-width: 220px;
+
+    position: relative;
+    z-index: 2;
 }
 
 .navOptions img {
@@ -160,7 +164,73 @@
     position: absolute;
     height: 70px;
     width: 70px;
-    margin-left: 60px;
+    right: -5%;
     
+}
+
+
+.navOptionsExpanded {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    padding-top: 50px;
+
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    top: 0;
+    margin: 10px 15px;
+    height: 0;
+    width: 250px;
+    background-color: #0F1216;
+    border-radius: 25px;
+    transition: all .45s ease;
+    opacity: 0;
+    visibility: hidden;
+
+}
+
+.signInButton, .signOutButton {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+
+    background-color: #242E38;
+    color: white;
+    transition: all 0.5s;
+    border: none;
+    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+}
+
+.signInButton span, .signOutButton span {
+    transition: all 0.5s;
+}
+
+.signOutButton:hover {
+    background-color: #D20A0A;
+}
+
+
+.signInButton span:after, .signOutButton span:after {
+    content: '»';
+    font-size: 1rem;
+    position: relative;
+    opacity: 0;
+    top: 0;
+    right: -15px;
+    transition: 0.5s;
+}
+
+.signInButton:hover span, .signOutButton:hover span {
+    padding-right: 15px;
+}
+
+.signInButton:hover span:after, .signOutButton:hover span:after {
+    opacity: 1;
+    right: 0;
 }
 
