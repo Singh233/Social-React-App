@@ -7,18 +7,20 @@ import styles from '../../styles/css/home/home.module.css';
 import LeftNav from './LeftNav';
 import RightNav from './RightNav';
 import Main from './Main';
+import { useAuth } from '../../hooks';
 
 const Home = () => {
 
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const auth = useAuth();
+    console.log('*****User*****', auth.user);
 
 
     useEffect(() => {
         const fetchPosts = async () => {
         const response = await getPosts();
-        console.log('response', response);
+        // console.log('response', response);
 
         if (response.success) {
             setPosts(response.data.posts);

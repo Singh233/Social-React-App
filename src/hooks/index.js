@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import { AuthContext } from '../providers/AuthProvider';
-import { editProfile, login as userLogin } from '../api';
+import { editProfile, fetchUserFriends, login as userLogin } from '../api';
 import { signUp as userSignUp } from '../api';
 import { setItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage, getItemInLocalStorage} from '../utils';
 import { toast } from 'react-hot-toast';
@@ -17,12 +17,25 @@ export const useProvideAuth = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect( () => {
-        const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
-        if (userToken) {
-            const user = jwtDecode(userToken);
-            setUser(user);
+        const getUser = async () => {
+            const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+            if (userToken) {
+                const user = jwtDecode(userToken);
+                const response = await fetchUserFriends();
+                // console.log('friends',response)
+                let friends =[];
+                if (response.success) {
+                    friends = response.data.friends;
+                }
+
+                setUser({
+                    ...user,
+                    friends
+                });
+            }
+            setLoading(false);
         }
-        setLoading(false);
+        getUser();
     }, []);
 
 
@@ -45,7 +58,7 @@ export const useProvideAuth = () => {
 
     const updateUser = async (userId, name, password, confirmPassword) => {
         const response = await editProfile(userId, name, password, confirmPassword);
-        console.log('response', response)
+        // console.log('response', response)
         if (response.success) {
             setUser(response.data.user);
             setItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
@@ -63,7 +76,6 @@ export const useProvideAuth = () => {
 
     const login = async (email, password) => {
         const response = await userLogin(email, password);
-
         if (response.success) {
             setUser(response.data.user);
             setItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
@@ -86,6 +98,24 @@ export const useProvideAuth = () => {
 
     };
 
+    const updateUserFriends = (addFriend, friend) => {
+        if (addFriend) {
+            setUser({
+                ...user,
+                friends: [...user.friends, friend],
+            });
+            return;
+        } else {
+            
+            setUser({
+                ...user,
+                friends: friend,
+            });
+            console.log('friend', friend);
+            return;
+        }
+    }
+
 
 
 
@@ -96,5 +126,7 @@ export const useProvideAuth = () => {
         logout,
         loading,
         updateUser,
+        updateUserFriends,
+
     };
 };

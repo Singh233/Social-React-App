@@ -8,13 +8,14 @@ import styles from '../styles/css/settings.module.css';
 
 import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
-import { fetchUserProfile } from '../api';
+import { addFriend, fetchUserProfile, removeFriend } from '../api';
 import { Loader } from '../components';
 
 
 const UserProfile = () => {
     const [user, setUser] = useState({})
     const [loading, setLoading] = useState(true);
+    const [requestInProgress, setRequestInProgress] = useState(false);
     const {userId} = useParams();
     const navigate = useNavigate();
     const auth = useAuth();
@@ -39,6 +40,7 @@ const UserProfile = () => {
         getuser();
     }, [userId]);
 
+
     if (loading) {
         return <Loader />
     }
@@ -59,6 +61,45 @@ const UserProfile = () => {
         }
 
         return false;
+
+    }
+
+    const handleAddFriendClick = async () => {
+        setRequestInProgress(true);
+
+        const response = await addFriend(userId);
+
+        if (response.success) {
+            const {friendship} = response.data;
+
+            auth.updateUserFriends(true, friendship);
+            toast.success("Friend added successfully!");
+
+        } else {
+            toast.error(response.message);
+        }
+
+        setRequestInProgress(false);
+
+    }
+
+
+    const handleRemoveFriendClick = async () => {
+        setRequestInProgress(true);
+
+        const response = await removeFriend(userId);
+
+        if (response.success) {
+            const friendship = auth.user.friends.filter(friend => friend.to_user._id !== userId);
+
+            auth.updateUserFriends(false, friendship);
+            toast.success("Friend removed successfully!");
+
+        } else {
+            toast.error(response.message);
+        }
+
+        setRequestInProgress(false);
 
     }
 
@@ -94,8 +135,10 @@ const UserProfile = () => {
             </div>
 
             <div className={styles.btnGroup}>
-                {checkIfUserIsAFriend() ? ( <button>Remove friend</button>)
-                : (<button>Add friend</button>)
+                {checkIfUserIsAFriend() ? (<button onClick={handleRemoveFriendClick} disabled={requestInProgress}>{requestInProgress ?
+                    'Removing a friend' : 'Remove Friend' }</button>)
+                : (<button onClick={handleAddFriendClick} disabled={requestInProgress}>{requestInProgress ?
+                    'Adding a friend' : 'Add Friend' }</button>)
                 }
                 
                 
