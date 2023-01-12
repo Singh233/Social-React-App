@@ -14,6 +14,7 @@ import avatar from '../../styles/memojis/memo3.png';
 
 import { onHover } from '../../styles/js/main.js';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 
@@ -40,7 +41,11 @@ const Main = ({posts}) => {
             <div className={styles.header}>
                 <div className={styles.userInfo}>
                     <img style={{height: 50, width: 50}} src={avatar} />
-                    <p>{post.user.name}</p>
+                    <Link to={{
+                        pathname: `/user/${post.user._id}`,
+                    }} state={{user: post.user}}>
+                        {post.user.name}
+                    </Link>
                 </div>
 
                 <div className={styles.menuButton}>

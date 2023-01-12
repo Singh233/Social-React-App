@@ -1,0 +1,163 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.loginForm input {
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    margin: 5px;
+    width: 20vw;
+    background-color: black;
+}
+
+.loginForm input:focus {
+    outline: none;
+}
+
+
+.loginButton {
+    --primary-color: #645bff;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    display: flex;
+    transition: 0.2s;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    margin: 10px;
+    background-color: #1B90FF;
+    border: none;
+    padding: 0.6em 1.8em;
+    color: white;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: 15vw;
+    cursor: pointer;
+}
+
+
+.loginButton .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginButton .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+}
+
+.loginButton .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+}
+/* 
+.loginButton:hover {
+    background-color: var(--hover-color);
+} */
+
+.loginButton:hover .arrow {
+    background: var(--secondary-color);
+}
+
+.loginButton:hover .arrow:before {
+    right: 0;
+}
+
+
+.signInOptions {
+    display: flex;
+    align-items: center;
+}
+
+.socialIcons {
+    margin: 10px;
+    margin-top: 0;
+    height: 80px;
+    
+}
+
+.emailOption {
+    padding: 10px;
+    background-color: #1B90FF;
+    border-radius: 17px;
+    width: 17vw;
+}
+
+.emailIcon {
+    font-size: 1.4rem;
+    margin-right: 7px;
+}
+
+.signUpLink {
+}
+
+
+
+
+
+
+
+
+
+
+.avatar {
+    height: 300px;
+}
+
+p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcomeText {
+    margin-top: -20px;
+    margin-bottom: -5px;
+    font-size: 3rem;
+    font-weight: 600;
+
+    
+    
+}
+
+.arrowIcon {
+    background-color: white;
+    color: black;
+    border-radius: 50%;
+    font-size: 1rem;
+    padding: 5px;
+    margin-left: 7px;
+}

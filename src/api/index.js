@@ -70,3 +70,19 @@ export const signUp = (name, email, password, confirmPassword) => {
     });
 }
 
+export const editProfile = (userId, name, password, confirmPassword) => {
+    return customFetch(API_URLS.editUser(), {
+        method: 'POST',
+        body: {id: userId, name, password, confirm_password: confirmPassword},
+    });
+}
+
+export const fetchUserProfile = (userId) => {
+    return customFetch(API_URLS.userInfo(userId), {
+        method: 'GET',
+    });
+}
+
+
+
+

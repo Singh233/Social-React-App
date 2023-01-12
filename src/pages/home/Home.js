@@ -13,6 +13,8 @@ const Home = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+
+
     useEffect(() => {
         const fetchPosts = async () => {
         const response = await getPosts();
@@ -30,6 +32,8 @@ const Home = () => {
     if (loading) {
         return <Loader/>
     }
+
+    
 
     return (
         <div className={styles.homeContainer}>

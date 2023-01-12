@@ -1,9 +1,13 @@
 import Home from "./Home/Home";
-import Login from "./Login";
-import Register from "./SignUp";
+
+import SignInUp from "./SignInUp";
+import Settings from "./Settings";
+import UserProfile from "./UserProfile";
 
 export {
     Home,
-    Login,
-    Register
+    SignInUp,
+    Settings,
+    UserProfile,
+    
 };

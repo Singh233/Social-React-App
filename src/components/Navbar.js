@@ -1,15 +1,21 @@
 import styles from '../styles/css/navbar.module.css';
 import { ReactDOM } from 'react';
 
+
+// Icons
 import homeIcon from '../styles/icon/home.png';
-import notification from '../styles/icon/noti3.png';
+import notification from '../styles/icon/notification2.png';
 import chat from '../styles/icon/chat.png';
-import send from '../styles/icon/send.png';
-import explore from '../styles/icon/explore.png';
+import send from '../styles/icon/message.png';
+import explore from '../styles/icon/explore2.png';
+
+// FAS Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHashtag } from '@fortawesome/free-solid-svg-icons';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 import profile from '../styles/memojis/memo3.png';
 import { Link } from 'react-router-dom';
@@ -25,6 +31,12 @@ const Navbar = () => {
         div.style.height = '300px';
         div.style.visibility = "visible";
 
+        const navOptions = document.getElementsByClassName(`${styles.navOptions}`)[0];
+        navOptions.style.marginTop = "20px";
+        navOptions.style.position = 'absolute'
+        navOptions.style.right = '10px';
+
+
     }
 
     const profileLeave = () => {
@@ -33,6 +45,9 @@ const Navbar = () => {
         div.style.height = '0px';
         div.style.opacity = '0';
         div.style.visibility = "hidden";
+
+        const navOptions = document.getElementsByClassName(`${styles.navOptions}`)[0];
+        navOptions.style.marginTop = "0px";
 
 
         
@@ -49,7 +64,7 @@ const Navbar = () => {
             </div>
 
             <div className={styles.currentMenu}>
-                <img style={{height: 24, width: 24}}  src={homeIcon} />
+                <img style={{height: 30, width: 30}}  src={homeIcon} />
                 <p>Home</p>
             </div>
 
@@ -60,9 +75,9 @@ const Navbar = () => {
             </div>
 
             <div className={styles.navOptions}>
-                <img style={{height: 24, width: 24}}  src={send} />
-                <img style={{height: 28, width: 28}}  src={notification} />
-                <img style={{height: 28, width: 28}}  src={explore} />
+                <img style={{height: 50, marginRight: -10}}  src={send} />
+                <img style={{height: 40, marginRight: -8}}  src={notification} />
+                <img style={{height: 45}}  src={explore} />
                 <img style={{height: 28, width: 28}}  src={notification} />
                 <Link onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.avatar} to='/login'> <img className={styles.avatar}  src={profile} /> </Link> 
 
@@ -76,9 +91,17 @@ const Navbar = () => {
 
 
                 {auth.user ? (
+                    <>
+                    <Link className={styles.signInButton} to='/settings'> 
+                            <FontAwesomeIcon className={styles.optionsIcon}  icon={faGear} />
+                            <span> Settings &nbsp;</span>
+                        </Link> 
                     <button onClick={auth.logout} className={styles.signOutButton}>
+                        <FontAwesomeIcon className={styles.optionsIcon}  icon={faRightFromBracket} />
                         <span>Log Out &nbsp;</span>
                     </button>
+                </>
+                    
                 ) :  ( 
                     <>
                         <Link className={styles.signInButton} to='/register'> 
