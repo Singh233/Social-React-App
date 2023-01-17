@@ -142,7 +142,7 @@ a {
 }
 
 .displayPosts:hover .comments {
-    height: 200px;
+    height: 300px;
 }
 
 
@@ -252,4 +252,35 @@ a {
     align-items: center;
     border-radius: 30px;
     padding: 15px;
+}
+
+
+
+/* Add Comment styling */
+
+.postComment {
+    display: flex;
+    align-items: center;
+}
+
+.postComment input {
+    width: 100% !important;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9rem;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin: 5px;
+    
+    background-color: black;
+}
+
+.postComment input:focus {
+    outline: none;
+}
+
+.sendIcon {
+    height: 45px;
+    cursor: pointer;
 }

@@ -103,4 +103,23 @@ export const removeFriend = (userId) => {
 }
 
 
+export const addPost = (content) => {
+    return customFetch(API_URLS.createPost(), {
+        method: 'POST',
+        body: {
+            content,
+        }
+    });
+}
+
+export const addComment = (content, post_id) => {
+    return customFetch(API_URLS.comment(), {
+        method: 'POST',
+        body: {
+            content,
+            post_id
+        }
+    });
+}
+
 

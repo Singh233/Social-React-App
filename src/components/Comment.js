@@ -9,7 +9,7 @@ import likeWhite from '../styles/icon/heartwhite.png';
 function Comment({comment}) {
     
     return (
-        <div className={styles.commentDisplay}>
+        <div key={`comment-${comment._id}`} className={styles.commentDisplay}>
             <img style={{height: 50, width: 50}} src={avatar} className={styles.commentAvatar} />
             <div className={styles.middleSection}>
                 <div className={styles.upper}>

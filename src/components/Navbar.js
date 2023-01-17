@@ -32,9 +32,10 @@ const Navbar = () => {
         div.style.visibility = "visible";
 
         const navOptions = document.getElementsByClassName(`${styles.navOptions}`)[0];
-        navOptions.style.marginTop = "20px";
-        navOptions.style.position = 'absolute'
-        navOptions.style.right = '10px';
+        
+        
+
+
 
 
     }

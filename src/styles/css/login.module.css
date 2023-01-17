@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    min-width: 500px;
 
 }
 
@@ -12,24 +14,42 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+    transition: 0.5s all ease;
 }
 
 .loginForm input {
     cursor: pointer;
     color: white;
     font-size: 1rem;
-    padding: 10px;
+    padding: 15px;
     border-radius: 15px;
     border: none;
     margin: 5px;
     width: 20vw;
     background-color: black;
+    padding-left: 50px;
+}
+
+.loginForm input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    /* -webkit-box-shadow: 0 0 0 30px rgb(44, 42, 42) inset !important; */
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+        /* -webkit-background-clip: text; */
+
 }
 
 .loginForm input:focus {
     outline: none;
 }
 
+.loginForm .inputIcon {
+    position: relative;
+    font-size: 1.1rem;
+    margin-right: -40px;
+}
 
 .loginButton {
     --primary-color: #645bff;
@@ -50,8 +70,8 @@
     border-radius: 15px;
     font-size: 1.1rem;
     font-weight: 500;
-    width: 15vw;
-    cursor: pointer;
+    width: 17vw;
+        cursor: pointer;
 }
 
 
@@ -114,6 +134,7 @@
     background-color: #1B90FF;
     border-radius: 17px;
     width: 17vw;
+    min-width: 200px;
 }
 
 .emailIcon {
@@ -122,6 +143,7 @@
 }
 
 .signUpLink {
+    transition: 0.5s all ease;
 }
 
 

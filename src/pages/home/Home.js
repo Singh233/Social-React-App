@@ -1,37 +1,22 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { getPosts } from '../../api';
+
 import { Loader } from '../../components';
 
 import styles from '../../styles/css/home/home.module.css';
 import LeftNav from './LeftNav';
 import RightNav from './RightNav';
 import Main from './Main';
-import { useAuth } from '../../hooks';
+import { useAuth, usePosts } from '../../hooks';
 
 const Home = () => {
 
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const auth = useAuth();
-    console.log('*****User*****', auth.user);
+    const posts = usePosts();
 
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-        const response = await getPosts();
-        // console.log('response', response);
+    
 
-        if (response.success) {
-            setPosts(response.data.posts);
-        }
-        setLoading(false);
-        };
-
-        fetchPosts();
-    }, []);
-
-    if (loading) {
+    if (posts.loading) {
         return <Loader/>
     }
 
@@ -42,7 +27,7 @@ const Home = () => {
 
             <LeftNav/>
 
-            <Main posts={posts}/>
+            <Main posts={posts.data}/>
 
             <RightNav/>
             

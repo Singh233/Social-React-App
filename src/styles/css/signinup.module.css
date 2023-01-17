@@ -7,11 +7,33 @@
     align-items: center;
     height: 100vh;
     width: 100vw;
+
 }
 
 .loginContainer {
+   
     border-radius: 40px;
     height: 85vh;
     width: 50vw;
     background-color: #0F1216;
+    min-width: 550px;
+
+}
+
+@media screen and (max-width: 991px) {
+    .loginContainer {
+        height: auto;
+        min-height: 70vh;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .container {
+        overflow: hidden;
+    }
+    .loginContainer {
+        width: 50vw;
+        
+        
+    }
 }

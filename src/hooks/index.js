@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import { AuthContext } from '../providers/AuthProvider';
-import { editProfile, fetchUserFriends, login as userLogin } from '../api';
+import { AuthContext, PostsContext } from '../providers';
+import { editProfile, fetchUserFriends, login as userLogin, getPosts } from '../api';
 import { signUp as userSignUp } from '../api';
 import { setItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage, getItemInLocalStorage} from '../utils';
 import { toast } from 'react-hot-toast';
@@ -17,6 +17,7 @@ export const useProvideAuth = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect( () => {
+        console.log('Inside use hooks use effect ********')
         const getUser = async () => {
             const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
             if (userToken) {
@@ -36,7 +37,7 @@ export const useProvideAuth = () => {
             setLoading(false);
         }
         getUser();
-    }, []);
+    }, [getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY)]);
 
 
     const signUp = async (name, email, password, confirmPassword) => {
@@ -130,3 +131,51 @@ export const useProvideAuth = () => {
 
     };
 };
+
+
+export const usePosts = () => {
+    return useContext(PostsContext);
+};
+
+
+export const useProvidePosts = () => {
+    const [posts, setPosts] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            const response = await getPosts();
+            // console.log('response', response);
+
+            if (response.success) {
+                setPosts(response.data.posts);
+            }
+            setLoading(false);
+        };
+
+        fetchPosts();
+    }, []);
+
+    const addPostToState = (post) => {
+        const newPosts = [post, ...posts];
+        setPosts(newPosts);
+    }
+
+    const addComment = (comment, id) => {
+        const newPosts = posts.map((post) => {
+            if (post._id === id) {
+                return { ...post, comments: [...post.comments, comment]};
+            }
+            return post;
+        });
+        setPosts(newPosts);
+    }
+
+    return {
+        data: posts,
+        loading,
+        addPostToState,
+        addComment
+    }
+
+}
