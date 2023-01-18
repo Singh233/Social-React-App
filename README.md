@@ -1,4 +1,4 @@
-Under development. Try out here chillsanam.me 🔥
+Under development. Try out here https://chillsanam.me/ 🔥
 
 # Getting Started with Create React App
 
