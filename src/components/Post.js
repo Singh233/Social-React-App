@@ -34,7 +34,8 @@ const Post = ({post}) => {
         const response = await addComment(commentContent, post._id);
 
         if (response.success) {
-            posts.addComment(commentContent, post._id);
+            setCommentContent('');
+            posts.addComment(response.data.comment, post._id);
             toast.success("Comment added successfully!");
         } else {
             toast.error(response.message);
