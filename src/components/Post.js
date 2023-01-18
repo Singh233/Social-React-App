@@ -1,7 +1,7 @@
 import styles from '../styles/css/home/main.module.css';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { addComment } from '../api';
+import { addComment, toggleLike } from '../api';
 import toast from 'react-hot-toast';
 
 import explore from '../styles/icon/explore.png';
@@ -47,6 +47,23 @@ const Post = ({post}) => {
     }
 
 
+    const handlePostLikeClick = async () => {
+
+        const response = await toggleLike(post._id, 'Post');
+
+        if (response.success) {
+            if (response.data.deleted) {
+                toast.success("Like removed!");
+            } else {
+                toast.success("Like added!");
+            }
+            
+        } else {
+            toast.error(response.message);
+        }
+    }
+
+
     return (
         <div className={styles.displayPosts} key={`post-${post._id}`}>
 
@@ -71,7 +88,7 @@ const Post = ({post}) => {
 
             <div className={styles.actions}>
                 <div className={styles.leftIcons}>
-                    <div className={styles.likeButton}>
+                    <div onClick={handlePostLikeClick} className={styles.likeButton}>
                         <img src={like} className={styles.iconBg}/>
                         <p className={styles.likeCount}>{post.likes.length}</p>
                     </div>
