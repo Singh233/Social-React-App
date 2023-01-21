@@ -9,3 +9,23 @@
     max-height: 100vh;
     margin: 10px;
 }
+
+
+
+
+
+@media screen and (max-width: 991px) {
+    .homeContainer {
+        
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .homeContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto 1fr;
+        justify-content: center;
+
+    }
+
+}

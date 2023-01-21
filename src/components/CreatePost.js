@@ -1,10 +1,16 @@
 
-
+import styles from '../styles/css/home/createpost.module.css';
 import { useState } from 'react';
 import { addPost } from '../api';
-import styles from '../styles/css/home/home.module.css'
 import { toast } from 'react-hot-toast';
 import { usePosts } from '../hooks';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import avatar from '../styles/memojis/memo2.png';
+import photoIcon from '../styles/icon/photo.png';
+import videoIcon from '../styles/icon/video.png';
+import postIcon from '../styles/icon/send2.png';
 
 
 const CreatePost = () => {
@@ -32,16 +38,29 @@ const CreatePost = () => {
 
 
     return (
-        <div>
-            CreatePost
+        <div className={styles.container}>
+            <img  className={styles.avatar} src={avatar} />
             <textarea 
+                placeholder="What's happening?"
                 onChange={(e) => setPost(e.target.value)}
                 value={post}
+                rows='1'
             />
 
-            <div>
-                <button onClick={handleAddPostClick} disabled={addingPost}>
-                    {addingPost ? 'Adding post' : 'Add post'}
+            <div className={styles.buttons}>
+                <button className={styles.photoButton} onClick={handleAddPostClick} disabled={addingPost}>
+                    <img  className={styles.icon} src={photoIcon} />
+                    <p>Photo</p>
+                    
+                </button>    
+                <button className={styles.videoButton} onClick={handleAddPostClick} disabled={addingPost}>
+                    <img  className={styles.icon} src={videoIcon} />
+                    <p>Video</p>
+                </button>            
+                <button className={styles.postButton} onClick={handleAddPostClick} disabled={addingPost}>
+                    <p>{addingPost ? 'Adding' : 'Post'}</p>
+                    
+                    <FontAwesomeIcon className={styles.arrowIcon}  icon={faArrowRight} />
                 </button>
             </div>
         </div>

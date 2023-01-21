@@ -20,12 +20,15 @@ root.render(
       </AuthProvider>
         
       <Toaster toastOptions={{
-        className: '',
+        className: 'toast',
+        // position: 'bottom-center',
         style: {
           border: '1px solid rgba( 255, 255, 255, 0.18 )',
           backgroundColor: 'rgba(185, 185, 185, 0.202)',
           color: 'white',
-          backdropFilter: 'blur(12px)'
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+
         },
       }}/>
       

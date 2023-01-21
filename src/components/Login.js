@@ -62,7 +62,7 @@ const Login = () => {
         <div className={styles.container}>
             <img className={styles.avatar}  src={profile} />
             <p className={styles.welcomeText}>Welcome Back!</p>
-            <p> <span> Sign in to continue </span> <FontAwesomeIcon className={styles.arrowIcon}  icon={faArrowRight} /> </p>
+            <p> <span> Sign in to continue </span> </p>
             
             <div className={styles.signInOptions}>
                 <img className={styles.socialIcons}  src={google} />

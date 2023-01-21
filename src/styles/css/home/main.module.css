@@ -55,6 +55,7 @@
 
 a {
     color: white;
+    text-decoration: none;
 }
 
 .displayPosts .actions {
@@ -131,7 +132,7 @@ a {
 .displayPosts .comments {
     overflow: hidden;
     transition: all .5s ease;
-    height: 0;
+    height: auto;
     margin-bottom: 20px;
     background-color: #0F1216;
     border-radius: 30px;
@@ -142,7 +143,7 @@ a {
 }
 
 .displayPosts:hover .comments {
-    height: 300px;
+    height: auto;
 }
 
 
@@ -283,4 +284,47 @@ a {
 .sendIcon {
     height: 45px;
     cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 425px) {
+
+    .container {
+        
+        max-width: 100vw;
+        
+    }
+
+
+    .displayPosts {
+        min-width: 370px;
+        max-width: 370px;
+        
+    
+    }
+
+    .displayPosts .post {
+        align-self: center;
+    }
+
+    .displayPosts .post img {
+        height: 480px;
+        width: 370px;
+  
+    
+    }
+    
+
 }

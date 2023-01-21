@@ -1,5 +1,5 @@
 import styles from '../styles/css/navbar.module.css';
-import { ReactDOM } from 'react';
+import { ReactDOM, useEffect, useState } from 'react';
 
 
 // Icons
@@ -20,9 +20,35 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import profile from '../styles/memojis/memo3.png';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
+import { searchUsers } from '../api';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
+    const [results, setResults] = useState([]);
+    const [searchText, setSearchText] = useState('');
     const auth = useAuth();
+
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const response = await searchUsers(searchText);
+
+            if (response.success) {
+                setResults(response.data.users);
+                // toast.success("User Found!")
+            } else {
+                toast.error(response.message);
+            }
+        }
+
+        if (searchText.length > 2) {
+            fetchUsers();
+        } else {
+            setResults([]);
+        }
+        
+    }, [searchText])
+    
 
     const profileHover = () => {
         console.log('mouse over')
@@ -60,7 +86,10 @@ const Navbar = () => {
         <div className={styles.navContainer}>
 
             <div className={styles.branding}>
-                <Link to='/'> Logo and name </Link>
+                <Link to='/'>
+                    <img className={styles.brandingIcon}  src={profile} />
+                    <p>Sanam<span>&nbsp;</span> Social 2.0</p> 
+                </Link>
                 
             </div>
 
@@ -72,16 +101,40 @@ const Navbar = () => {
             <div className={styles.searchBar}>
                 <FontAwesomeIcon className={styles.hashIcon}  icon={faHashtag} />
                 <FontAwesomeIcon className={styles.searchIcon}  icon={faMagnifyingGlass} />
-                <input   placeholder='Explore' />
+                <input   
+                    placeholder='Explore'
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                />
+                {results.length > 0 && 
+                    <div className={styles.resultsContainer}>
+                        
+                        {results.map(user => 
+                            <div className={styles.result}>
+                                
+                                {/* <Link to={`/user/${user._id}`}> */}
+                                <Link to={"/user/" + user._id}>
+                                    <img className={styles.resultsAvatar}  src={profile} />
+                                    <p>{user.name}</p>
+                                </Link>
+                            </div>
+                        )}
+                        
+                    </div>
+                }
             </div>
 
             <div className={styles.navOptions}>
-                <img style={{height: 50, marginRight: -10}}  src={send} />
+                <img onClick={auth.logout}  style={{height: 50, marginRight: -10}}  src={send} />
                 <img style={{height: 40, marginRight: -8}}  src={notification} />
                 <img style={{height: 45}}  src={explore} />
                 <img style={{height: 28, width: 28}}  src={notification} />
                 <Link onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.avatar} to='/login'> <img className={styles.avatar}  src={profile} /> </Link> 
 
+            </div>
+
+            <div className={styles.smNavOptions}>
+                <img style={{height: 50, marginRight: -10}}  src={send} />
             </div>
 
             <div onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.navOptionsExpanded}>

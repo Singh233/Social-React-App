@@ -4,6 +4,7 @@ import { redirect } from "react-router-dom";
 
 import { Home, SignInUp, Settings, UserProfile} from '../pages';
 import { Loader, Navbar } from './';
+import React from 'react';
 
 
 function PrivateRoute({ children }) {
@@ -16,6 +17,8 @@ const Page404 = () => {
 }
 
 function App() {
+  
+
   
   const auth = useAuth();
 
