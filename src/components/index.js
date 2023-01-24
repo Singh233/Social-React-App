@@ -5,6 +5,7 @@ import Register from './Register';
 import FriendList from "./FriendList";
 import CreatePost from "./CreatePost";
 import Post from "./Post";
+import SmBottomnNav from "./SmBottomNav";
 
 export {
     Navbar,
@@ -14,4 +15,6 @@ export {
     FriendList,
     CreatePost,
     Post,
+    SmBottomnNav,
+    
 }

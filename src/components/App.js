@@ -3,7 +3,7 @@ import { useAuth } from '../hooks';
 import { redirect } from "react-router-dom";
 
 import { Home, SignInUp, Settings, UserProfile} from '../pages';
-import { Loader, Navbar } from './';
+import { Loader, Navbar, SmBottomnNav } from './';
 import React from 'react';
 
 
@@ -59,6 +59,9 @@ function App() {
 
 
       </Routes>
+      
+      {/* For Small Devices */}
+      <SmBottomnNav />
       
     </div>
   );
