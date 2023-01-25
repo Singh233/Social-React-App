@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import styles from '../styles/css/settings.module.css';
+import avatar from '../styles/memojis/memo3.png';
 
 
 import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
 import { addFriend, fetchUserProfile, removeFriend } from '../api';
 import { Loader } from '../components';
+import LeftNav from './Home/LeftNav';
 
 
 const UserProfile = () => {
@@ -113,25 +115,40 @@ const UserProfile = () => {
 
 
     return (
-        <div>
-            Settings
-            <div className={styles.profileImg}>
+        <div className={styles.settingsContainer}>
+            <LeftNav />
 
-            </div>
+            <div className={styles.profileContainer}>
 
-            <div className={styles.field}>
+                <div className={styles.coverImg}>
+                </div>
 
-                <div className={styles.fieldName}>Email</div>
-                <div className={styles.fieldValue}>{user.email}</div>
+                <div className={styles.profileDetail}>
+                    <img className={styles.avatar} src={avatar} />
+                    <p className={styles.userName}>{user.name}</p>
+                    <p className={styles.bio}>Hi this is sample about🔥</p>
+                    <div className={styles.buttons}>
+                    <button>Follow</button>
+                    <button>Message</button>
+                    </div>
+                    
+                    {/* <div className={styles.stats}>
+                        <div className={styles.followers}>
+                            <p>21</p>
+                            <p>Followers</p>
+                        </div>
 
-            </div>
+                        <div className={styles.following}>
+                            <p>25</p>
+                            <p>Following</p>
+                            
+                        </div>
+                    </div> */}
+                </div>
 
-            <div className={styles.field}>
-
-                <div className={styles.fieldName}>Name</div>
-                <div className={styles.fieldValue}>{user.name}</div>
-
-
+                <div className={styles.postsContainer}>
+                    <p>🛠️ Under progress...</p>
+                </div>
             </div>
 
             <div className={styles.btnGroup}>

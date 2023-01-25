@@ -9,7 +9,10 @@ import styles from '../styles/css/settings.module.css';
 
 import { toast } from 'react-hot-toast';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import LeftNav from './Home/LeftNav';
 
+import coverImg from '../styles/img/cover.jpeg';
+import avatar from '../styles/memojis/memo3.png';
 
 const Settings = () => {
     const auth = useAuth();
@@ -66,82 +69,116 @@ const Settings = () => {
 
 
     return (
-        <div>
-            Settings
-            <div className={styles.profileImg}>
+        <div className={styles.settingsContainer}>
+            <LeftNav />
 
-            </div>
+            <div className={styles.profileContainer}>
 
-            <div className={styles.field}>
+                <div className={styles.coverImg}>
+                </div>
 
-                <div className={styles.fieldName}>Email</div>
-                <div className={styles.fieldValue}>{auth.user?.email}</div>
+                <div className={styles.profileDetail}>
+                    <img className={styles.avatar} src={avatar} />
+                    <p className={styles.userName}>{auth.user.name}</p>
+                    <p className={styles.bio}>Hi this is sample about🔥</p>
+                    <div className={styles.buttons}>
+                    <button>Follow</button>
+                    <button>Message</button>
+                    </div>
+                    
+                    {/* <div className={styles.stats}>
+                        <div className={styles.followers}>
+                            <p>21</p>
+                            <p>Followers</p>
+                        </div>
 
-            </div>
+                        <div className={styles.following}>
+                            <p>25</p>
+                            <p>Following</p>
+                            
+                        </div>
+                    </div> */}
+                </div>
 
-            { editMode ? 
-                <>
+                <div className={styles.postsContainer}>
+                    <p>🛠️ Under progress...</p>
+                </div>
+
+            
+                
+
+                {/* <div className={styles.field}>
+
+                    <div className={styles.fieldName}>Email</div>
+                    <div className={styles.fieldValue}>{auth.user?.email}</div>
+
+                </div>
+
+                { editMode ? 
+                    <>
+                        <div className={styles.field}>
+
+                            <div className={styles.fieldName}>Name</div>
+                            <input type='text' 
+                                value={name} 
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
+                            />
+
+                        </div>
+                        <div className={styles.field}>
+
+                            <div className={styles.fieldName}>Password</div>
+                            <input type='password' 
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                            />    
+
+                        </div>
+
+                        <div className={styles.field}>
+
+                            <div className={styles.fieldName}>Confirm Password</div>
+                            <input type='password' 
+                                value={confirmPassword}
+                                onChange={(e) => {
+                                    setConfirmPassword(e.target.value);
+                                }}
+                            />
+
+                        </div>
+                    </>
+                    :
                     <div className={styles.field}>
 
                         <div className={styles.fieldName}>Name</div>
-                        <input type='text' 
-                            value={name} 
-                            onChange={(e) => {
-                                setName(e.target.value);
-                            }}
-                        />
+                        <div className={styles.fieldValue}>{auth.user?.name}</div>
 
                     </div>
-                    <div className={styles.field}>
-
-                        <div className={styles.fieldName}>Password</div>
-                        <input type='password' 
-                            value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                            }}
-                        />    
-
-                    </div>
-
-                    <div className={styles.field}>
-
-                        <div className={styles.fieldName}>Confirm Password</div>
-                        <input type='password' 
-                            value={confirmPassword}
-                            onChange={(e) => {
-                                setConfirmPassword(e.target.value);
-                            }}
-                        />
-
-                    </div>
-                </>
-                :
-                <div className={styles.field}>
-
-                    <div className={styles.fieldName}>Name</div>
-                    <div className={styles.fieldValue}>{auth.user?.name}</div>
-
-                </div>
-            }
-
-            
-
-            
-
-            <div className={styles.btnGroup}>
-                { editMode ? 
-                <>
-                    <button onClick={updateProfile} className={styles.editButton} disabled={saveForm}> 
-                        {saveForm ? 'Updating profile' : 'Update Profile'}
-                    </button>
-                    <p onClick={() => setEditMode(false)}>Go back</p>
-                </>
-                :
-                <button onClick={() => setEditMode(true)} className={styles.editButton}> Edit Profile</button>
                 }
+
+                
+
+                
+
+                <div className={styles.btnGroup}>
+                    { editMode ? 
+                    <>
+                        <button onClick={updateProfile} className={styles.editButton} disabled={saveForm}> 
+                            {saveForm ? 'Updating profile' : 'Update Profile'}
+                        </button>
+                        <p onClick={() => setEditMode(false)}>Go back</p>
+                    </>
+                    :
+                    <button onClick={() => setEditMode(true)} className={styles.editButton}> Edit Profile</button>
+                    }
+                </div> */}
             </div>
         </div>
+        
     )
 }
 
