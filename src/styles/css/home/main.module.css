@@ -125,6 +125,34 @@ a {
 
 
 
+/* Post content */
+
+.postContent {
+    display: flex;
+    padding-left: 10px;
+}
+
+.postContent .userName {
+    font-weight: 600;
+    font-size: 1.07rem;
+
+}
+
+.postContent .text {
+    background-color: #000000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+
+
+
+
+
+
 
 
 /* Comments Section */
@@ -246,14 +274,11 @@ a {
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
-.text {
-    background-color: #000000;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-    display: flex;
-    align-items: center;
-    border-radius: 30px;
-    padding: 15px;
-}
+
+
+
+
+
 
 
 
@@ -262,6 +287,7 @@ a {
 .postComment {
     display: flex;
     align-items: center;
+    margin-top: 15px;
 }
 
 .postComment input {

@@ -1,8 +1,18 @@
 
+.bottomContainer {
+    display: none;
+}
 
 @media screen and (max-width: 425px) {
 
     .bottomContainer {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+
+        
         height: 55px;
         width: 100vw;
         background-color: #0F1216;
@@ -12,11 +22,7 @@
         bottom: 0;
         border-radius: 15px 15px 0 0;
 
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        justify-content: center;
-        align-items: center;
-        justify-items: center;
+        
 
     }
 

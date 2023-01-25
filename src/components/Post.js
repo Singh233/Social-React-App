@@ -108,9 +108,19 @@ const Post = ({post}) => {
 
                 
             </div>
-            <div className={styles.comments}>
+
+            <div className={styles.postContent}>
+                <p className={styles.userName}>{post.user.name}</p>
                 <p className={styles.text}>{post.content}</p>
-                <p className={styles.text}>Comments</p>
+                {/* <div className={styles.bottom}>
+                    <p >3m</p>
+                    <p >reply</p>                            
+
+                </div> */}
+            </div>
+
+
+            <div className={styles.comments}>
                 <div className={styles.postComment}>
                     <input 
                         onChange={(e) => setCommentContent(e.target.value)}

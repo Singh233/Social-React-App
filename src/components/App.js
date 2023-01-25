@@ -23,11 +23,19 @@ function App() {
   const auth = useAuth();
 
 
-  if (auth.loading) {
-    return <Loader/>
-  }
+  // if (auth.loading) {
+  //   return (
+  //     <>
+  //       <Navbar />
+  //       <Loader/>
+  //       <SmBottomnNav />
+  //     </>
+      
+  //   )
+    
+  // }
 
-  if (auth.user === null) {
+  if (!auth.loading && auth.user === null) {
     return <SignInUp />;
   }
 
@@ -35,7 +43,9 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Routes>
+      {auth.loading ?
+        <Loader/> :
+        <Routes>
 
         <Route path='/' element={<Home />}/>
         {/* <Route path='/login' element={<SignInUp />}/> */}
@@ -58,7 +68,9 @@ function App() {
         />
 
 
-      </Routes>
+        </Routes>
+      }
+      
       
       {/* For Small Devices */}
       <SmBottomnNav />
