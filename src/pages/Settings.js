@@ -1,5 +1,5 @@
 
-
+import LoadingBar from 'react-top-loading-bar';
 // Styles
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -70,6 +70,8 @@ const Settings = () => {
 
     return (
         <div className={styles.settingsContainer}>
+            <LoadingBar color="#f11946" progress='100'  />
+
             <LeftNav />
 
             <div className={styles.profileContainer}>
@@ -80,10 +82,10 @@ const Settings = () => {
                 <div className={styles.profileDetail}>
                     <img className={styles.avatar} src={avatar} />
                     <p className={styles.userName}>{auth.user.name}</p>
-                    <p className={styles.bio}>Hi this is sample about🔥</p>
+                    <p className={styles.bio}>Hi this is sample about🔥 Professional Cake Cutter</p>
                     <div className={styles.buttons}>
-                    <button>Follow</button>
-                    <button>Message</button>
+                        <button>Follow</button>
+                        <button>Message</button>
                     </div>
                     
                     {/* <div className={styles.stats}>

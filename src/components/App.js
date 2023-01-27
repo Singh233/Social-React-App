@@ -4,8 +4,8 @@ import { redirect } from "react-router-dom";
 
 import { Home, SignInUp, Settings, UserProfile} from '../pages';
 import { Loader, Navbar, SmBottomnNav } from './';
-import React from 'react';
-
+import React, { useState } from 'react';
+import LoadingBar from 'react-top-loading-bar';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -18,7 +18,7 @@ const Page404 = () => {
 
 function App() {
   
-
+const [progress, setProgress] = useState(0)
   
   const auth = useAuth();
 
@@ -43,6 +43,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+      <LoadingBar color="#f11946" progress='100'  />
       {auth.loading ?
         <Loader/> :
         <Routes>

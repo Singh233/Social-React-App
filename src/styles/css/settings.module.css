@@ -16,7 +16,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    
+    min-height: fit-content;
 
 
     
@@ -25,7 +25,8 @@
 
 .profileContainer .coverImg {
     height: 400px;
-    width: 500px;
+    width: 40vw;
+    min-width: 500px;
     background-image: url('../img/cover.jpeg');
     background-size: cover;
     border-radius: 20px 20px 0 0;
@@ -36,21 +37,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 500px;
-    height: 200px;
+    width: 40vw;
+    min-width: 500px;
+
+    height: auto;
 
     background-color: rgba(185, 185, 185, 0.202);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    margin-top: -200px;
+    margin-top: -210px;
 }
 
 
 .profileContainer .profileDetail .avatar {
     /* background-color: black;
     border-radius: 50%; */
-    height: 130px;
-    margin-top: -55px;
+    height: 150px;
+    margin-top: -60px;
 }
 
 .profileContainer .profileDetail .userName {
@@ -62,6 +65,8 @@
 
 .profileContainer .profileDetail .bio {
     margin: 5px;
+    width: 180px;
+    text-align: center;
 }
 
 .profileContainer .profileDetail .stats {
@@ -135,6 +140,10 @@
     .profileContainer .coverImg {
         height: 400px;
         width: 100vw;
+    }
+
+    .profileContainer .profileDetail .bio {
+        width: 200px;
     }
 
 }

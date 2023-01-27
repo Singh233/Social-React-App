@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import styles from '../styles/css/settings.module.css';
 import avatar from '../styles/memojis/memo3.png';
-
+import LoadingBar from 'react-top-loading-bar';
 
 import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
@@ -116,6 +116,7 @@ const UserProfile = () => {
 
     return (
         <div className={styles.settingsContainer}>
+            <LoadingBar color="#f11946" progress='100'  />
             <LeftNav />
 
             <div className={styles.profileContainer}>
