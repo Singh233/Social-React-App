@@ -69,22 +69,57 @@
     text-align: center;
 }
 
-.profileContainer .profileDetail .stats {
+.profileContainer .stats {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    width: 40vw;
+    min-width: 500px;
+
+    margin-top: 0px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border-top: none;
+    padding-top: 10px;
+    
+    
+}
+
+
+
+.profileContainer .stats .followers, .following, .joined, .dob {
+    /* border-right: 1px solid rgba( 255, 255, 255, 0.18 );     */
     display: flex;
-    justify-content: space-around;
-    width: 400px;
-    margin-top: 10px;
+    flex-direction: column;
+    
+}
+
+.profileContainer .stats .followers .stat, .following .stat, .joined .stat, .dob .stat {
+    margin: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.profileContainer .stats, .dob .stat {
+    font-size: 1.1rem;
+}
+
+.icon {
+    margin-top: 5px;
 }
 
 
-.profileContainer .profileDetail .stats .followers p {
-    margin: 0;
+
+.profileContainer .stats .header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 5px;
+    text-transform: uppercase;
 }
 
-
-
-.profileContainer .profileDetail .stats .following p {
-    margin: 0;
+.profileContainer .stats .footer {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 5px;
+    text-transform: uppercase;
 }
 
 
@@ -99,13 +134,13 @@
 
 
 .profileContainer .profileDetail .buttons button {
-    padding: 8px 15px;
+    padding: 8px 35px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 15px;
     border: none;
     color: #1B90FF;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 00;
 
 
     
@@ -144,6 +179,12 @@
 
     .profileContainer .profileDetail .bio {
         width: 200px;
+    }
+
+    .profileContainer .stats {
+        width: 100vw;
+        min-width: 100px;
+
     }
 
 }

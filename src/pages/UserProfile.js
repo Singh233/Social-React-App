@@ -11,7 +11,7 @@ import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
 import { addFriend, fetchUserProfile, removeFriend } from '../api';
 import { Loader } from '../components';
-import LeftNav from './Home/LeftNav';
+import LeftNav from './home/LeftNav';
 
 
 const UserProfile = () => {

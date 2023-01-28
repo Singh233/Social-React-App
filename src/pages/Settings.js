@@ -9,10 +9,14 @@ import styles from '../styles/css/settings.module.css';
 
 import { toast } from 'react-hot-toast';
 import { faL } from '@fortawesome/free-solid-svg-icons';
-import LeftNav from './Home/LeftNav';
+import LeftNav from './home/LeftNav';
 
 import coverImg from '../styles/img/cover.jpeg';
 import avatar from '../styles/memojis/memo3.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+
 
 const Settings = () => {
     const auth = useAuth();
@@ -84,22 +88,38 @@ const Settings = () => {
                     <p className={styles.userName}>{auth.user.name}</p>
                     <p className={styles.bio}>Hi this is sample about🔥 Professional Cake Cutter</p>
                     <div className={styles.buttons}>
-                        <button>Follow</button>
-                        <button>Message</button>
+                        <button>Edit Profile</button>
                     </div>
                     
-                    {/* <div className={styles.stats}>
-                        <div className={styles.followers}>
-                            <p>21</p>
-                            <p>Followers</p>
-                        </div>
+                    
+                </div>
 
-                        <div className={styles.following}>
-                            <p>25</p>
-                            <p>Following</p>
-                            
-                        </div>
-                    </div> */}
+                <div className={styles.stats}>
+                    <div className={styles.followers}>
+                        <p className={styles.header}>Followers</p>
+                        <p className={styles.stat} >21</p>
+                        <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
+
+                    </div>
+
+                    <div className={styles.following}>
+                        <p className={styles.header}>Following</p>
+                        <p className={styles.stat} >25</p>
+                        <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
+                    </div>
+
+                    <div className={styles.joined}>
+                        <p className={styles.header}>Joined</p>
+                        <p className={styles.stat} >1+</p>
+                        <p className={styles.footer} >Years Ago</p>
+                    </div>
+
+                    <div className={styles.dob}>
+                        <p className={styles.header}>Birthday</p>
+                        <p className={styles.stat} >3 June</p>
+                        <p className={styles.footer} >2000</p>
+
+                    </div>
                 </div>
 
                 <div className={styles.postsContainer}>
