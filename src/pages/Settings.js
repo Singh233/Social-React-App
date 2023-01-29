@@ -11,11 +11,17 @@ import { toast } from 'react-hot-toast';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import LeftNav from './home/LeftNav';
 
-import coverImg from '../styles/img/cover.jpeg';
+import coverImg from '../styles/img/dummy.jpeg';
+import settingsIcon from '../styles/icon/setting.png';
 import avatar from '../styles/memojis/memo3.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faClone } from '@fortawesome/free-solid-svg-icons';
+import { faClapperboard } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 
 const Settings = () => {
@@ -27,6 +33,29 @@ const Settings = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [saveForm, setSaveForm] = useState(false);
 
+
+    useEffect(() => {
+        const handleScroll = event => {
+            if (window.scrollY <= 50) {
+                const div = document.getElementsByClassName(`${styles.smHeader}`)[0];
+                div.style.backgroundColor = 'rgba(0, 0, 0, 0.100)';
+            } else {
+                const div = document.getElementsByClassName(`${styles.smHeader}`)[0];
+                div.style.backgroundColor = '#0F1216';
+            }
+            
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+        
+    
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            toast.success('More Updates Coming Soon');
+        };
+    }, []);
+
+    
 
 
     const clearForm = () => {
@@ -68,6 +97,11 @@ const Settings = () => {
 
 
     }
+
+    const extendHeader = () => {
+        // const div = document.getElementsByClassName(`${styles.smHeader}`)[0];
+        // div.style.height = '100px';
+    }
     
 
 
@@ -79,6 +113,21 @@ const Settings = () => {
             <LeftNav />
 
             <div className={styles.profileContainer}>
+
+
+                <div className={styles.smHeader}>
+                    <img className={styles.avatar} src={avatar} />
+                    <div className={styles.otherAccounts} >
+                        <FontAwesomeIcon onClick={extendHeader} className={styles.arrowDown}  icon={faChevronDown} />
+                        <p className={styles.userName}>{auth.user.name}</p>
+                    </div>
+
+                    
+                    {/* <img className={styles.settingsIcon} src={settingsIcon} /> */}
+                    <FontAwesomeIcon onClick={extendHeader} className={styles.icon}  icon={faGear} />
+
+                </div>
+
 
                 <div className={styles.coverImg}>
                 </div>
@@ -99,8 +148,9 @@ const Settings = () => {
                         <p className={styles.header}>Followers</p>
                         <p className={styles.stat} >21</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
-
                     </div>
+
+                    <div className={styles.border}></div>
 
                     <div className={styles.following}>
                         <p className={styles.header}>Following</p>
@@ -108,11 +158,15 @@ const Settings = () => {
                         <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
                     </div>
 
+                    <div className={styles.border}></div>
+
                     <div className={styles.joined}>
                         <p className={styles.header}>Joined</p>
                         <p className={styles.stat} >1+</p>
                         <p className={styles.footer} >Years Ago</p>
                     </div>
+
+                    <div className={styles.border}></div>
 
                     <div className={styles.dob}>
                         <p className={styles.header}>Birthday</p>
@@ -123,7 +177,46 @@ const Settings = () => {
                 </div>
 
                 <div className={styles.postsContainer}>
-                    <p>🛠️ Under progress...</p>
+                    <div className={styles.header} >
+                        <div className={styles.heading1}>
+                            <FontAwesomeIcon className={styles.imgIcon}  icon={faClone} />
+                            <p >Posts</p>
+                        </div>
+
+                        <div className={styles.heading2}>
+                            <FontAwesomeIcon className={styles.videoIcon}  icon={faClapperboard} />
+                            <p >Videos</p>
+                        </div>
+
+                        <div className={styles.heading3}>
+                            <FontAwesomeIcon className={styles.bookmarkIcon}  icon={faBookmark}  />
+                            <p >Saved</p>
+                        </div>
+                    </div>
+
+                    <div className={styles.posts}>
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+                    </div>
+            
+
                 </div>
 
             

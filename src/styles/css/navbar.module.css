@@ -330,7 +330,14 @@
         display: flex;
     }
 
-    .smNavOptions img {
+    .smNavOptions button {
+        padding: 0;
+        margin-right: 5px;
+        background-color: #00000000;
+        border: none;
+    }
+
+    .smNavOptions button img {
         position: relative;
         z-index: 1;
         cursor: pointer;

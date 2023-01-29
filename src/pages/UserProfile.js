@@ -6,6 +6,15 @@ import { useAuth } from '../hooks';
 import styles from '../styles/css/settings.module.css';
 import avatar from '../styles/memojis/memo3.png';
 import LoadingBar from 'react-top-loading-bar';
+import coverImg from '../styles/img/dummy.jpeg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faClone } from '@fortawesome/free-solid-svg-icons';
+import { faClapperboard } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import settingsIcon from '../styles/icon/setting.png';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +30,25 @@ const UserProfile = () => {
     const {userId} = useParams();
     const navigate = useNavigate();
     const auth = useAuth();
+
+    useEffect(() => {
+        const handleScroll = event => {
+            if (window.scrollY <= 50) {
+                const div = document.getElementsByClassName(`${styles.smHeader}`)[0];
+                div.style.backgroundColor = 'rgba(0, 0, 0, 0.100)';
+            } else {
+                const div = document.getElementsByClassName(`${styles.smHeader}`)[0];
+                div.style.backgroundColor = '#0F1216';
+            }
+            
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+    
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     console.log('User Id', userId);
 
@@ -121,13 +149,24 @@ const UserProfile = () => {
 
             <div className={styles.profileContainer}>
 
+                <div className={styles.smHeader}>
+                    <img className={styles.avatar} src={avatar} />
+                    <div className={styles.otherAccounts} >
+                        <FontAwesomeIcon className={styles.arrowDown}  icon={faChevronDown} />
+                        <p className={styles.userName}>{auth.user.name}</p>
+                    </div>
+
+                    
+                    <img className={styles.settingsIcon} src={settingsIcon} />
+                </div>
+
                 <div className={styles.coverImg}>
                 </div>
 
                 <div className={styles.profileDetail}>
                     <img className={styles.avatar} src={avatar} />
                     <p className={styles.userName}>{user.name}</p>
-                    <p className={styles.bio}>Hi this is sample about🔥</p>
+                    <p className={styles.bio}>Hi this is sample about🔥 Professional Cake Cutter</p>
                     <div className={styles.buttons}>
                     <button>Follow</button>
                     <button>Message</button>
@@ -147,8 +186,80 @@ const UserProfile = () => {
                     </div> */}
                 </div>
 
+                <div className={styles.stats}>
+                    <div className={styles.followers}>
+                        <p className={styles.header}>Followers</p>
+                        <p className={styles.stat} >21</p>
+                        <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
+                    </div>
+
+                    <div className={styles.border}></div>
+
+                    <div className={styles.following}>
+                        <p className={styles.header}>Following</p>
+                        <p className={styles.stat} >25</p>
+                        <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
+                    </div>
+
+                    <div className={styles.border}></div>
+
+                    <div className={styles.joined}>
+                        <p className={styles.header}>Joined</p>
+                        <p className={styles.stat} >1+</p>
+                        <p className={styles.footer} >Years Ago</p>
+                    </div>
+
+                    <div className={styles.border}></div>
+
+                    <div className={styles.dob}>
+                        <p className={styles.header}>Birthday</p>
+                        <p className={styles.stat} >3 June</p>
+                        <p className={styles.footer} >2000</p>
+
+                    </div>
+                </div>
+
                 <div className={styles.postsContainer}>
-                    <p>🛠️ Under progress...</p>
+                    <div className={styles.header} >
+                        <div className={styles.heading1}>
+                            <FontAwesomeIcon className={styles.imgIcon}  icon={faClone} />
+                            <p >Posts</p>
+                        </div>
+
+                        <div className={styles.heading2}>
+                            <FontAwesomeIcon className={styles.videoIcon}  icon={faClapperboard} />
+                            <p >Videos</p>
+                        </div>
+
+                        <div className={styles.heading3}>
+                            <FontAwesomeIcon className={styles.bookmarkIcon}  icon={faBookmark}  />
+                            <p >Saved</p>
+                        </div>
+                    </div>
+
+                    <div className={styles.posts}>
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+
+                        <div className={styles.post}>
+                            <img src={coverImg} />
+                        </div>
+                    </div>
+            
+
                 </div>
             </div>
 

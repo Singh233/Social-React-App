@@ -129,12 +129,16 @@ const Navbar = () => {
                 <img style={{height: 40, marginRight: -8}}  src={notification} />
                 <img style={{height: 45}}  src={explore} />
                 <img style={{height: 28, width: 28}}  src={notification} />
-                <Link onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.avatar} to='/login'> <img className={styles.avatar}  src={profile} /> </Link> 
+                <Link onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.avatar} > <img className={styles.avatar}  src={profile} /> </Link> 
 
             </div>
 
             <div className={styles.smNavOptions}>
-                <img style={{height: 50, marginRight: -10}}  src={send} />
+                <button onClick={auth.logout}>
+                    <img style={{height: 50, marginRight: -10}}  src={send} />
+                </button>
+
+                
             </div>
 
             <div onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.navOptionsExpanded}>
