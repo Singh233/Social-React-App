@@ -14,17 +14,32 @@ import comment from '../styles/icon/document.png';
 
 import dummyImg from '../styles/img/dummy.jpeg';
 import avatar from '../styles/memojis/memo3.png';
+import 'animate.css';
 
 
 import Comment from './Comment'
-import { usePosts } from '../hooks';
+import { useAuth, usePosts } from '../hooks';
 
 
 const Post = ({post}) => {
 
+    const [isLiked, setIsLiked] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+    const [likes, setLikes] = useState(post.likes.length);
     const [commentContent, setCommentContent] = useState('');
     const [loading, setLoading] = useState(false);
     const posts = usePosts();
+    const auth = useAuth();
+
+    useEffect(() => {
+        // console.log(post.likes);
+        // for (let like of post.likes) {
+        //     console.log(like, '****', auth.user);
+        //     if (like == auth.user._id) {
+        //         setIsLiked(true);
+        //     }
+        // }
+    }, []);
 
 
     const handleCreateCommentClick = async () => {
@@ -48,19 +63,29 @@ const Post = ({post}) => {
 
 
     const handlePostLikeClick = async () => {
+        
 
         const response = await toggleLike(post._id, 'Post');
 
         if (response.success) {
             if (response.data.deleted) {
                 toast.success("Like removed!");
+                setLikes(likes - 1);
+                setIsLiked(false);
             } else {
                 toast.success("Like added!");
+                setLikes(likes + 1);
+                setIsLiked(true);
             }
-            
+            setIsActive(true);
         } else {
             toast.error(response.message);
         }
+        setTimeout(() => {
+            setIsActive(false);
+        }, 1000);
+        
+
     }
 
 
@@ -88,9 +113,9 @@ const Post = ({post}) => {
 
             <div className={styles.actions}>
                 <div className={styles.leftIcons}>
-                    <div onClick={handlePostLikeClick} className={styles.likeButton}>
-                        <img src={like} className={styles.iconBg}/>
-                        <p className={styles.likeCount}>{post.likes.length}</p>
+                    <div onClick={handlePostLikeClick} className={` ${styles.likeButton}`}>
+                        <img src={`${isLiked ? likeFill : like}`} className={`animate__animated ${isActive ? 'animate__bounceIn' : ''}  ${styles.iconBg}`}/>
+                        <p className={styles.likeCount}>{likes}</p>
                     </div>
 
                     <div className={styles.commentButton}>
