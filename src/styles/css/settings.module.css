@@ -5,10 +5,10 @@
 
 
 .settingsContainer {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
+    display: flex;
     min-height: 90vh;
     justify-content: center;
+    margin-left: 20vw;
 }
 
 .settingsContainer .profileContainer {

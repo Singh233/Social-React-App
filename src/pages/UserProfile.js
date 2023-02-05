@@ -18,13 +18,14 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
-import { addFriend, fetchUserProfile, removeFriend } from '../api';
+import { addFriend, fetchUserFriends, fetchUserProfile, removeFriend } from '../api';
 import { Loader } from '../components';
 import LeftNav from './home/LeftNav';
 
 
 const UserProfile = () => {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
+    const [friends, setFriends] = useState([]);
     const [loading, setLoading] = useState(true);
     const [requestInProgress, setRequestInProgress] = useState(false);
     const {userId} = useParams();
@@ -50,7 +51,6 @@ const UserProfile = () => {
         };
     }, []);
 
-    console.log('User Id', userId);
 
     useEffect(() => {
         const getuser = async () => {
@@ -66,6 +66,8 @@ const UserProfile = () => {
 
             
         }
+
+        
 
         getuser();
     }, [userId]);
@@ -197,7 +199,7 @@ const UserProfile = () => {
 
                     <div className={styles.following}>
                         <p className={styles.header}>Following</p>
-                        <p className={styles.stat} >25</p>
+                        <p className={styles.stat} >{friends.length}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
                     </div>
 

@@ -7,19 +7,157 @@
     border-radius: 30px;
     /* position: sticky;
     top: 0; */
+
+    position: fixed;
+    right: 0;
 }
 
 
+/* Profile Card */
+
 .profileCard {
     height: 41vh;
-    width: 23vw;
+    width: 24vw;
     min-width: 300px;
     background-color: #0F1216;
     border-radius: 30px;
     margin: 10px;
-    padding: 10px;
+    min-width: 325px;
 
 }
+
+.profileCard .header {
+    height: 230px;
+    background-image: url('../../img/cover.jpeg');
+    background-size: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.profileCard .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: auto;
+
+    background-color: #0F1216;
+    padding-bottom: 20px;
+
+    /* background-color: rgba(185, 185, 185, 0.202);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); */
+    margin-top: -130px;
+    border-radius: 0 0 0 0;
+}
+
+.profileCard .main .avatar {
+    /* background-color: black;
+    border-radius: 50%; */
+    height: 120px;
+    margin-top: -60px;
+}
+
+.profileCard .main .userName {
+    margin: 5px;
+    font-size: 1.5rem;
+    margin-top: -10px;
+    font-weight: 600;
+}
+
+.profileCard .main .bio {
+    margin: 5px;
+    width: 180px;
+    text-align: center;
+}
+
+
+
+.profileCard .stats {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    border-top: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    border: 1px solid rgba( 255, 255, 255, 0.18 );    
+    border-radius: 20px;
+    
+}
+
+.profileCard .stats .border {
+    align-self: center;
+    justify-self: center;
+    height: 40px;
+    width: 1px;
+    background-color: rgb(147, 147, 147);
+}
+
+
+
+.profileCard .stats .followers, .following {
+    /* border-right: 1px solid rgba( 255, 255, 255, 0.18 );     */
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.profileCard .stats .followers .stat, .following .stat {
+    margin: 5px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+
+.icon {
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: #a9a9a9;
+
+}
+
+
+
+.profileCard .stats .sHeader {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 5px;
+    text-transform: uppercase;
+    color: #a9a9a9;
+    
+}
+
+.profileCard .stats .footer {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 5px;
+    text-transform: uppercase;
+    color: #a9a9a9;
+
+}
+
+
+.profileCard .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.profileCard .footer a {
+    color: #1B90FF;
+    padding: 10px;
+}
+
+
+
+
+
+
+/* Friends list card */
 
 .friendsListCard {
     height: 41vh;
@@ -106,4 +244,14 @@
     font-size: 1rem;
     font-weight: 500;
     
+}
+
+
+
+
+@media screen and (max-width: 425px) {
+    .container {
+        display: none;
+    }
+
 }

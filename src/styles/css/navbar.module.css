@@ -32,6 +32,8 @@
 .branding a {
     display: flex;
     align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .brandingIcon {
@@ -313,6 +315,11 @@
         position: absolute;
         height: 60px;
         left: 10px;
+    }
+    
+    .branding a {
+        font-size: 1rem;
+        font-weight: 600;
     }
 
     .branding a p {

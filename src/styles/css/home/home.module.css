@@ -3,7 +3,6 @@
 
 .homeContainer {
     display: grid;
-    grid-template-columns: 1fr 3fr auto;
     grid-gap: 10px;
     min-height: 90vh;
     max-height: 100vh;

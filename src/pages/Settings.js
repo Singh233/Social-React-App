@@ -32,7 +32,7 @@ const Settings = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [saveForm, setSaveForm] = useState(false);
-
+    console.log(auth.user);
 
     useEffect(() => {
         const handleScroll = event => {
@@ -146,7 +146,7 @@ const Settings = () => {
                 <div className={styles.stats}>
                     <div className={styles.followers}>
                         <p className={styles.header}>Followers</p>
-                        <p className={styles.stat} >21</p>
+                        <p className={styles.stat} >0</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
                     </div>
 
@@ -154,7 +154,7 @@ const Settings = () => {
 
                     <div className={styles.following}>
                         <p className={styles.header}>Following</p>
-                        <p className={styles.stat} >25</p>
+                        <p className={styles.stat} >{auth.user.friends.length}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
                     </div>
 
