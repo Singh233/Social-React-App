@@ -1,27 +1,27 @@
 import { Routes, Route, Switch, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
-import { redirect } from "react-router-dom";
+import { redirect } from 'react-router-dom';
 
-import { Home, SignInUp, Settings, UserProfile} from '../pages';
+import { Home, SignInUp, Settings, UserProfile } from '../pages';
 import { Loader, Navbar, SmBottomnNav } from './';
 import React, { useState } from 'react';
 import LoadingBar from 'react-top-loading-bar';
+import { getItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage } from '../utils';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
-  return auth ? children : <Navigate to="/login" />;
+  return getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY) ? children : <Navigate to="/login" />;
 }
 
 const Page404 = () => {
-  return <div style={{color: 'white'}}>404</div>
-}
+  return <div style={{ color: 'white' }}>404</div>;
+};
 
 function App() {
-  
-const [progress, setProgress] = useState(0)
-  
-  const auth = useAuth();
+  const [progress, setProgress] = useState(0);
+  // removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
+  const auth = useAuth();
 
   // if (auth.loading) {
   //   return (
@@ -30,51 +30,63 @@ const [progress, setProgress] = useState(0)
   //       <Loader/>
   //       <SmBottomnNav />
   //     </>
-      
+
   //   )
-    
+
   // }
 
-  if (!auth.loading && auth.user === null) {
-    return <SignInUp />;
-  }
-
+  // if (!auth.loading && auth.user === null) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return (
     <div className="App">
-      <Navbar />
-      <LoadingBar color="#f11946" progress='100'  />
-      {auth.loading ?
-        <Loader/> :
+      
+      <LoadingBar color="#f11946" progress="100" />
+      {auth.loading ? (
+        <Loader />
+      ) : (
         <Routes>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Navbar />
+                <Home />
+                <SmBottomnNav />
+              </PrivateRoute>
+            }
+          />
+          {/* <Route path="/" element={<Home />} /> */}
 
-        <Route path='/' element={<Home />}/>
-        {/* <Route path='/login' element={<SignInUp />}/> */}
-        <Route
-          path="/settings"
-          element={
-            <PrivateRoute>
-              <Settings />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/user/:userId"
-          element={
-            <PrivateRoute>
-              <UserProfile />
-            </PrivateRoute>
-          }
-        />
+          <Route path="/login" element={<SignInUp />} />
 
 
+          <Route
+            path="/settings"
+            element={
+              <PrivateRoute>
+                <Navbar />
+                <Settings />
+                <SmBottomnNav />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/users/profile/:userId"
+            element={
+              <PrivateRoute>
+                <Navbar />
+                <UserProfile />
+                <SmBottomnNav />
+              </PrivateRoute>
+            }
+          />
         </Routes>
-      }
-      
-      
+      )}
+
       {/* For Small Devices */}
-      <SmBottomnNav />
       
     </div>
   );

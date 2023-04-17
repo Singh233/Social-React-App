@@ -7,14 +7,16 @@
 
 .navContainer {
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 2fr;
+    grid-template-columns: 1fr 2fr 2fr;
     align-items: center;
     justify-items: center;
     padding: 10px;
     height: 50px;
     border-radius: 0 0 30px 30px;
-    position: sticky;
-    top: 0%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98%;
     z-index: 1;
     background-color: #000000;
 }
@@ -27,6 +29,8 @@
 .branding {
     justify-self: flex-start;
     margin-left: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .branding a {
@@ -35,6 +39,15 @@
     font-size: 1.2rem;
     font-weight: 600;
 }
+
+.branding svg {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    fill: dodgerblue;
+    color: #0057D2;
+}
+
 
 .brandingIcon {
     display: none;

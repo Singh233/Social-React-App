@@ -1,8 +1,10 @@
 import styles from '../styles/css/home/main.module.css';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { addComment, toggleLike } from '../api';
+import { addComment, deletePost, toggleLike } from '../api';
 import toast from 'react-hot-toast';
+
+import env from '../utils/env';
 
 import explore from '../styles/icon/explore.png';
 import save from '../styles/icon/bookmark.png';
@@ -32,13 +34,13 @@ const Post = ({post}) => {
     const auth = useAuth();
 
     useEffect(() => {
-        // console.log(post.likes);
-        // for (let like of post.likes) {
-        //     console.log(like, '****', auth.user);
-        //     if (like == auth.user._id) {
-        //         setIsLiked(true);
-        //     }
-        // }
+        // check if the post is liked by the user
+        for (let like of post.likes) {
+            if (like.user == auth.user._id) {
+                setIsLiked(true);
+            }
+        }
+
     }, []);
 
 
@@ -88,27 +90,47 @@ const Post = ({post}) => {
 
     }
 
+    // handle delete post click
+    const handleDeletePostClick = async () => {
+        // const response = await deletePost(post._id);
+
+        const response = await toast.promise(deletePost(post._id), {
+            loading: 'Deleting post...',
+            success: <b>Post deleted successfully!</b>,
+            error: <b>Failed to delete post!</b>,
+        });
+
+        if (response.success) {
+            toast.success("Post deleted successfully!");
+            posts.deletePost(post._id);
+        } else {
+            toast.error(response.message);
+        }
+
+        auth.updateUserPosts(false, response.data.post);
+    }
+
 
     return (
-        <div className={styles.displayPosts} key={`post-${post._id}`}>
+        <div className={`${styles.displayPosts} animate__animated animate__fadeIn`} key={`post-${post._id}`}>
 
             <div className={styles.header}>
                 <div className={styles.userInfo}>
                     <img style={{height: 50, width: 50}} src={avatar} />
                     <Link to={{
-                        pathname: `/user/${post.user._id}`,
+                        pathname: `/users/profile/${post.user._id}`,
                     }} state={{user: post.user}}>
                         {post.user.name}
                     </Link>
                 </div>
 
                 <div className={styles.menuButton}>
-                    <img src={explore} className={`${styles.iconBg} ${styles.blurBg}`}/>
+                    <img onClick={handleDeletePostClick} src={explore} className={`${styles.iconBg} ${styles.blurBg}`}/>
                 </div>
             </div>
 
             <div className={styles.post}>
-                <img src={dummyImg} />
+                <img src={post.myfile ? env.file_url + post.myfile : dummyImg} />
             </div>
 
             <div className={styles.actions}>
@@ -157,7 +179,7 @@ const Post = ({post}) => {
                 
                 {post.comments.map((comment, index) => (
 
-                    <Comment comment={comment}/>
+                    <Comment postId={post._id} comment={comment} key={`comment-${comment._id}`}/>
 
                 ))}
             </div>

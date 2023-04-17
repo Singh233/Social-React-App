@@ -21,7 +21,7 @@ import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
 import { addFriend, fetchUserFriends, fetchUserProfile, removeFriend } from '../api';
 import { Loader } from '../components';
 import LeftNav from './home/LeftNav';
-
+import env from '../utils/env'
 
 const UserProfile = () => {
     const [user, setUser] = useState({});
@@ -31,6 +31,28 @@ const UserProfile = () => {
     const {userId} = useParams();
     const navigate = useNavigate();
     const auth = useAuth();
+
+    const checkIfUserIsAFriend = () => {
+        
+        const friends = auth.user.following;
+        console.log('friends', friends)
+
+        if (friends === undefined) {
+            return false;
+        }
+
+        const friendsId = friends.map(friend => friend.to_user);
+        const index = friendsId.indexOf(userId);
+
+
+        if (index !== -1) {
+            return true;
+        }
+
+        return false;
+
+    }
+    const [isFriend, setIsFriend] = useState(checkIfUserIsAFriend());
 
     useEffect(() => {
         const handleScroll = event => {
@@ -51,6 +73,7 @@ const UserProfile = () => {
         };
     }, []);
 
+    
 
     useEffect(() => {
         const getuser = async () => {
@@ -66,6 +89,7 @@ const UserProfile = () => {
 
             
         }
+        setIsFriend(checkIfUserIsAFriend());
 
         
 
@@ -77,29 +101,15 @@ const UserProfile = () => {
         return <Loader />
     }
 
-    const checkIfUserIsAFriend = () => {
-        
-        const friends = auth.user.friends;
-
-        if (friends === undefined) {
-            return false;
-        }
-        const friendsId = friends.map(friend => friend.to_user._id);
-        const index = friendsId.indexOf(userId);
-
-
-        if (index !== -1) {
-            return true;
-        }
-
-        return false;
-
-    }
+    
 
     const handleAddFriendClick = async () => {
         setRequestInProgress(true);
 
-        const response = await addFriend(userId);
+        const fromUserId = auth.user._id;
+        const toUserId = userId;
+
+        const response = await addFriend(fromUserId, toUserId); // (from, to)
 
         if (response.success) {
             const {friendship} = response.data;
@@ -110,7 +120,8 @@ const UserProfile = () => {
         } else {
             toast.error(response.message);
         }
-
+        setIsFriend(checkIfUserIsAFriend());
+        console.log(isFriend)
         setRequestInProgress(false);
 
     }
@@ -119,10 +130,10 @@ const UserProfile = () => {
     const handleRemoveFriendClick = async () => {
         setRequestInProgress(true);
 
-        const response = await removeFriend(userId);
+        const response = await removeFriend(auth.user._id);
 
         if (response.success) {
-            const friendship = auth.user.friends.filter(friend => friend.to_user._id !== userId);
+            const friendship = response.data;
 
             auth.updateUserFriends(false, friendship);
             toast.success("Friend removed successfully!");
@@ -131,6 +142,8 @@ const UserProfile = () => {
             toast.error(response.message);
         }
 
+        setIsFriend(checkIfUserIsAFriend());
+        console.log(isFriend)
         setRequestInProgress(false);
 
     }
@@ -170,8 +183,13 @@ const UserProfile = () => {
                     <p className={styles.userName}>{user.name}</p>
                     <p className={styles.bio}>Hi this is sample about🔥 Professional Cake Cutter</p>
                     <div className={styles.buttons}>
-                    <button>Follow</button>
-                    <button>Message</button>
+                        
+                        {isFriend ? (<button onClick={handleRemoveFriendClick} disabled={requestInProgress}>{requestInProgress ?
+                        'Removing a friend' : 'Unfollow' }</button>)
+                        : (<button onClick={handleAddFriendClick} disabled={requestInProgress}>{requestInProgress ?
+                            'Adding a friend' : 'Follow' }</button>)
+                        }
+                        <button>Message</button>
                     </div>
                     
                     {/* <div className={styles.stats}>
@@ -191,7 +209,7 @@ const UserProfile = () => {
                 <div className={styles.stats}>
                     <div className={styles.followers}>
                         <p className={styles.header}>Followers</p>
-                        <p className={styles.stat} >21</p>
+                        <p className={styles.stat} >{user.followers.length}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
                     </div>
 
@@ -199,7 +217,7 @@ const UserProfile = () => {
 
                     <div className={styles.following}>
                         <p className={styles.header}>Following</p>
-                        <p className={styles.stat} >{friends.length}</p>
+                        <p className={styles.stat} >{user.following.length}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
                     </div>
 
@@ -240,40 +258,21 @@ const UserProfile = () => {
                     </div>
 
                     <div className={styles.posts}>
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
+                    {
+                            user.posts.map(post => {
+                                return (
+                                    <div className={styles.post} key={post._id}>
+                                        <img src={env.file_url + post.myfile} />
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
             
 
                 </div>
             </div>
 
-            <div className={styles.btnGroup}>
-                {checkIfUserIsAFriend() ? (<button onClick={handleRemoveFriendClick} disabled={requestInProgress}>{requestInProgress ?
-                    'Removing a friend' : 'Remove Friend' }</button>)
-                : (<button onClick={handleAddFriendClick} disabled={requestInProgress}>{requestInProgress ?
-                    'Adding a friend' : 'Add Friend' }</button>)
-                }
-                
-                
-            </div>
         </div>
     )
 }

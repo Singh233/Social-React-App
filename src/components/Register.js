@@ -4,6 +4,11 @@ import { useAuth } from '../hooks';
 import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles/css/login.module.css';
+// icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-hot-toast';
 
@@ -24,7 +29,7 @@ const Register = () => {
         
         if (!email || !password || !name || !confirmPassword) {
             setSigningUp(false);
-            return toast.error("Please enter both email and password!");
+            return toast.error("Please fill all the fields!");
         }
 
         if (password !== confirmPassword) {
@@ -32,23 +37,39 @@ const Register = () => {
             return toast.error("Passwords doesn't match!");
         }
 
-        const response = await auth.signUp(name, email, password, confirmPassword);
-        setSigningUp(false);
-        if (response.success) {
-            navigate('/');
-            return toast.success("Account created successfully!");
-        } else {
-            return toast.error(response.message);
-        }
+        toast.loading('Signing Up...' , {
+            duration: 700,
+        });
+
+        setTimeout( async () => {
+
+            const response = await auth.signUp(name, email, password, confirmPassword);
+            // const response = await toast.promise(auth.signUp(name, email, password, confirmPassword), {
+            //     loading: 'Signing Up...',
+            //     success: 'Sign Up Successfull!',
+            //     error: 'Account already exists!'
+            // });
+            setSigningUp(false);
+
+            if (response.success) {
+                navigate('/');
+                return toast.success("Sign Up Successfull!");
+            } else {
+                setSigningUp(false);
+
+                return toast.error(response.message);
+            }
+        }, 700);
+
     }
 
     if (auth.user) {
         navigate('/');
     }
     return (
-        <form className={styles.loginForm} onSubmit={handleSubmit}>
-            Register page
+        <form className={`${styles.loginForm} animate__animated animate__fadeIn`} onSubmit={handleSubmit}>
             <div className={styles.field}>
+                <FontAwesomeIcon className={styles.inputIcon} icon={faUser} /> 
                 <input type='text' 
                 placeholder='Name'
                  
@@ -56,6 +77,8 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)} />
             </div>
             <div className={styles.field}>
+                <FontAwesomeIcon className={styles.inputIcon} icon={faEnvelope} /> 
+
                 <input type='email' 
                 placeholder='Email'
                  
@@ -64,6 +87,7 @@ const Register = () => {
             </div>
 
             <div className={styles.field}>
+                <FontAwesomeIcon className={styles.inputIcon} icon={faLock} /> 
                 <input type='password' placeholder='Password'
                  
                 value={password} 
@@ -71,6 +95,7 @@ const Register = () => {
             </div>
 
             <div className={styles.field}>
+                <FontAwesomeIcon className={styles.inputIcon} icon={faLock} /> 
                 <input type='password' placeholder='Confirm Password'
                  
                 value={confirmPassword} 
@@ -78,8 +103,12 @@ const Register = () => {
             </div>
 
             <div className={styles.field} >
-                <button disabled={signingUp}>
-                    {signingUp ? 'Signing Un ...' : 'Sign Up'}
+                
+                <button className={styles.loginButton} disabled={signingUp}>
+                    {signingUp ? 'Signing Up ...' : 'Sign Up'}
+                    <div className={styles.arrowWrapper}>
+                        <div className={styles.arrow}></div>
+                    </div>
                 </button>
             </div>
 

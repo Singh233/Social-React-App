@@ -16,6 +16,7 @@ import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faCloud } from '@fortawesome/free-solid-svg-icons';
 
 import profile from '../styles/memojis/memo3.png';
 import { Link } from 'react-router-dom';
@@ -86,17 +87,16 @@ const Navbar = () => {
         <div className={styles.navContainer}>
 
             <div className={styles.branding}>
-                <Link to='/'>
-                    <img className={styles.brandingIcon}  src={profile} />
-                    <p>Sanam<span>&nbsp;</span> Social 2.0</p> 
+                <Link className={styles.name} to='/'>
+                    <FontAwesomeIcon className={styles.hashIcon}  icon={faCloud} />
+                    <span className={styles.s}>S</span>anam.<span>Social</span>
                 </Link>
-                
             </div>
 
-            <div className={styles.currentMenu}>
+            {/* <div className={styles.currentMenu}>
                 <img style={{height: 30, width: 30}}  src={homeIcon} />
                 <p>Home</p>
-            </div>
+            </div> */}
 
             <div className={styles.searchBar}>
                 <FontAwesomeIcon className={styles.hashIcon}  icon={faHashtag} />

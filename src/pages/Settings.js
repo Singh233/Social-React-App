@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import styles from '../styles/css/settings.module.css';
 
+import env from '../utils/env';
 
 import { toast } from 'react-hot-toast';
 import { faL } from '@fortawesome/free-solid-svg-icons';
@@ -26,6 +27,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const Settings = () => {
     const auth = useAuth();
+    console.log('auth.user', auth)
 
     const [editMode, setEditMode] = useState(false);
     const [name, setName] = useState(auth.user ? auth.user.name : '');
@@ -146,7 +148,7 @@ const Settings = () => {
                 <div className={styles.stats}>
                     <div className={styles.followers}>
                         <p className={styles.header}>Followers</p>
-                        <p className={styles.stat} >0</p>
+                        <p className={styles.stat} >{auth.user.followers.length}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
                     </div>
 
@@ -154,7 +156,7 @@ const Settings = () => {
 
                     <div className={styles.following}>
                         <p className={styles.header}>Following</p>
-                        <p className={styles.stat} >{auth.user.friends.length}</p>
+                        <p className={styles.stat} >{auth.user.following.length}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
                     </div>
 
@@ -195,25 +197,16 @@ const Settings = () => {
                     </div>
 
                     <div className={styles.posts}>
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
 
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
-
-                        <div className={styles.post}>
-                            <img src={coverImg} />
-                        </div>
+                        {
+                            auth.user.posts.map(post => {
+                                return (
+                                    <div className={styles.post} key={post._id}>
+                                        <img src={env.file_url + post.myfile} />
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
             
 

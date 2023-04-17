@@ -22,10 +22,10 @@ const FriendList = ({friends}) => {
                                 <div className={styles.status}>
 
                                 </div>
-                                <Link to={`/user/${friend.to_user._id}`} > 
+                                <Link to={`/users/profile/${friend.to_user._id}`} > 
                                     <img  className={styles.avatar} src={avatar} />
                                 </Link>
-                                <Link className={styles.userName} to={`/user/${friend.to_user._id}`} > 
+                                <Link className={styles.userName} to={`/users/profile/${friend.to_user._id}`} > 
                                     <p >{friend.to_user.name}</p>
                                 </Link>
                                 
@@ -35,9 +35,22 @@ const FriendList = ({friends}) => {
                     }
                     
                 </div>
-                <div className={styles.footer}>
-                    <p>Show more</p>
-                </div>
+                {
+                    friends.length === 0 && (
+                        <div className={styles.noFriends}>
+                            <p>You are not following anyone</p>
+                            <button className={styles.exploreButton}>Explore now</button>
+                        </div>
+                    )
+                }
+                {
+                    friends.length > 3  && (
+                        <div className={styles.footer}>
+                            <p>Show more</p>
+                        </div>
+                    )
+                }
+                
 
         </div>
     )

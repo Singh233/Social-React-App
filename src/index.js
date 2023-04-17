@@ -6,6 +6,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, PostsProvider } from './providers';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+import env from './utils/env'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,7 +17,14 @@ root.render(
     <Router>
       <AuthProvider>
         <PostsProvider>
-          <App />
+          <GoogleOAuthProvider 
+            clientId={env.google_client_id}
+            scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+            redirectUri="http://localhost:3000"
+            >
+            <App />
+          </GoogleOAuthProvider>
+          
         </PostsProvider>
         
       </AuthProvider>

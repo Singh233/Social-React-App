@@ -5,6 +5,7 @@ import { useProvideAuth } from "../hooks";
 const initialState = {
     user: null, 
     login: () => {},
+    googleLogin: () => {},
     logout: () => {},
     loading: true,
     signUp: () => {},

@@ -6,7 +6,13 @@
     border-radius: 30px;
     width: 370px;
     margin: 10px;
+    transition: all 0.2s ease-in-out;
 }
+
+.container .hide {
+    display: none;
+}
+
 
 .avatar {
     height: 50px;
@@ -32,13 +38,19 @@ textarea:focus {
 .container .buttons {
     margin-left: 5px;
     display: flex;
+    align-items: center;
     justify-content: space-around;
+    margin-top: 20px;
+}
+
+.container .buttons .info {
+    margin: 0 20px;
 }
 
 .container .buttons .photoButton, .videoButton, .postButton {
     padding: 7px 13px;
-    margin: 5px;
-    margin-top: 15px;
+    margin: 0;
+
     margin-bottom: 0px;
     border-radius: 15px;
     border: none;
@@ -48,15 +60,31 @@ textarea:focus {
 
     display: flex;
     align-items: center;
+    justify-content: center;
     background-color: #0F1216;
     color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
 .container .buttons .postButton {
-    
+
     background-color: #645bff;
-    padding: 0px 20px;
+    padding: 10px 20px;
 }
+
+.container .buttons .active {
+
+    background-color: #645bff;
+
+}
+
+.container .buttons .videoButton {
+
+
+}
+
+
 
 .container .buttons .photoButton p, .videoButton p, .postButton p {
     margin: 0px;
@@ -71,7 +99,9 @@ textarea:focus {
     margin-left: 7px;
 }
 
-
+.postButton:hover {
+    background-color: #afabff;
+}
 
 
 

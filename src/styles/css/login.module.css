@@ -5,7 +5,18 @@
     align-items: center;
     justify-content: center;
     min-width: 500px;
+    transition: all 0.4s ease;
+    height: 649px;
+    overflow: hidden !important;
 
+}
+
+.animateForEmail {
+    height: 750px;
+}
+
+.animateForRegister {
+    height: 870px;
 }
 
 .loginForm {
@@ -14,7 +25,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    transition: 0.5s all ease;
+    transition: all 0.3s ease;
 }
 
 .loginForm input {
@@ -63,15 +74,15 @@ input:-webkit-autofill:active{
     justify-content: center;
     gap: 0.6em;
     margin: 10px;
-    background-color: #1B90FF;
+    background-color: #1B72E8;
     border: none;
-    padding: 0.6em 1.8em;
+    padding: 0.7em 1.4em;
     color: white;
-    border-radius: 15px;
-    font-size: 1.1rem;
+    border-radius: 20px;
+    font-size: 1rem;
     font-weight: 500;
-    width: 17vw;
-        cursor: pointer;
+    width: 16vw;
+    cursor: pointer;
 }
 
 
@@ -120,6 +131,9 @@ input:-webkit-autofill:active{
 .signInOptions {
     display: flex;
     align-items: center;
+    margin: 10px;
+
+
 }
 
 .socialIcons {
@@ -130,21 +144,48 @@ input:-webkit-autofill:active{
 }
 
 .emailOption {
-    padding: 10px;
-    background-color: #1B90FF;
-    border-radius: 17px;
+    padding: 12px;
+    background-color: #1B72E8;
+    border-radius: 20px;
     width: 17vw;
     min-width: 200px;
+    cursor: pointer;
+    transition: 0.2s all ease;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.emailOption:hover {
+    background-color: #53a8f8;
 }
 
 .emailIcon {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-right: 7px;
+    position: absolute;
+    left: 1px;
+    background-color: white;
+    color: dodgerblue;
+    padding: 7px;
+    border-radius: 50%;
 }
 
 .signUpLink {
     transition: 0.5s all ease;
 }
+
+.signUpLink span {
+    cursor: pointer;
+    font-weight: 600;
+    color: #1B72E8;
+    transition: all 0.2s ease;
+}
+
+.signUpLink span:hover {
+    color: #53a8f8;
+}
+
+
 
 
 
@@ -182,4 +223,47 @@ p {
     font-size: 1rem;
     padding: 5px;
     margin-left: 7px;
+}
+
+@media screen and (max-width: 425px) {
+    .container {
+        overflow: hidden;
+        min-width: 100%;
+        height: 550px;
+
+    }
+
+    .loginForm input {
+        width: 50vw;
+    }
+
+    .loginForm .field {
+        margin-left: 15px;
+    }
+    .loginButton {
+        width: 50vw;
+    }
+    .animateForEmail {
+        height: 650px;
+    }
+    
+    .animateForRegister {
+        height: 750px;
+    }
+
+    .avatar {
+        height: 200px;
+    }
+
+    .welcomeText {
+        font-size: 2rem;
+    }
+
+    .socialIcons {
+        height: 60px;
+    }
+
+    .or {
+        margin: 5px;
+    }
 }

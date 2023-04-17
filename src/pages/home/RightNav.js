@@ -26,14 +26,14 @@ const RightNav = () => {
                 <div className={styles.stats}>
                     <div className={styles.followers}>
                         <p className={styles.sHeader}>Followers</p>
-                        <p className={styles.stat} >0</p>
+                        <p className={styles.stat} >{auth.user.followers.length}</p>
                     </div>
 
                     <div className={styles.border}></div>
 
                     <div className={styles.following}>
                         <p className={styles.sHeader}>Following</p>
-                        <p className={styles.stat} >{auth.user.friends.length}</p>
+                        <p className={styles.stat} >{auth.user.following.length}</p>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@ const RightNav = () => {
 
             </div>
 
-            <FriendList friends={auth.user.friends}/>
+            
             
         </div>
     );

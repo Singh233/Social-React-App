@@ -8,11 +8,14 @@ import RightNav from './RightNav';
 import Main from './Main';
 import { useAuth, usePosts } from '../../hooks';
 import LoadingBar from 'react-top-loading-bar';
+import Chat from '../../components/Chat';
 
 const Home = () => {
 
     const auth = useAuth();
     const posts = usePosts();
+
+    
 
 
     
@@ -32,6 +35,8 @@ const Home = () => {
             <Main posts={posts.data}/>
 
             <RightNav/>
+
+            <Chat />
             
         </div>
     );

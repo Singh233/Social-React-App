@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import { AuthContext, PostsContext } from '../providers';
-import { editProfile, fetchUserFriends, login as userLogin, getPosts } from '../api';
+import { editProfile, fetchUserFriends, login as userLogin, getPosts, fetchUserProfile, googleLoginAPI } from '../api';
 import { signUp as userSignUp } from '../api';
 import { setItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage, getItemInLocalStorage} from '../utils';
 import { toast } from 'react-hot-toast';
@@ -21,16 +21,22 @@ export const useProvideAuth = () => {
         const getUser = async () => {
             const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
             if (userToken) {
+                
+
                 const user = jwtDecode(userToken);
-                const response = await fetchUserFriends();
-                // console.log('friends',response)
+                // // const response = await fetchUserFriends();
+                // // console.log('friends',response)
                 let friends =[];
-                if (response.success) {
-                    friends = response.data.friends;
-                }
+                // // if (response.success) {
+                // //     friends = response.data.friends;
+                // // }
+
+
+                const response = await fetchUserProfile(user._id);
 
                 setUser({
                     ...user,
+                    ...response.data.user,
                     friends
                 });
             }
@@ -91,31 +97,71 @@ export const useProvideAuth = () => {
         }
     };
 
+    const googleLogin = async (tokenId) => {
+        // const response = await userLogin(tokenId);
+        const response = await googleLoginAPI(tokenId);
+        // console.log('response from login', response)
+        if (response.success) {
+            setUser(response.data.user);
+            setItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
+            return {
+                success: true,
+            };
+        } else {
+            return {
+                success: false,
+                message: response.message,
+            };
+        }
+    };
+
     const logout = () => {
         setUser(null);
         removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
         toast.success("Successfully logged out!");
-        navigate('/');
+        navigate('/login');
 
     };
 
     const updateUserFriends = (addFriend, friend) => {
         if (addFriend) {
+            console.log('user followring', user.following);
+            let newfollowing = user.following;
+            newfollowing.push(friend);
+            console.log('new following', newfollowing);
+
             setUser({
                 ...user,
-                friends: [...user.friends, friend],
+                following: newfollowing,
             });
+            console.log('update user', user)
             return;
         } else {
             
             setUser({
                 ...user,
-                friends: friend,
+                following: user.following.filter((f) => f._id !== friend._id)
             });
             console.log('friend', friend);
             return;
         }
     }
+
+    const updateUserPosts = (addPost, post) => {
+        if (addPost) {
+            setUser({
+                ...user,
+                posts: [post, ...user.posts],
+            });
+            return;
+        } else {
+            setUser({
+                ...user,
+                posts: user.posts.filter((p) => p._id !== post._id),
+            });
+            return;
+        }
+    };
 
 
 
@@ -123,11 +169,13 @@ export const useProvideAuth = () => {
     return {
         user,
         login,
+        googleLogin,
         signUp,
         logout,
         loading,
         updateUser,
         updateUserFriends,
+        updateUserPosts,
 
     };
 };
@@ -144,8 +192,9 @@ export const useProvidePosts = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
+            console.log('inside fetch posts')
             const response = await getPosts();
-            // console.log('response', response);
+            // console.log('response from posts', response);
 
             if (response.success) {
                 setPosts(response.data.posts);
@@ -158,6 +207,7 @@ export const useProvidePosts = () => {
 
     const addPostToState = (post) => {
         const newPosts = [post, ...posts];
+        // console.log('newPosts', newPosts)
         setPosts(newPosts);
     }
 
@@ -171,11 +221,34 @@ export const useProvidePosts = () => {
         setPosts(newPosts);
     }
 
+    const deleteComment = (commentId, postId) => {
+        const newPosts = posts.map((post) => {
+            if (post._id == postId) {
+
+                return {
+                    ...post,
+                    comments: post.comments.filter((comment) => comment._id !== commentId),
+                };
+            }
+            return post;
+        });
+        setPosts(newPosts);
+    }
+
+    const deletePost = (id) => {
+        const newPosts = posts.filter((post) => post._id !== id);
+        setPosts(newPosts);
+
+    }
+
     return {
         data: posts,
         loading,
         addPostToState,
-        addComment
+        addComment,
+        deleteComment,
+
+        deletePost,
     }
 
 }
