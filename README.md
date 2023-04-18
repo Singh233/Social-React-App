@@ -1,72 +1,153 @@
-Under development. Try out here https://chillsanam.me/ 🔥
 
-# Getting Started with Create React App
+# ⚛️ Social Media React Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+My social media React application is a platform for users to create accounts, post images, messages, and follow other users and I built this application to get hands-on experience developing a full-stack web application using React, Node.js, Express, and MongoDB.
 
-## Available Scripts
+The application uses API endpoints from one of my own Node.js web application checkout here (https://sanam.social 🚀) and allows users to view their feed and interact with other users by liking and commenting on their posts. The application is built using React, Node.js, Express, MongoDB, CSS, and HTML. Future development plans include adding more features, improving the UI/UX.
 
-In the project directory, you can run:
+Through building this project, I gained experience with user authentication, posting messages, following other users, and liking and commenting on posts. This project was a great opportunity to practice my skills and improve my knowledge of full-stack web development.
 
-### `npm start`
+⛔️ Please note that the application is a work in progress, so it might throw some unexpected errors.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## 👀 Demo
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://chillsanam.me/ 🚀
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Sign In/Up user ✋🏻
+- Actions
+    - Post image 🌆
+    - Comment on Post 💬
+    - Like Post ❤️
+    - Follow/Unfollow Users 👀
+- User profile ⭐️
+- Responsivity
+  - 🖥️ Desktop 
+  - 📱 Mobile
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## 🚧Work in progress
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Save Post 🛟
+- Edit profile 📝
+- Global Messaging 🌍
+- Direct Messaging 💬
+  - Online/offline status 🌐
+  - Receive incoming message notification 🔔
+  - Email of message request 📧
+- Responsivity
+  - Tablet
+  
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Run Project Locally
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Clone the project
 
-## Learn More
+```bash
+  git clone https://github.com/Singh233/Social-Web-App.git
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Go to the project directory
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+  cd Social-React-App
+```
 
-### Code Splitting
+Set up Environment variables (Mac/Ubuntu/Linux)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+  sudo vi ~/.bash_profile
+```
 
-### Analyzing the Bundle Size
+Save bash profile (Mac/Ubuntu/Linux)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+  source ~/.bash_profile
+```
 
-### Making a Progressive Web App
+Install the packages
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+  npm install
+```
 
-### Advanced Configuration
+Start the server (development)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+  npm start
+```
 
-### Deployment
+for production build follow link
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+  https://create-react-app.dev/docs/production-build/
+```
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`REACT_APP_GOOGLE_CLIENT_ID`
+
+
+
+
+
+
+## Screenshots
+
+<img width="1532" alt="Screenshot 2023-04-19 at 12 01 34 AM" src="https://user-images.githubusercontent.com/37498067/232870916-825cf3b1-4c62-4223-9459-d76c639034ff.png">
+<img width="1532" alt="Screenshot 2023-04-19 at 12 01 42 AM" src="https://user-images.githubusercontent.com/37498067/232870952-da8d4cea-ddf2-4364-bad4-d11901038f4e.png">
+<img width="1532" alt="Screenshot 2023-04-19 at 12 02 09 AM" src="https://user-images.githubusercontent.com/37498067/232870978-bed5a0b7-8b80-48fc-b42e-378a23cb9db3.png">
+
+
+
+## API Reference
+Coming soon 🛠️
+
+## Contributing
+
+Contributions are always welcome!
+
+Please fork the repository and submit a pull request. Before submitting a pull request, make sure your changes are fully tested and that you follow the existing code style.
+
+Please adhere to this project's `code of conduct`.
+
+
+## Related
+
+Here are some more Cool Projects 
+
+- [Issue-Tracker-App](https://github.com/Singh233/Issue-Tracker-App) 🚀
+- [Social-Web-App](https://github.com/Singh233/Social-Web-App) 🎯
+
+
+## 🚀 About Me
+I'm an Aspiring full stack developer...
+Love to create, design and build cool projects 😎 and have passion for creating innovative solutions to complex problems using cutting-edge technologies. I have a strong understanding of both front-end and back-end development, and constantly seeking to improve my skills in these areas.
+
+
+## 🔗 Links
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sanambir-singh-2b4b3a133/)
+[![instagram](https://img.shields.io/badge/instagram-d62976?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/awesanam/)
+
+
+## Authors
+
+- [@SanambirSingh](https://github.com/Singh233) 🤗
+
+
+## Feedback
+
+If you have any feedback, please reach out to me at sanambir123@gmail.com
+
