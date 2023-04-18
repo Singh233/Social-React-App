@@ -21,10 +21,16 @@ import 'animate.css';
 
 import Comment from './Comment'
 import { useAuth, usePosts } from '../hooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const Post = ({post}) => {
-
+    
+    const [expandMenu, setExpandMenu] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [likes, setLikes] = useState(post.likes.length);
@@ -125,15 +131,56 @@ const Post = ({post}) => {
                 </div>
 
                 <div className={styles.menuButton}>
-                    <img onClick={handleDeletePostClick} src={explore} className={`${styles.iconBg} ${styles.blurBg}`}/>
+                    <img onClick={() => setExpandMenu(!expandMenu)} src={explore} className={`${styles.iconBg} ${styles.blurBg}`}/>
                 </div>
+
+                
             </div>
+
+            
 
             <div className={styles.post}>
                 <img src={post.myfile ? env.file_url + post.myfile : dummyImg} />
+
+                
             </div>
 
             <div className={styles.actions}>
+
+                <div className={`${expandMenu ? styles.menuExpand + ' animate__animated animate__faster animate__fadeInUp' : styles.hide}`}>
+                    <FontAwesomeIcon icon={faXmark} className={styles.closeIcon} onClick={() => setExpandMenu(!expandMenu)} />
+                    <div className={styles.menuItem}>
+                        
+                        {
+
+                        }
+                        {/* <div className={styles.group}>
+                            <div onClick={handlePostLikeClick} className={` ${styles.likeButton}`}>
+                                <img src={`${isLiked ? likeFill : like}`} className={`animate__animated ${isActive ? 'animate__bounceIn' : ''}  ${styles.iconBg}`}/>
+                                <p className={styles.likeCount}>  {likes}</p>
+                            </div>
+                            <div className={styles.commentButton}>
+                                <img src={comment} className={styles.iconBg}/>
+                                <p className={styles.likeCount}>{post.comments.length}</p>
+                            </div>
+                        </div> */}
+
+                        
+                        {
+                            post.user._id == auth.user._id && (
+                                <p onClick={handleDeletePostClick} className={styles.delete}> <FontAwesomeIcon icon={faTrash} className={`${styles.icon} `} /> Delete Post</p>
+                            )
+                        }
+                        <p>
+                            <Link to={`/users/profile/${post.user._id}`}>
+                                <FontAwesomeIcon icon={faUser} className={`${styles.icon} `} />Go to Profile
+                            </Link>
+                        </p>
+                        
+                    </div>
+                </div>
+
+
                 <div className={styles.leftIcons}>
                     <div onClick={handlePostLikeClick} className={` ${styles.likeButton}`}>
                         <img src={`${isLiked ? likeFill : like}`} className={`animate__animated ${isActive ? 'animate__bounceIn' : ''}  ${styles.iconBg}`}/>

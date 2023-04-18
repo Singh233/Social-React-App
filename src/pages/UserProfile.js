@@ -15,6 +15,7 @@ import { faClapperboard } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import settingsIcon from '../styles/icon/setting.png';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import dummyImg from '../styles/img/dummy.jpeg';
 
 import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
@@ -262,7 +263,7 @@ const UserProfile = () => {
                             user.posts.map(post => {
                                 return (
                                     <div className={styles.post} key={post._id}>
-                                        <img src={env.file_url + post.myfile} />
+                                        <img src={post.myfile ? env.file_url + post.myfile : dummyImg} />
                                     </div>
                                 )
                             })

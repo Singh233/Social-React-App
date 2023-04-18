@@ -12,4 +12,4 @@ const production = {
 }
 
 
-export default development;
+export default production;

@@ -10,7 +10,7 @@
     grid-template-columns: 1fr 2fr 2fr;
     align-items: center;
     justify-items: center;
-    padding: 10px;
+    padding: 10px 0;
     height: 50px;
     border-radius: 0 0 30px 30px;
     position: fixed;
@@ -316,6 +316,7 @@
 @media screen and (max-width: 425px) {
     .navContainer {
         grid-template-columns: 1fr auto;
+        border-radius: 0 0 20px 20px;
         
     }
 
@@ -331,9 +332,10 @@
     }
     
     .branding a {
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-weight: 600;
     }
+    
 
     .branding a p {
         margin-left: 40px;

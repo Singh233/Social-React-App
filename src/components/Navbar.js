@@ -1,6 +1,7 @@
 import styles from '../styles/css/navbar.module.css';
 import { ReactDOM, useEffect, useState } from 'react';
 
+import Chat from './Chat';
 
 // Icons
 import homeIcon from '../styles/icon/home.png';
@@ -27,6 +28,8 @@ import toast from 'react-hot-toast';
 const Navbar = () => {
     const [results, setResults] = useState([]);
     const [searchText, setSearchText] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
+
     const auth = useAuth();
 
 
@@ -84,6 +87,8 @@ const Navbar = () => {
 
 
     return (
+        <>
+        
         <div className={styles.navContainer}>
 
             <div className={styles.branding}>
@@ -134,9 +139,9 @@ const Navbar = () => {
             </div>
 
             <div className={styles.smNavOptions}>
-                <button onClick={auth.logout}>
+                <Link to='/messages'>
                     <img style={{height: 50, marginRight: -10}}  src={send} />
-                </button>
+                </Link>
 
                 
             </div>
@@ -177,6 +182,8 @@ const Navbar = () => {
             </div>
 
         </div>
+        
+        </>
     )
 }
 

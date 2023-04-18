@@ -23,6 +23,7 @@ import { faClapperboard } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 
 const Settings = () => {
@@ -53,7 +54,7 @@ const Settings = () => {
     
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            toast.success('More Updates Coming Soon');
+            // toast.success('More Updates Coming Soon');
         };
     }, []);
 
@@ -126,7 +127,8 @@ const Settings = () => {
 
                     
                     {/* <img className={styles.settingsIcon} src={settingsIcon} /> */}
-                    <FontAwesomeIcon onClick={extendHeader} className={styles.icon}  icon={faGear} />
+                    
+                    <FontAwesomeIcon onClick={auth.logout} className={styles.icon}  icon={faRightFromBracket} />
 
                 </div>
 

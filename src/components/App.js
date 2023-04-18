@@ -7,6 +7,7 @@ import { Loader, Navbar, SmBottomnNav } from './';
 import React, { useState } from 'react';
 import LoadingBar from 'react-top-loading-bar';
 import { getItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage } from '../utils';
+import Messaging from '../pages/Messaging';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -61,6 +62,15 @@ function App() {
 
           <Route path="/login" element={<SignInUp />} />
 
+
+          <Route
+            path="/messages"
+            element={
+              <PrivateRoute>
+                <Messaging />
+              </PrivateRoute>
+            }
+          />
 
           <Route
             path="/settings"

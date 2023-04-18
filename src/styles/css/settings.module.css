@@ -33,7 +33,7 @@
     height: 400px;
     width: 40vw;
     min-width: 500px;
-    background-image: url('../img/cover.jpeg');
+    background-image: url('../img/summerbg.jpg');
     background-size: cover;
     border-radius: 20px 20px 20px 20px;
 }
@@ -223,6 +223,7 @@
     height: 180px;
     width: 180px;
     border-radius: 20px;
+    object-fit: cover;
 }
 
 
@@ -383,5 +384,14 @@
 
     
     
+
+}
+
+
+@media screen and (max-width: 425px) {
+
+    .settingsContainer {
+        margin-left: 0;
+    }
 
 }
