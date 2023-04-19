@@ -8,7 +8,7 @@ import avatar from '../../styles/memojis/memo3.png';
 
 const RightNav = () => {
     const auth = useAuth();
-    console.log('user', auth.user.friends);
+    // console.log('user', auth.user.friends);
 
     return (
         <div className={styles.container}>

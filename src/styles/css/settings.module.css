@@ -162,9 +162,15 @@
     color: #1B90FF;
     font-size: 1rem;
     font-weight: 00;
-
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 
     
+}
+
+.profileContainer .profileDetail .buttons button:hover {
+    background-color: #1B90FF;
+    color: white;
 }
 
 

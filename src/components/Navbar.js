@@ -55,7 +55,7 @@ const Navbar = () => {
     
 
     const profileHover = () => {
-        console.log('mouse over')
+        // console.log('mouse over')
         const div = document.getElementsByClassName(`${styles.navOptionsExpanded}`)[0];
         div.style.opacity = '1'
         div.style.height = '300px';
@@ -71,7 +71,7 @@ const Navbar = () => {
     }
 
     const profileLeave = () => {
-        console.log('mouse leave')
+        // console.log('mouse leave')
         const div = document.getElementsByClassName(`${styles.navOptionsExpanded}`)[0];
         div.style.height = '0px';
         div.style.opacity = '0';

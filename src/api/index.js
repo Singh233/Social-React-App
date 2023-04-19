@@ -52,7 +52,7 @@ const customFetch = async (url, {body, ...customConfig}) => {
         const data = await response.json();
 
         if (data.success) {
-            console.log(data.data);
+            // console.log(data.data);
             return {
                 data: data.data,
                 success: true,
@@ -60,7 +60,7 @@ const customFetch = async (url, {body, ...customConfig}) => {
         }
         throw new Error(data.message);
     } catch (error) {
-        console.log('error');
+        console.log('error', error);
         return {
             message: error.message,
             success: false
@@ -164,7 +164,7 @@ export const addPost = (content, file) => {
         xhr.onreadystatechange = function() {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 const data = JSON.parse(xhr.responseText);
-                console.log('data', data);
+                // console.log('data', data);
                 resolve(data);
                 return {
                     data: data.data,
@@ -217,42 +217,3 @@ export const searchUsers = (searchText) => {
         
     });
 }
-
-
-// export const getTrendingTopics = async () => {
-//     const response = await fetch('https://api.twitter.com/1.1/trends/available.json', {
-//         method: 'GET',
-//         headers: {            
-//             Authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAAAiflgEAAAAAaywHqHhYF2JjUNjom3mg1loFPYU%3D6hTKcKamHPy2CiXlX0qdxTsW7ETh5uMcFDC7fyYL2eA6ZY9Jpk'
-//         }
-//     }).then()
-//     return response;
-// }
-
-
-export const getTrendingTopics = async () => {
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': 'd8b7ea737emsh9619954a4bcb7b4p1e27d6jsnae4fbf1ac681',
-            'X-RapidAPI-Host': 'bloomberg-market-and-financial-news.p.rapidapi.com'
-        }
-    };
-    
-    const response = await fetch('https://bloomberg-market-and-financial-news.p.rapidapi.com/stories/detail?internalID=QFY0Y6T0AFB501', options);
-    const data = await response.json();
-    console.log(data)
-    if (data.ok) {
-        console.log(data.data);
-        return {
-            data: data.news,
-            success: true,
-        };
-    }
-    return {
-        data: data.news,
-        success: true,
-    };
-}
-
-

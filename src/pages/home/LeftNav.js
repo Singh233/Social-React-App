@@ -21,21 +21,6 @@ import { Link } from 'react-router-dom';
 const LeftNav = () => {
     const auth = useAuth();
 
-    useEffect( () => {
-
-        const getData = async () => {
-            const response = await getTrendingTopics();
-            console.log("Twitter api --", response.data);
-            if (response.success) {
-                toast.success("Successfully loaded topics");
-            } else {
-                toast.error(response.error);
-            }
-        }
-
-        // getData();
-        
-    }, [])
 
 
     return (

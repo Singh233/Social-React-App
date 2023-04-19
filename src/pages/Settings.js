@@ -28,14 +28,14 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Settings = () => {
     const auth = useAuth();
-    console.log('auth.user', auth)
+    // console.log('auth.user', auth)
 
     const [editMode, setEditMode] = useState(false);
     const [name, setName] = useState(auth.user ? auth.user.name : '');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [saveForm, setSaveForm] = useState(false);
-    console.log(auth.user);
+    // console.log(auth.user);
 
     useEffect(() => {
         const handleScroll = event => {

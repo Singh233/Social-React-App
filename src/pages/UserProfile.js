@@ -36,16 +36,16 @@ const UserProfile = () => {
     const checkIfUserIsAFriend = () => {
         
         const friends = auth.user.following;
-        console.log('friends', friends)
+        // console.log('friends', friends)
 
         if (friends === undefined) {
             return false;
         }
 
-        const friendsId = friends.map(friend => friend.to_user);
+        const friendsId = friends.map(friend => friend.to_user._id);
         const index = friendsId.indexOf(userId);
 
-
+        // console.log(index, friends)
         if (index !== -1) {
             return true;
         }
@@ -110,19 +110,23 @@ const UserProfile = () => {
         const fromUserId = auth.user._id;
         const toUserId = userId;
 
-        const response = await addFriend(fromUserId, toUserId); // (from, to)
+
+
+        // const response = await addFriend(fromUserId, toUserId); // (from, to)
+        const response = await toast.promise(addFriend(fromUserId, toUserId), {
+            loading: 'Adding friend...',
+            success: 'Friend added successfully!',
+            error: 'Something went wrong!'
+        });
 
         if (response.success) {
             const {friendship} = response.data;
-
             auth.updateUserFriends(true, friendship);
-            toast.success("Friend added successfully!");
-
         } else {
             toast.error(response.message);
         }
         setIsFriend(checkIfUserIsAFriend());
-        console.log(isFriend)
+        // console.log(isFriend)
         setRequestInProgress(false);
 
     }
@@ -131,20 +135,21 @@ const UserProfile = () => {
     const handleRemoveFriendClick = async () => {
         setRequestInProgress(true);
 
-        const response = await removeFriend(auth.user._id);
+        // const response = await removeFriend(auth.user._id);
+        const response = await toast.promise(removeFriend(auth.user._id), {
+            loading: 'Removing friend...',
+            success: 'Friend removed successfully!',
+            error: 'Something went wrong!'
+        });
 
         if (response.success) {
             const friendship = response.data;
 
             auth.updateUserFriends(false, friendship);
-            toast.success("Friend removed successfully!");
-
+            setIsFriend(false);
         } else {
-            toast.error(response.message);
+            setIsFriend(true);
         }
-
-        setIsFriend(checkIfUserIsAFriend());
-        console.log(isFriend)
         setRequestInProgress(false);
 
     }
@@ -185,10 +190,8 @@ const UserProfile = () => {
                     <p className={styles.bio}>Hi this is sample about🔥 Professional Cake Cutter</p>
                     <div className={styles.buttons}>
                         
-                        {isFriend ? (<button onClick={handleRemoveFriendClick} disabled={requestInProgress}>{requestInProgress ?
-                        'Removing a friend' : 'Unfollow' }</button>)
-                        : (<button onClick={handleAddFriendClick} disabled={requestInProgress}>{requestInProgress ?
-                            'Adding a friend' : 'Follow' }</button>)
+                        {isFriend ? (<button className='animate__animated animate__fadeIn' onClick={handleRemoveFriendClick} disabled={requestInProgress}>Unfollow</button>)
+                        : (<button className='animate__animated animate__fadeIn' onClick={handleAddFriendClick} disabled={requestInProgress}>Follow</button>)
                         }
                         <button>Message</button>
                     </div>

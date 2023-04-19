@@ -56,7 +56,7 @@ const Login = () => {
         const response = await auth.login(email, password);
 
         if (response.success) {
-            console.log(auth);
+            // console.log(auth);
             setLoggingIn(false);
             navigate('/');
             return toast.success("Successfully logged in!");

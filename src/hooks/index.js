@@ -17,7 +17,7 @@ export const useProvideAuth = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect( () => {
-        console.log('Inside use hooks use effect ********')
+        // console.log('Inside use hooks use effect ********')
         const getUser = async () => {
             const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
             if (userToken) {
@@ -125,24 +125,24 @@ export const useProvideAuth = () => {
 
     const updateUserFriends = (addFriend, friend) => {
         if (addFriend) {
-            console.log('user followring', user.following);
+            // console.log('user followring', user.following);
             let newfollowing = user.following;
             newfollowing.push(friend);
-            console.log('new following', newfollowing);
+            // console.log('new following', newfollowing);
 
             setUser({
                 ...user,
                 following: newfollowing,
             });
-            console.log('update user', user)
+            // console.log('update user', user)
             return;
         } else {
-            
+            console.log(user.following, friend);
             setUser({
                 ...user,
-                following: user.following.filter((f) => f._id !== friend._id)
+                following: user.following.filter((f) => f.to_user._id !== friend.friendship.to_user)
             });
-            console.log('friend', friend);
+            // console.log('friend', friend);
             return;
         }
     }
@@ -192,7 +192,7 @@ export const useProvidePosts = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            console.log('inside fetch posts')
+            // console.log('inside fetch posts')
             const response = await getPosts();
             // console.log('response from posts', response);
 

@@ -52,7 +52,7 @@ const Post = ({post}) => {
 
     const handleCreateCommentClick = async () => {
         setLoading(true);
-        console.log('inside comment')
+        // console.log('inside comment')
 
         const response = await addComment(commentContent, post._id);
 
