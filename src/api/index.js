@@ -86,7 +86,7 @@ export const login = (email, password) => {
 
 export const googleLoginAPI = (tokenId) => {
     return customFetch(API_URLS.googleLogin(), {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Authorization': `Basic ${tokenId}`,
         },
@@ -97,6 +97,12 @@ export const signUp = (name, email, password, confirmPassword) => {
     return customFetch(API_URLS.signup(), {
         method: 'POST',
         body: {name, email, password, confirm_password: confirmPassword},
+    });
+}
+
+export const signout = () => {
+    return customFetch(API_URLS.signout(), {
+        method: 'GET',
     });
 }
 

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import { AuthContext, PostsContext } from '../providers';
-import { editProfile, fetchUserFriends, login as userLogin, getPosts, fetchUserProfile, googleLoginAPI } from '../api';
+import { editProfile, fetchUserFriends, login as userLogin, getPosts, fetchUserProfile, googleLoginAPI, signout } from '../api';
 import { signUp as userSignUp } from '../api';
 import { setItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage, getItemInLocalStorage} from '../utils';
 import { toast } from 'react-hot-toast';
@@ -115,11 +115,18 @@ export const useProvideAuth = () => {
         }
     };
 
-    const logout = () => {
-        setUser(null);
-        removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
-        toast.success("Successfully logged out!");
-        navigate('/login');
+    const logout = async () => {
+        const response = await signout();
+
+        if (response.success) {
+            setUser(null);
+            removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+            toast.success("Successfully logged out!");
+            navigate('/login');
+        } else {
+            toast.error("Error logging out!");
+        }
+
 
     };
 
@@ -202,7 +209,10 @@ export const useProvidePosts = () => {
             setLoading(false);
         };
 
+
         fetchPosts();
+        
+        
     }, []);
 
     const addPostToState = (post) => {

@@ -7,7 +7,8 @@ const API_ROOT = env.API_URL;
 export const API_URLS = {
     login: () => `${API_ROOT}/users/login`, //   
     signup: () => `${API_ROOT}/users/create`, //
-    googleLogin: () => `${API_ROOT}/users/auth/google`, //
+    signout: () => `${API_ROOT}/users/sign-out`, //
+    googleLogin: () => `${API_ROOT}/users/login/google`, //
 
     posts: (page, limit) => `${API_ROOT}/posts`,  //
     createPost: () => `${API_ROOT}/posts/create`, // 

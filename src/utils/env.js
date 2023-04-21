@@ -6,7 +6,7 @@ const development = {
 }
 
 const production = {
-    API_URL: 'https://sanam.social/api/v1/',
+    API_URL: 'https://social-api-taxhp.ondigitalocean.app/api/v1',
     google_client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     file_url: 'https://sanam.social',
 }
