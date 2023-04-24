@@ -103,7 +103,7 @@ const Navbar = () => {
                 <p>Home</p>
             </div> */}
 
-            <div className={styles.searchBar}>
+            <div className={styles.searchBarNav}>
                 <FontAwesomeIcon className={styles.hashIcon}  icon={faHashtag} />
                 <FontAwesomeIcon className={styles.searchIcon}  icon={faMagnifyingGlass} />
                 <input   

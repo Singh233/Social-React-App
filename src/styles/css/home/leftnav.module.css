@@ -9,12 +9,11 @@
     top: 0; */
 
     position: fixed;
-    left: 0;
+    left: 25px;
 
     width: 23vw;
     min-width: 300px;
         height: 90vh;
-    margin-left: 15px;
 
 }
 
@@ -26,14 +25,13 @@
 
 .container .content {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 60px 20px;
+    padding: 30px 15px;
     margin: 10px;
 
     background-color: #0F1216;
-    width: 21vw;
+    width: 22vw;
     min-width: 300px;
     border-radius: 25px;
 
@@ -43,7 +41,7 @@
     display: flex;
     align-items: center;
     margin: 10px;
-    width: 50%;
+    /* width: 50%; */
     height: 45px;
     justify-self: start;
     display: flex;
@@ -65,7 +63,7 @@
 }
 
 .container .content .menu:hover {
-    background-color: #ededed;
+    background-color: #0057D1;
     color: black;
     cursor: pointer;
 }
@@ -78,7 +76,7 @@
 .currentMenu {
 
     color: black !important;
-    background-color: #ededed !important;
+    background-color: #0057D1 !important;
 
     /* box-shadow: 0 0.625em 1em 0 rgba(30, 143, 255, 0.35); */
 
@@ -106,7 +104,7 @@
     bottom: 10px;
     left: 0;
 
-    width: 23vw;
+    width: 24vw;
     min-width: 300px;
     height: 70px;
     margin-left: 15px;

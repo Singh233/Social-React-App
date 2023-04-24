@@ -12,11 +12,13 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import homeIcon from '../../styles/icon/home.png';
 import notification from '../../styles/icon/notification2.png';
 import chat from '../../styles/icon/chat.png';
+import profile from '../../styles/icon/profile.png';
 import settings from '../../styles/icon/settingnormal.png';
 import explore from '../../styles/icon/explore2.png';
 import { useAuth } from '../../hooks';
 import { FriendList } from '../../components';
 import { Link } from 'react-router-dom';
+import Chat from '../../components/Chat';
 
 const LeftNav = () => {
     const auth = useAuth();
@@ -31,26 +33,22 @@ const LeftNav = () => {
             </div>
 
             <div className={styles.content}>
-                <div className={`${styles.menu} ${styles.currentMenu}`}>
+                <Link to='/' className={`${styles.menu} ${styles.currentMenu}`}>
                     <img style={{height: 30, width: 30}}  src={homeIcon} />
-                    <p>Home</p>
-                </div>
+                    <p></p>
+                </Link>
 
-                <div className={`${styles.menu} `}>
-                    <img style={{height: 30, width: 30}}  src={chat} />
-                    <p>Messages</p>
-                </div>
+                <Link to='/settings' className={`${styles.menu} `}>
+                    <img style={{height: 30, width: 30}}  src={profile} />
+                    <p></p>
+                </Link>
 
-                <div className={`${styles.menu} `}>
+                <Link to='/settings' className={`${styles.menu} `}>
                     <img style={{height: 30, width: 30}}  src={settings} />
-                    
-                    <Link to='/settings'>
-                        <p>Settings</p>
-                    </Link>
-                </div>
+                </Link>
             </div>
             
-            <FriendList friends={auth.user.following}/>
+            <Chat/>
 
             <button onClick={auth.logout} className={styles.signOutButton}>
                 <FontAwesomeIcon className={styles.optionsIcon}  icon={faRightFromBracket} />

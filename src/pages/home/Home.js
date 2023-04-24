@@ -10,12 +10,31 @@ import { useAuth, usePosts } from '../../hooks';
 import LoadingBar from 'react-top-loading-bar';
 import Chat from '../../components/Chat';
 
+import socketIo from 'socket.io-client';
+
+import env from '../../utils/env';
+
 const Home = () => {
 
     const auth = useAuth();
     const posts = usePosts();
 
-    
+
+    const socket = socketIo.connect(env.socket_url, { 
+        query: {
+            userId: auth.user._id
+        }
+    });
+
+    socket.on('connect', () => {
+
+        socket.emit('user_online', {
+            user_id: auth.user._id,
+        })
+    });
+
+        
+
 
 
     
@@ -30,13 +49,13 @@ const Home = () => {
         <div className={styles.homeContainer}>
             {auth.loading ? ''  : <LoadingBar color="#f11946" progress='100'  />}
             
-            <LeftNav/>
+            <LeftNav socket={socket}/>
 
             <Main posts={posts.data}/>
 
             <RightNav/>
 
-            <Chat />
+            
             
         </div>
     );

@@ -171,8 +171,13 @@
     padding: 10px;
 
     position: relative;
+
+
+    
     
 }
+
+
 
 .friendsListCard .heading {
     margin: 20px;
@@ -191,6 +196,18 @@
     border-right: 1px solid rgba( 255, 255, 255, 0.18 );
     border-left: 1px solid rgba( 255, 255, 255, 0.18 ); */
     overflow-y: auto;
+}
+
+.friendsListCard .list::-webkit-scrollbar {
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    width: 12px !important;
+
+}
+
+.friendsListCard .list::-webkit-scrollbar-thumb {
+    background-color: rgb( 255, 255, 255, 0.18 );
+    border-radius: 20px;
 }
 
 

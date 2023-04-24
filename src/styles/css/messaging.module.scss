@@ -4,41 +4,328 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-
-    .heading {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        color: white;
-        width: 100vw;
-        font-size: 1.1rem;
-        font-weight: 600;
-        padding: 10px 0;
-        margin-bottom: 10px;
-
-
-        background-color: #0F1216;
-        border-radius: 0 0 20px 20px;
-
-        p {
-            margin-left: 10px;
-
-        }
-
-        svg {
-            cursor: pointer;
-            margin-left: 15px;
-        }
-    }
-    
-
-
-    width: 100%;
     height: 100vh;
 
 
+    position: relative;
 
 
+
+    background: rgb(5,5,19);
+    background: linear-gradient(169deg, rgba(5,5,19,1) 0%, rgba(20,16,64,1) 30%, rgba(42,36,142,1) 60%, rgba(86,80,187,1) 90%);
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        // background-image: linear-gradient(rgba(0, 0, 0, 0.7), #0F1216), url('../img/lovebg.jpg');
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        border-radius: 30px 20px 0 0;
+
+
+        .info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+
+            .text {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 0;
+
+                .sendIcon {
+                    height: 47px;
+                    margin-right: 5px;
+                }
+                a {
+                    text-decoration: none;
+                    color: white;
+                    font-size: 1.5rem;
+                    margin-right: 8px;
+                }
+            }
+
+            img {
+                height: 35px;
+                width: 35px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+
+        .searchBar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            padding-top: 5px;
+            padding-bottom: 20px;
+
+            input {
+                background-color: rgba(0, 0, 0, 0.516);
+                outline: none !important;
+                border: none !important;
+                border-radius: 20px;
+                width: 75%;
+                padding: 12px;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+                color: white;
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.716);
+                }
+            }
+
+            svg {
+                background-color: rgba(0, 0, 0, 0.516);
+                padding: 12px 12px;
+                border-radius: 50%;
+                color: rgba(255, 255, 255, 0.537);
+                margin-left: 5px;
+                transition: all 0.2s ease-in-out;
+                color: white;
+                transition: all 0.2s ease-in-out;
+                color: white;
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.716);
+                }
+
+            }
+        }
+
+    }
+
+    .friendsList {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 10px;
+        position: relative;
+        width: 90%;
+        max-height: 345px;
+        overflow-y: auto;
+
+
+
+        &::-webkit-scrollbar {
+            background-color: rgb(0, 0, 0);
+            border-radius: 10px;
+            width: 12px !important;
+
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(85, 80, 187, 0.833);
+            border-radius: 20px;
+        }
+
+
+
+        .friend {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(0, 0, 0, 0.516);
+            border-radius: 15px;
+            padding: 12px 0;
+            margin-bottom: 10px;
+            width: 96%;
+            
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.716);
+            }
+
+            img {
+                height: 35px;
+                width: 35px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin: 0 10px;
+            }
+
+            .friendInfo {
+                justify-self: flex-start;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                margin-left: 7px;
+
+                .activity {
+                    display: flex;
+                    align-items: center;
+
+                    .circleGreen {
+                        height: 10px;
+                        width: 10px;
+                        color: #00FF00;
+                        // -webkit-text-stroke: 4px;
+                        // -webkit-text-stroke-color: black;
+
+                        // black ring around the circle
+                        border: 3px solid rgba(0, 0, 0, 0.628);
+                        border-radius: 50%;
+
+                        position: absolute;
+                        left: 37px;
+
+
+                    }
+
+                    .circleGray {
+                        height: 10px;
+                        width: 10px;
+                        color: gray;
+                        // -webkit-text-stroke: 4px;
+                        // -webkit-text-stroke-color: black;
+
+                        // black ring around the circle
+                        border: 3px solid rgba(0, 0, 0, 0.628);
+                        border-radius: 50%;
+
+                        position: absolute;
+                        left: 37px;
+
+
+                    }
+
+                    .status {
+                        font-size: 0.8rem;
+                    }
+                }
+
+                .friendName {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    margin: 0;
+                    margin-bottom: 3px;
+                }
+
+                .friendMessage {
+                    font-size: 0.8rem;
+                    font-weight: 400;
+                    margin: 0;
+                }
+            }
+
+            .friendTime {
+                font-size: 0.8rem;
+                font-weight: 400;
+                margin: 0;
+                position: absolute;
+                right: 20px;
+            }
+
+
+        }
+    }
+
+    .noFriend {
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.637);
+
+        p {
+            margin: 2px
+        }
+
+        .recommendations {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+
+            .recommendation {
+                background-color: rgba(0, 0, 0, 0.516);
+                border-radius: 15px;
+                padding: 12px 2px;
+                margin: 0 3px;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.716);
+                }
+
+
+
+                p {
+                    font-size: 0.9rem;
+                    font-weight: 400;
+                    margin: 0;
+                    color: rgba(255, 255, 255, 0.637);
+                }
+
+                img {
+                    height: 55px;
+                    width: 55px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        button {
+            background-color: #0057D1;
+            outline: none !important;
+            border: none !important;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: white;
+            margin-top: 10px;
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.716);
+            }
+        }
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.709);
+        width: 100%;
+        margin: 0;
+        border-radius: 30px 30px 0 0;
+        padding: 5px 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+        p {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.909);
+        }
+    }
+
+}
+
+@media screen and (max-width: 425px) {
+
+    .chatContainer {
+        
+    }
 
 }

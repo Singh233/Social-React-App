@@ -43,7 +43,8 @@ const RightNav = () => {
 
             </div>
 
-            
+            <FriendList friends={auth.user.following}/>
+
             
         </div>
     );

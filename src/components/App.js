@@ -9,6 +9,7 @@ import LoadingBar from 'react-top-loading-bar';
 import { getItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage } from '../utils';
 import Messaging from '../pages/Messaging';
 import socketIo from 'socket.io-client';
+import env from '../utils/env';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -24,10 +25,10 @@ function App() {
   // removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
   const auth = useAuth();
+  let socket = null;
 
   if (auth.user) {
-    const socket = socketIo.connect('https://sanam.social')
-    // console.log(socket)
+    
   }
 
   // if (auth.loading) {

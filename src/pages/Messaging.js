@@ -8,6 +8,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../hooks'
 import { Link } from 'react-router-dom'
 import LoadingBar from 'react-top-loading-bar'
+import Chat from '../components/Chat'
 
 
 export default function Messaging() {
@@ -15,16 +16,6 @@ export default function Messaging() {
 
 
     return (
-        <div className={styles.chatContainer}>
-            <LoadingBar color="#f11946" progress="100" />
-            <div className={styles.heading}>
-                <Link to="/">
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                </Link>
-                <p>{auth.user.name}</p>
-            </div>
-
-                🛠️Direct Messaging in progress!
-        </div>
+        < Chat />
     )
 }

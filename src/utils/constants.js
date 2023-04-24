@@ -13,19 +13,26 @@ export const API_URLS = {
     posts: (page, limit) => `${API_ROOT}/posts`,  //
     createPost: () => `${API_ROOT}/posts/create`, // 
     deletePost: (postId) => `${API_ROOT}/posts/delete/${postId}`, // 
+
     createFriendship: (fromUserId, toUserId) =>
         `${API_ROOT}/friends/add?from_user=${fromUserId}&to_user=${toUserId}`, //
-    friends: () => `${API_ROOT}/friendship/fetch_user_friends`,
+    friends: () => `${API_ROOT}/users/fetch_user_friends`, //
     removeFriend: (userId) =>
         `${API_ROOT}/friends/remove?from=${userId}`, //
+
     toggleLike: (itemId, itemType) =>
         `${API_ROOT}/likes/toggle?likeable_id=${itemId}&likeable_type=${itemType}`, // itemType is 'Post'/'Comment'
     getLikes: (itemId, itemType) =>
         `${API_ROOT}/likes?likeable_id=${itemId}&likeable_type=${itemType}`,
+
     comment: () => `${API_ROOT}/comments/create`, //
     deleteComment: (commentId) => `${API_ROOT}/comments/destroy/${commentId}`, //
+
     editUser: () => `${API_ROOT}/users/edit`,
     userInfo: (userId) => `${API_ROOT}/users/profile/${userId}`, //
+
+    getMessages: (from_user, to_user) => `${API_ROOT}/chat/private/${from_user}/${to_user}`,
+    createMessage: (message, from_user, to_user) => `${API_ROOT}/chat/createmessage/${message}/${from_user}/${to_user}`,
     searchUsers: (searchText) => `${API_ROOT}/users/search?text=${searchText}`,
 };
 

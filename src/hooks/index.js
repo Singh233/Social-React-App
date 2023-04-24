@@ -6,6 +6,8 @@ import { signUp as userSignUp } from '../api';
 import { setItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage, getItemInLocalStorage} from '../utils';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import socketIo from 'socket.io-client';
+import env from '../utils/env';
 
 export const useAuth = () => {
     return useContext(AuthContext);
@@ -16,20 +18,26 @@ export const useProvideAuth = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // make socket connection
+    const [socket, setSocket] = useState(null);
+
+
+
     useEffect( () => {
         // console.log('Inside use hooks use effect ********')
+
         const getUser = async () => {
             const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
             if (userToken) {
                 
 
                 const user = jwtDecode(userToken);
-                // // const response = await fetchUserFriends();
-                // // console.log('friends',response)
+                const userFriendsResponse = await fetchUserFriends();
+
                 let friends =[];
-                // // if (response.success) {
-                // //     friends = response.data.friends;
-                // // }
+                if (userFriendsResponse.success) {
+                    friends = userFriendsResponse.data.friends;
+                }
 
 
                 const response = await fetchUserProfile(user._id);
@@ -39,6 +47,23 @@ export const useProvideAuth = () => {
                     ...response.data.user,
                     friends
                 });
+
+                if (!socket) {
+                    const socket = await socketIo.connect(env.socket_url, { 
+                        query: {
+                            userId: user._id
+                        }
+                    });
+                
+                    await socket.on('connect', () => {
+                
+                        socket.emit('user_online', {
+                            user_id: user._id,
+                        })
+                    });
+        
+                    setSocket(socket);
+                }
             }
             setLoading(false);
         }
@@ -86,9 +111,36 @@ export const useProvideAuth = () => {
         if (response.success) {
             setUser(response.data.user);
             setItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
+
+            // socket connection
+            const socket = socketIo.connect(env.socket_url, { 
+                query: {
+                    userId: response.data.user._id
+                }
+            });
+        
+            socket.on('connect', () => {
+        
+                socket.emit('user_online', {
+                    user_id: response.data.user._id,
+                })
+            });
+
+            setSocket(socket);
+
+            // const profileReponse = await fetchUserProfile(response.data.user._id);
+
+            // setUser({
+            //     ...user,
+            //     ...profileReponse.data.user,
+            // });
+
             return {
                 success: true,
             };
+
+
+            
         } else {
             return {
                 success: false,
@@ -119,6 +171,8 @@ export const useProvideAuth = () => {
         const response = await signout();
 
         if (response.success) {
+            // disconnect socket connection
+            socket.disconnect();
             setUser(null);
             removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
             toast.success("Successfully logged out!");
@@ -183,6 +237,7 @@ export const useProvideAuth = () => {
         updateUser,
         updateUserFriends,
         updateUserPosts,
+        socket,
 
     };
 };

@@ -89,13 +89,13 @@
 
 /* Search Bar */
 
-.searchBar {
+.searchBarNav {
     display: flex;
     align-items: center;
 
 }
 
-.searchBar input {
+.searchBarNav input {
     background-color: #0F1216;
     padding: 13px;
     width: 15vw;
@@ -110,22 +110,22 @@
 
 }
 
-.searchBar:hover .hashIcon {
+.searchBarNav:hover .hashIcon {
     display: none;
     
 }
 
-.searchBar:hover .searchIcon {
+.searchBarNav:hover .searchIcon {
     display: block;
 }
 
 
-.searchBar input::-webkit-input-placeholder {
+.searchBarNav input::-webkit-input-placeholder {
     padding-left: 0px;
     
 }
 
-.searchBar input:focus, input:hover {
+.searchBarNav input:focus, input:hover {
     outline: none;
     width: 23vw;
     box-shadow: 0px 0px 0px 1.5px #242E38;
@@ -344,7 +344,7 @@
         font-family: cursive;
     }
 
-    .navOptions, .searchBar {
+    .navOptions, .searchBarNav {
         display: none;
     }
 

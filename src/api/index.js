@@ -223,3 +223,18 @@ export const searchUsers = (searchText) => {
         
     });
 }
+
+// fetch messages 
+export const fetchMessages = (from_user, to_user) => {
+    return customFetch(API_URLS.getMessages(from_user, to_user), {
+        method: 'GET',
+        
+    })
+}
+
+// create message
+export const createMessage = (content, from_user, to_user) => {
+    return customFetch(API_URLS.createMessage(content, from_user, to_user), {
+        method: 'POST',
+    })
+}
