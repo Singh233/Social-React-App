@@ -54,6 +54,8 @@ export const useProvideAuth = () => {
                             userId: user._id
                         }
                     });
+
+                    // console.log('socket', socket)
                 
                     await socket.on('connect', () => {
                 
@@ -156,6 +158,23 @@ export const useProvideAuth = () => {
         if (response.success) {
             setUser(response.data.user);
             setItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
+
+            // socket connection
+            const socket = socketIo.connect(env.socket_url, { 
+                query: {
+                    userId: response.data.user._id
+                }
+            });
+        
+            socket.on('connect', () => {
+        
+                socket.emit('user_online', {
+                    user_id: response.data.user._id,
+                })
+            });
+
+            setSocket(socket);
+
             return {
                 success: true,
             };
@@ -198,7 +217,7 @@ export const useProvideAuth = () => {
             // console.log('update user', user)
             return;
         } else {
-            console.log(user.following, friend);
+            // console.log(user.following, friend);
             setUser({
                 ...user,
                 following: user.following.filter((f) => f.to_user._id !== friend.friendship.to_user)

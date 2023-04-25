@@ -104,7 +104,7 @@ const Chat = () => {
     useEffect(() => {
         
         setChatFriends(auth.user.following);
-        console.log(count++, 'chat friends', chatFriends)
+        // console.log(count++, 'chat friends', chatFriends)
         // find unique users from posts which are not in auth.user.following array
         const usersAvatar = posts.data.map(post => auth.user.following.find(friend => friend.to_user._id === post.user._id) ? null : post.user.avatar);
         const uniqueUsers = [...new Set(usersAvatar)];
@@ -143,7 +143,7 @@ const Chat = () => {
 
 
     const handleFriendClick = (friend) => {
-        console.log(friend)
+        // console.log(friend)
         let to_user = friend.to_user._id;
         let from_user = auth.user._id;
         let chatRoom = to_user + from_user;
@@ -174,28 +174,28 @@ const Chat = () => {
     }
 
     // listen to receive_notification event
-    socket.on('receive_notification', function(data) {
-        // console.log('notification received', data);
-        console.log(isDirectMessageOpen)
+    // socket.on('receive_notification', function(data) {
+    //     // console.log('notification received', data);
+    //     console.log(isDirectMessageOpen)
 
-        if (!isDirectMessageOpen) {
-            toast.success('New message from ' + data.user_name.split(' ')[0], {
-                position: 'top-left',
-                duration: 5000,
-                icon: '👋',
-                style: {
-                    borderRadius: '10px',
-                    background: '#333',
-                    color: '#fff',
-                },
+    //     if (!isDirectMessageOpen) {
+    //         toast.success('New message from ' + data.user_name.split(' ')[0], {
+    //             position: 'top-left',
+    //             duration: 5000,
+    //             icon: '👋',
+    //             style: {
+    //                 borderRadius: '10px',
+    //                 background: '#333',
+    //                 color: '#fff',
+    //             },
 
                     
-                }
-            );
-        }
+    //             }
+    //         );
+    //     }
 
 
-    })
+    // })
 
     return (
         <>
@@ -212,7 +212,10 @@ const Chat = () => {
                                     </Link>
                                     Messages
                                 </p>
-                                <img src={auth.user.avatar ? env.file_url + auth.user.avatar : dummyImg} />
+                                <Link to={`/settings`}>
+                                    <img src={auth.user.avatar ? env.file_url + auth.user.avatar : dummyImg} />
+                                </Link>
+                                
                             </div>
 
                             <div className={styles.searchBar}>
@@ -250,6 +253,8 @@ const Chat = () => {
                                         
                                     })
                                 }
+
+                                
 
                                 {
                                     auth.user.following.length !== 0 && (

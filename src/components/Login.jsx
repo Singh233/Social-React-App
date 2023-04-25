@@ -34,14 +34,10 @@ const Login = () => {
     const auth = useAuth();
     const navigate = useNavigate();
 
-    const [response, setResponse] = useState(null);
 
-    useEffect(() => {
-        if (response) {
-            handleGoogleLogin(response, 'login');
-        }
-
-    }, [response]);
+    if (auth.user) {
+        navigate('/');
+    }
 
 
     const handleSubmit = async(e) => {
@@ -90,9 +86,7 @@ const Login = () => {
         
     }
 
-    if (auth.user) {
-        navigate('/');
-    }
+   
 
     
 
@@ -111,7 +105,7 @@ const Login = () => {
                         <div className={styles.signInOptions}>
                             <GoogleLogin
                                 onSuccess={response => {
-                                    setResponse(response);
+                                    handleGoogleLogin(response, 'login');
                                 }}
                                 onError={() => {
                                     console.log('Login Failed');
@@ -132,7 +126,7 @@ const Login = () => {
                         <div className={styles.signInOptions}>
                             <GoogleLogin
                                 onSuccess={response => {
-                                    // handleGoogleLogin(response , 'register');
+                                    handleGoogleLogin(response , 'register');
 
                                 }}
                                 onError={() => {

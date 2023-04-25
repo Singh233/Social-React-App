@@ -1,4 +1,4 @@
-import Home from "./home/Home.js";
+import Home from "./home/Home";
 
 import SignInUp from "./SignInUp";
 import Settings from "./Settings";

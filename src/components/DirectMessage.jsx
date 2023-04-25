@@ -39,7 +39,7 @@ export default function DirectMessage(props) {
         const getMessages = async () => {
             const response = await fetchMessages(auth.user._id, friend._id); // fetch messages from_user, to_user
             if (response.success) {
-                console.log(response.data.chatRoom.messages);
+                // console.log(response.data.chatRoom.messages);
                 setMessages(response.data.chatRoom.messages);
                 setTimeout(() => {
                     lastMessageRef.current?.scrollIntoView({ });
@@ -48,13 +48,12 @@ export default function DirectMessage(props) {
         }
 
         getMessages();
-        console.log(messages);
+        // console.log(messages);
 
     }, [])
 
     const handleSendMessageClick = async () => {
-        console.log('Send message clicked');
-        console.log(message);
+        
 
         let from_user = auth.user._id;
         let to_user = friend._id;
@@ -74,7 +73,7 @@ export default function DirectMessage(props) {
         setMessage('');
         const response = await createMessage(message, from_user, to_user);
         if (response.success) {
-            console.log('added to db', response.data);
+            // console.log('added to db', response.data);
         }
 
     }
@@ -86,14 +85,13 @@ export default function DirectMessage(props) {
     })
 
     socket.on('receive_private_message', function(data){
-        console.log(data);
 
         // check if the chatroom is the same as the current chatroom
         if (data.from_user + data.to_user === chatRoom || data.to_user + data.from_user === chatRoom) {
-            console.log('Chatroom is the same');
+            // console.log('Chatroom is the same');
             // if from_user is the same as the auth user
             if (data.from_user === auth.user._id) {
-                console.log('From user is the same as auth user');
+                // console.log('From user is the same as auth user');
                 // add the message to the messages list
                 setMessages([...messages, {
                     message: data.message,
@@ -112,7 +110,7 @@ export default function DirectMessage(props) {
                     createdAt: new Date(),
                 }]);
             } else {
-                console.log('From user is not the same as auth user');
+                // console.log('From user is not the same as auth user');
                 // add the message to the messages list
                 setMessages([...messages, {
                     message: data.message,
@@ -133,7 +131,7 @@ export default function DirectMessage(props) {
             }
 
         } else {
-            console.log('Chatroom is not the same');
+            // console.log('Chatroom is not the same');
         }
         setTimeout(() => {
             lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });

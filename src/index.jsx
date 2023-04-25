@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/css/index.css';
-import App from './components/App';
+import App from './components/App.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Toaster } from 'react-hot-toast';
@@ -20,7 +20,6 @@ root.render(
           <GoogleOAuthProvider 
             clientId={env.google_client_id}
             scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
-            redirectUri="http://localhost:3000"
             >
             <App />
           </GoogleOAuthProvider>

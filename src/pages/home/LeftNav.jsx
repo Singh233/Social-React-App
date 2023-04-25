@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
-import { getTrendingTopics } from '../../api';
 import toast from 'react-hot-toast';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 

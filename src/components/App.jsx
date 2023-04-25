@@ -1,4 +1,4 @@
-import { Routes, Route, Switch, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { redirect } from 'react-router-dom';
 
