@@ -19,12 +19,15 @@ https://chillsanam.me/ 🚀
 ## Features
 
 - Sign In/Up user ✋🏻
+- Google Sign In/Up 🚀
 - Actions
     - Post image 🌆
     - Comment on Post 💬
     - Like Post ❤️
     - Follow/Unfollow Users 👀
 - User profile ⭐️
+- Direct Messaging 💬
+  - Online/offline status 🌐
 - Responsivity
   - 🖥️ Desktop 
   - 📱 Mobile
@@ -35,10 +38,8 @@ https://chillsanam.me/ 🚀
 - Save Post 🛟
 - Edit profile 📝
 - Global Messaging 🌍
-- Direct Messaging 💬
-  - Online/offline status 🌐
-  - Receive incoming message notification 🔔
-  - Email of message request 📧
+- Email of message request 📧
+- Receive incoming message notification 🔔
 - Responsivity
   - Tablet
   
@@ -79,13 +80,13 @@ Install the packages
 Start the server (development)
 
 ```bash
-  npm start
+  npm run dev
 ```
 
 for production build follow link
 
 ```bash
-  https://create-react-app.dev/docs/production-build/
+  https://vitejs.dev/guide/static-deploy.html
 ```
 
 
@@ -96,7 +97,7 @@ for production build follow link
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`REACT_APP_GOOGLE_CLIENT_ID`
+`VITE_GOOGLE_CLIENT_ID`
 
 
 
@@ -106,7 +107,8 @@ To run this project, you will need to add the following environment variables to
 ## Screenshots
 
 <img width="1532" alt="Screenshot 2023-04-19 at 12 01 34 AM" src="https://user-images.githubusercontent.com/37498067/232870916-825cf3b1-4c62-4223-9459-d76c639034ff.png">
-<img width="1532" alt="Screenshot 2023-04-19 at 12 01 42 AM" src="https://user-images.githubusercontent.com/37498067/232870952-da8d4cea-ddf2-4364-bad4-d11901038f4e.png">
+<img width="1532" alt="Screenshot 2023-04-25 at 3 57 04 PM" src="https://user-images.githubusercontent.com/37498067/234249926-d21ddf2e-e3a3-4429-84ab-b1bb43c4a6ac.png">
+
 <img width="1532" alt="Screenshot 2023-04-19 at 12 02 09 AM" src="https://user-images.githubusercontent.com/37498067/232870978-bed5a0b7-8b80-48fc-b42e-378a23cb9db3.png">
 
 
