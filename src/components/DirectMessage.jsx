@@ -12,6 +12,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { createMessage, fetchMessages } from '../api';
+import toast from 'react-hot-toast';
 
 export default function DirectMessage(props) {
     const { setIsDirectMessageOpen, user, chatRoom } = props;
@@ -54,6 +55,10 @@ export default function DirectMessage(props) {
 
     const handleSendMessageClick = async () => {
         
+        if (message.trim().length === 0) {
+            toast.error('Message cannot be empty');
+            return;
+        }
 
         let from_user = auth.user._id;
         let to_user = friend._id;
@@ -141,9 +146,76 @@ export default function DirectMessage(props) {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            handleSendMessageClick();
+            if (message.trim().length > 0) {
+                handleSendMessageClick();
+            }
+            toast.error('Message cannot be empty');
+
+        } else {
+            let from_user = auth.user._id;
+            let to_user = friend._id;
+            let chatRoom = from_user + to_user;
+
+            // fire typingPrivate event
+            socket.emit('typingPrivate', {
+                user_email: auth.user.email,
+                user_name: auth.user.name,
+                user_profile: auth.user.avatar,
+                from_user,
+                to_user,
+                chatroom: chatRoom
+            });
+
         }
     }
+
+    let typing = false;
+    let timeout = undefined;
+    let animationTimeout = undefined;
+    const [typingStatus, setTypingStatus] = useState(false);
+    const [fadeOut, setFadeOut] = useState(false);
+    const [userAvatar, setUserAvatar] = useState(null);
+
+    function timeoutFunction(){
+        typing = false;
+        setFadeOut(true);
+        animationTimeout = setTimeout(function(){
+            setTypingStatus(false);
+        }, 700);
+    }
+
+
+    // listen to typing event and show the typing status
+    socket.on('typingResponsePrivate', function(data){
+        // console.log(data)
+        // console.log('typing')
+        const to_user = friend._id;
+        const from_user = auth.user._id;
+        let chatRoomOne = to_user + from_user;
+        let chatRoomTwo = from_user + to_user;
+
+        if (data.chatroom == chatRoomOne || data.chatroom == chatRoomTwo){
+
+            if (data.from_user !== from_user){
+
+                if (typing === false) {
+                    clearTimeout(animationTimeout);
+                    // $('#typing-status-private').removeClass('animate__fadeOut');
+                    setFadeOut(false);
+
+                    typing = true;
+                    setTypingStatus(true);
+                    setUserAvatar(data.user_profile);
+                    // console.log('typed')
+                    timeout = setTimeout(timeoutFunction, 1000);
+                } else {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(timeoutFunction, 1000);
+                }
+                
+            }
+        }
+    });
 
 
     return (
@@ -279,6 +351,22 @@ export default function DirectMessage(props) {
                     </div>
 
                 </div>
+
+                {
+                    typingStatus && (
+                        <div className={`${styles.typingStatus} animate__animated ${fadeOut ? 'animate__fadeOut' : ''}`}>
+                            <img className='animate__animated animate__fadeIn' src={userAvatar ? env.file_url + userAvatar : dummyImg} />
+                            <div className={`${styles.animation} animate__animated animate__fadeIn`}>
+                                <div className={styles.animation__dot1}></div>
+                                <div className={styles.animation__dot2}></div>
+                                <div className={styles.animation__dot3}></div>
+                            </div>
+                        </div>
+                    )
+                }
+                
+                
+
             </div>
 
             <div className={styles.bottomContainer}>

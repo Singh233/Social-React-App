@@ -402,6 +402,90 @@ $button-color-ligth-blue: #4db1ff;
                 }
             }
         }
+
+        .typingStatus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+    
+            background-color: #202020;
+            background-color: rgba(34, 34, 34, 0.402);
+    
+            
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+    
+    
+            border-radius: 30px;
+            padding: 5px;
+    
+            img {
+                border-radius: 50%;
+                height: 30px;
+                width: 30px;
+                object-fit: cover;
+            }
+    
+            .animation {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                padding: 10px;
+                
+                border-radius: 30px;
+                border: none;
+    
+                .animation__dot1 {
+                    height: 10px;
+                    width: 10px;
+                    border-radius: 50%;
+                    background-color: gray;
+                    margin: 0 3px;
+                    animation: pulse 1s infinite;
+                }
+    
+                .animation__dot2 {
+                    height: 10px;
+                    width: 10px;
+                    border-radius: 50%;
+                    background-color: gray;
+                    margin: 0 3px;
+                    animation: pulse 1s infinite;
+                    animation-delay: 0.2s;
+                }
+    
+                .animation__dot3 {
+                    height: 10px;
+                    width: 10px;
+                    border-radius: 50%;
+                    background-color: gray;
+                    margin: 0 3px;
+                    animation: pulse 1s infinite;
+                    animation-delay: 0.4s;
+                }
+    
+                @keyframes pulse {
+                    0% {
+                        transform: scale(0.8);
+                        opacity: 0.5;
+                    }
+                    70% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: scale(0.8);
+                        opacity: 0.5;
+                    }
+                }
+            }
+        }
     }
 
     .bottomContainer {
