@@ -135,6 +135,14 @@ const Chat = () => {
         })
 
 
+        return () => {
+            // socket clean up
+            socket.off('get_users');
+            socket.off('update_status');
+            socket.off('receive_notification');
+
+
+        }
 
         
 

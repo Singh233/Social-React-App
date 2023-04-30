@@ -80,6 +80,7 @@
 .profileContainer .stats {
     display: grid;
     grid-template-columns: repeat(7, auto);
+    /* grid-template-columns: repeat(5, auto); */
     width: 40vw;
     min-width: 480px;
     margin-top: 10px;
@@ -114,6 +115,10 @@
     margin: 5px;
     font-size: 1.5rem;
     font-weight: 600;
+}
+
+.profileContainer .joined .stat {
+    font-size: 1.4rem;
 }
 
 

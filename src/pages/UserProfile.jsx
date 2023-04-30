@@ -9,6 +9,7 @@ import LoadingBar from 'react-top-loading-bar';
 import coverImg from '../styles/img/dummy.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import { faCloud } from '@fortawesome/free-solid-svg-icons';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { faClapperboard } from '@fortawesome/free-solid-svg-icons';
@@ -23,6 +24,8 @@ import { addFriend, fetchUserFriends, fetchUserProfile, removeFriend } from '../
 import { Loader } from '../components';
 import LeftNav from './home/LeftNav';
 import env from '../utils/env'
+
+import moment from 'moment';
 
 const UserProfile = () => {
     const [user, setUser] = useState({});
@@ -68,6 +71,9 @@ const UserProfile = () => {
         };
     
         window.addEventListener('scroll', handleScroll);
+
+        
+
     
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -90,7 +96,6 @@ const UserProfile = () => {
 
             
         }
-        setIsFriend(checkIfUserIsAFriend());
 
         
 
@@ -211,6 +216,16 @@ const UserProfile = () => {
                 </div>
 
                 <div className={styles.stats}>
+
+                    <div className={styles.followers}>
+                        <p className={styles.header}>Posts</p>
+                        <p className={styles.stat} > {user.posts.length} </p>
+                        <FontAwesomeIcon className={styles.icon}  icon={faCloud} />
+
+                    </div>
+
+                    <div className={styles.border}></div>
+
                     <div className={styles.followers}>
                         <p className={styles.header}>Followers</p>
                         <p className={styles.stat} >{user.followers.length}</p>
@@ -229,18 +244,18 @@ const UserProfile = () => {
 
                     <div className={styles.joined}>
                         <p className={styles.header}>Joined</p>
-                        <p className={styles.stat} >1+</p>
-                        <p className={styles.footer} >Years Ago</p>
+                        <p className={styles.stat} >{ moment(user.createdAt).format('MMMM YYYY').split(' ')[0] } </p>
+                        <p className={styles.footer} > { moment(user.createdAt).format('MMMM YYYY').split(' ')[1] } </p>
                     </div>
 
-                    <div className={styles.border}></div>
+                    {/* <div className={styles.border}></div>
 
                     <div className={styles.dob}>
                         <p className={styles.header}>Birthday</p>
                         <p className={styles.stat} >3 June</p>
                         <p className={styles.footer} >2000</p>
 
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className={styles.postsContainer}>
@@ -262,7 +277,7 @@ const UserProfile = () => {
                     </div>
 
                     <div className={styles.posts}>
-                    {
+                        {
                             user.posts.map(post => {
                                 return (
                                     <div className={styles.post} key={post._id}>
@@ -270,6 +285,15 @@ const UserProfile = () => {
                                     </div>
                                 )
                             })
+                        }
+
+                        {
+                            user.posts.length === 0 && (
+                                <div className={styles.noPosts}>
+                                    {/* <img src={dummyImg} /> */}
+                                    <p>No posts from {user.name}</p>
+                                </div>
+                            )
                         }
                     </div>
             

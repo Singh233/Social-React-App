@@ -6,6 +6,8 @@ import styles from '../styles/css/home/rightnav.module.css';
 import message from '../styles/icon/message2.png';
 import avatar from '../styles/memojis/memo2.png';
 
+import env from '../utils/env';
+
 const FriendList = ({friends}) => {
 
 
@@ -19,11 +21,11 @@ const FriendList = ({friends}) => {
                     {
                         friends && friends.map((friend) => (
                             <div key={`friend-${friend._id}`} className={styles.friend}>
-                                <div className={styles.status}>
+                                {/* <div className={styles.status}>
 
-                                </div>
+                                </div> */}
                                 <Link to={`/users/profile/${friend.to_user._id}`} > 
-                                    <img  className={styles.avatar} src={avatar} />
+                                    <img  className={friend.to_user.avatar ? styles.profile : styles.avatar} src={ friend.to_user.avatar ? env.file_url + friend.to_user.avatar : avatar} />
                                 </Link>
                                 <Link className={styles.userName} to={`/users/profile/${friend.to_user._id}`} > 
                                     <p >{friend.to_user.name}</p>

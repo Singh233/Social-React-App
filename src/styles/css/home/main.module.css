@@ -45,6 +45,10 @@
     background: linear-gradient(0deg, rgba(0,128,241,0) 15%, rgba(5,5,5,1) 100%); */
 }
 
+.displayPosts .header .menuButton {
+    cursor: pointer;
+}
+
 .displayPosts .actions .menuExpand {
     position: absolute;
     bottom: 0;
@@ -204,22 +208,39 @@ a {
 
 .postContent {
     display: flex;
+    flex-direction: column;
     padding-left: 10px;
 }
 
-.postContent .userName {
+.postContent p {
+    display: block;
+
     font-weight: 600;
     font-size: 1.07rem;
+    margin: 0;
 
 }
 
-.postContent .text {
-    background-color: #000000;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+.postContent .nameAndContent {
+    margin: 5px 0;
+    margin-top: 10px;
+}
+
+.postContent span {
+
     border-radius: 30px;
     padding: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.693);
+}
+
+.postContent .time {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.693);
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 
@@ -271,10 +292,18 @@ a {
     flex-wrap: wrap;
 }
 
+.comments .commentDisplay .middleSection .upper p {
+    display: block;
+}
+
+
+
 .comments .commentDisplay .middleSection .upper .commentUserContent {
     font-size: 0.9rem;
     margin: 5px;
     color: rgb(187, 187, 187);
+    max-width: 200px;
+
 }
 
 
@@ -297,16 +326,27 @@ a {
     margin: 5px;
     padding: 0;
     font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.805);
 }
 
 
 
 #comment-time {
-    margin-right: 10px;
+    margin-right: 7px;
 }
 
 #reply-button {
-    margin-right: 10px;
+    margin-right: 7px;
+}
+
+.deleteButton {
+    cursor: pointer;
+    transition: all .2s ease;
+
+}
+
+.deleteButton:hover {
+    color: red;
 }
 
 .commentLikeButton {

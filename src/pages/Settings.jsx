@@ -17,6 +17,8 @@ import settingsIcon from '../styles/icon/setting.png';
 import avatar from '../styles/memojis/memo3.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import { faCloud } from '@fortawesome/free-solid-svg-icons';
+
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { faClapperboard } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +26,10 @@ import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import EditProfile from '../components/EditProfile';
+import dummyImg from '../styles/img/dummy.jpeg';
+
+import moment from 'moment';
 
 
 const Settings = () => {
@@ -141,13 +147,25 @@ const Settings = () => {
                     <p className={styles.userName}>{auth.user.name}</p>
                     <p className={styles.bio}>Hi this is sample about🔥 Professional Cake Cutter</p>
                     <div className={styles.buttons}>
-                        <button>Edit Profile</button>
+                        <button
+                            onClick={() => toast.success('More Updates Coming Soon')}
+                            >Edit Profile</button>
                     </div>
                     
                     
                 </div>
 
                 <div className={styles.stats}>
+
+                    <div className={styles.followers}>
+                        <p className={styles.header}>Posts</p>
+                        <p className={styles.stat} > {auth.user.posts.length} </p>
+                        <FontAwesomeIcon className={styles.icon}  icon={faCloud} />
+
+                    </div>
+
+                    <div className={styles.border}></div>
+
                     <div className={styles.followers}>
                         <p className={styles.header}>Followers</p>
                         <p className={styles.stat} >{auth.user.followers.length}</p>
@@ -166,18 +184,18 @@ const Settings = () => {
 
                     <div className={styles.joined}>
                         <p className={styles.header}>Joined</p>
-                        <p className={styles.stat} >1+</p>
-                        <p className={styles.footer} >Years Ago</p>
+                        <p className={styles.stat} >{ moment(auth.user.createdAt).format('MMMM YYYY').split(' ')[0] } </p>
+                        <p className={styles.footer} > { moment(auth.user.createdAt).format('MMMM YYYY').split(' ')[1] } </p>
                     </div>
 
-                    <div className={styles.border}></div>
+                    {/* <div className={styles.border}></div> */}
 
-                    <div className={styles.dob}>
+                    {/* <div className={styles.dob}>
                         <p className={styles.header}>Birthday</p>
                         <p className={styles.stat} >3 June</p>
                         <p className={styles.footer} >2000</p>
 
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className={styles.postsContainer}>
@@ -204,7 +222,7 @@ const Settings = () => {
                             auth.user.posts.map(post => {
                                 return (
                                     <div className={styles.post} key={post._id}>
-                                        <img src={env.file_url + post.myfile} />
+                                        <img src={ post.myfile ? env.file_url + post.myfile : dummyImg } />
                                     </div>
                                 )
                             })
@@ -287,6 +305,8 @@ const Settings = () => {
                     }
                 </div> */}
             </div>
+
+            {/* <EditProfile /> */}
         </div>
         
     )

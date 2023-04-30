@@ -9,6 +9,9 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useAuth, usePosts } from '../hooks';
 
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+
 
 
 function Comment({comment, postId}) {
@@ -32,30 +35,41 @@ function Comment({comment, postId}) {
 
     const handleCommentLikeClick = async () => {
 
+        if (isLiked) {
+            setLikes(likes - 1);
+            setIsLiked(false);
+        } else {
+            setLikes(likes + 1);
+            setIsLiked(true);
+        }
+
+        setIsActive(true);
+
         const response = await toggleLike(comment._id, 'Comment');
 
         if (response.success) {
             if (response.data.deleted) {
                 toast.success("Like removed!");
-                setLikes(likes - 1);
-                setIsLiked(false);
-
             } else {
                 toast.success("Like added!");
-                setLikes(likes + 1);
-                setIsLiked(true);
-
             }
-            setIsActive(true);
-
             
         } else {
             toast.error(response.message);
+            if (isLiked) {
+                setLikes(likes + 1);
+                setIsLiked(true);
+            }
+            else {
+                setLikes(likes - 1);
+                setIsLiked(false);
+            }
+
         }
 
         setTimeout(() => {
             setIsActive(false);
-        }, 1000);
+        }, 500);
     }
 
     // handle comment deleq click
@@ -75,7 +89,9 @@ function Comment({comment, postId}) {
     
     return (
         <div className={styles.commentDisplay}>
-            <img style={{height: 50, width: 50}} src={avatar} className={styles.commentAvatar} />
+            <Link to={`/users/profile/${comment.user._id}`}>
+                <img style={{height: 50, width: 50}} src={avatar} className={styles.commentAvatar} />
+            </Link>
             <div className={styles.middleSection}>
                 <div className={styles.upper}>
                     <p className={styles.commentUserName}> {comment.user.name} </p>
@@ -83,10 +99,10 @@ function Comment({comment, postId}) {
                 </div>
 
                 <div className={styles.bottom}>
-                    <p >3m</p>
-                    <p >reply</p>   
+                    <p className={styles.time}>{moment(comment.createdAt).fromNow()}</p>
+                    {/* <p >reply</p>    */}
                     {
-                        comment.user._id == auth.user._id && <p onClick={handleCommentDeleteClick}>delete</p>
+                        comment.user._id == auth.user._id && <p className={styles.deleteButton} onClick={handleCommentDeleteClick}>delete</p>
                     }
 
 

@@ -26,6 +26,8 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
+import moment from 'moment';
+
 
 
 const Post = ({post}) => {
@@ -72,26 +74,39 @@ const Post = ({post}) => {
 
     const handlePostLikeClick = async () => {
         
+        if (isLiked) {
+            setLikes(likes - 1);
+            setIsLiked(false);
+        } else {
+            setLikes(likes + 1);
+            setIsLiked(true);
+        }
+        setIsActive(true);
 
         const response = await toggleLike(post._id, 'Post');
 
         if (response.success) {
             if (response.data.deleted) {
                 toast.success("Like removed!");
+            } else {
+                toast.success("Like added!");
+            }
+            
+        } else {
+            toast.error(response.message);
+
+            if (isLiked) {
                 setLikes(likes - 1);
                 setIsLiked(false);
             } else {
-                toast.success("Like added!");
                 setLikes(likes + 1);
                 setIsLiked(true);
             }
-            setIsActive(true);
-        } else {
-            toast.error(response.message);
+
         }
         setTimeout(() => {
             setIsActive(false);
-        }, 1000);
+        }, 500);
         
 
     }
@@ -140,7 +155,7 @@ const Post = ({post}) => {
             
 
             <div className={styles.post}>
-                <img src={post.myfile ? env.file_url + post.myfile : dummyImg} />
+                <img onDoubleClick={handlePostLikeClick} src={post.myfile ? env.file_url + post.myfile : dummyImg} />
 
                 
             </div>
@@ -204,19 +219,25 @@ const Post = ({post}) => {
             </div>
 
             <div className={styles.postContent}>
-                <p className={styles.userName}>{post.user.name}</p>
-                <p className={styles.text}>{post.content}</p>
+                <p className={styles.nameAndContent}>{post.user.name}&nbsp; -<span>{post.content}</span></p>
+                {/* <p className={styles.text}>{post.content}</p> */}
                 {/* <div className={styles.bottom}>
                     <p >3m</p>
                     <p >reply</p>                            
 
                 </div> */}
+                <p className={styles.time}>{moment(post.createdAt).fromNow()}</p>
             </div>
 
 
             <div className={styles.comments}>
                 <div className={styles.postComment}>
                     <input 
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleCreateCommentClick();
+                            }
+                        }}
                         onChange={(e) => setCommentContent(e.target.value)}
                         value={commentContent}
                         placeholder='Add a comment'

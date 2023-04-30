@@ -51,6 +51,13 @@ export default function DirectMessage(props) {
         getMessages();
         // console.log(messages);
 
+        return () => {
+            // socket cleanup
+            socket.off('receive_private_message');
+            socket.off('private_user_joined');
+            socket.off('typingResponsePrivate');
+        }
+
     }, [])
 
     const handleSendMessageClick = async () => {
@@ -148,6 +155,7 @@ export default function DirectMessage(props) {
         if (e.key === 'Enter') {
             if (message.trim().length > 0) {
                 handleSendMessageClick();
+                return;
             }
             toast.error('Message cannot be empty');
 
