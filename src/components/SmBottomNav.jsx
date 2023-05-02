@@ -30,11 +30,11 @@ const SmBottomnNav = () => {
     return (
         <div className={styles.bottomContainer}>
             <div className={styles.homeIcon}>
-            <Link to='/' > <img style={{height: 40}}  src={home} /> </Link>
+                <Link to='/' > <img style={{height: 40}}  src={home} /> </Link>
             </div>
 
             <div className={styles.searchIcon}>
-                <img style={{height: 35}}  src={explore} />
+                <Link to='/search' > <img style={{height: 35}}  src={explore} /> </Link>
             </div>
 
             <div className={styles.uploadIcon}>

@@ -1,0 +1,109 @@
+
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        width: 90%;
+        padding: 10px;
+
+
+        input {
+            background-color: #0F1216;
+            padding: 13px;
+            width: 90%;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 1rem;
+            transition: all .5s ease;
+            cursor: pointer;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+
+        input::-webkit-input-placeholder {
+            padding-left: 0px;
+            
+        }
+
+        input:focus, input:hover {
+            outline: none;
+            box-shadow: 0px 0px 0px 1.5px #242E38;
+        }
+
+        .searchIcon {
+            position: relative;
+            font-size: 1.1rem;
+            color: white;
+            margin-right: -30px;
+            transition: all .5s ease;
+
+        }
+
+        .cancelButton {
+            margin-left: 10px;
+            font-weight: 600;
+
+        }
+
+    }
+
+    .results {
+
+        display: flex;
+        flex-direction: column;
+        
+        
+        padding: 20px;
+        
+        width: 85%;
+
+
+
+        .result {
+            display: flex;
+            background-color: #0F1216;
+            box-shadow: 0px 0px 0px 1.5px #242E38;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .result:hover {
+            background-color: #242E38;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .result a {
+            display: flex;
+        }
+
+        .result .resultsAvatar {
+            height: 50px;
+        }
+
+        
+    }
+
+    .noResults {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        color: white;
+        font-size: 1.2rem;
+
+        svg {
+            margin-right: 10px;
+        }
+    }
+}

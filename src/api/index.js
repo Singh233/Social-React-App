@@ -132,8 +132,8 @@ export const addFriend = (fromUserId, toUserId) => {
     });
 }
 
-export const removeFriend = (userId) => {
-    return customFetch(API_URLS.removeFriend(userId), {
+export const removeFriend = (fromUserId, toUserId) => {
+    return customFetch(API_URLS.removeFriend(fromUserId, toUserId), {
         method: 'POST',
     });
 }

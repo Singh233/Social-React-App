@@ -72,17 +72,6 @@ const UserProfile = () => {
     
         window.addEventListener('scroll', handleScroll);
 
-        
-
-    
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    
-
-    useEffect(() => {
         const getuser = async () => {
             const response = await fetchUserProfile(userId);
             if (response.success) {
@@ -100,7 +89,35 @@ const UserProfile = () => {
         
 
         getuser();
+        setIsFriend(checkIfUserIsAFriend());
+
+    
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, [userId]);
+
+    
+
+    // useEffect(() => {
+    //     const getuser = async () => {
+    //         const response = await fetchUserProfile(userId);
+    //         if (response.success) {
+    //             setLoading(false);
+    //             setUser(response.data.user);
+    //         } else {
+    //             setLoading(false);
+    //             toast.error(response.message);
+    //             return navigate('/');
+    //         }
+
+            
+    //     }
+
+        
+
+    //     getuser();
+    // }, [userId]);
 
 
     if (loading) {
@@ -140,8 +157,11 @@ const UserProfile = () => {
     const handleRemoveFriendClick = async () => {
         setRequestInProgress(true);
 
+        const fromUserId = auth.user._id;
+        const toUserId = userId;
+
         // const response = await removeFriend(auth.user._id);
-        const response = await toast.promise(removeFriend(auth.user._id), {
+        const response = await toast.promise(removeFriend(fromUserId, toUserId), {
             loading: 'Removing friend...',
             success: 'Friend removed successfully!',
             error: 'Something went wrong!'

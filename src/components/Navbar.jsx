@@ -12,7 +12,7 @@ import explore from '../styles/icon/explore2.png';
 
 // FAS Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHashtag } from '@fortawesome/free-solid-svg-icons';
+import { faHashtag, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -29,6 +29,7 @@ const Navbar = () => {
     const [results, setResults] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [showMessage, setShowMessage] = useState(false);
+    const [cancelIcon, setCancelIcon] = useState(false);
 
     const auth = useAuth();
 
@@ -38,17 +39,25 @@ const Navbar = () => {
             const response = await searchUsers(searchText);
 
             if (response.success) {
-                setResults(response.data.users);
-                // toast.success("User Found!")
+                // filter out the current user
+                const filteredUsers = response.data.users.filter(user => user._id !== auth.user._id);
+                setResults(filteredUsers);
+
+                if (response.data.users.length === 0) {
+                    toast.error('No users found');
+                }
+
             } else {
-                toast.error(response.message);
+                toast.error('Something went wrong');
             }
         }
 
-        if (searchText.length > 2) {
+        if (searchText.length > 0) {
             fetchUsers();
+            setCancelIcon(true);
         } else {
             setResults([]);
+            setCancelIcon(false);
         }
         
     }, [searchText])
@@ -86,6 +95,8 @@ const Navbar = () => {
     }
 
 
+
+
     return (
         <>
         
@@ -104,21 +115,25 @@ const Navbar = () => {
             </div> */}
 
             <div className={styles.searchBarNav}>
-                <FontAwesomeIcon className={styles.hashIcon}  icon={faHashtag} />
                 <FontAwesomeIcon className={styles.searchIcon}  icon={faMagnifyingGlass} />
                 <input   
                     placeholder='Explore'
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
+                {
+                    cancelIcon && <FontAwesomeIcon onClick={() => setSearchText('')} className={styles.cancelIcon}  icon={faXmark} />
+                }
+                
+
                 {results.length > 0 && 
-                    <div className={styles.resultsContainer}>
+                    <div className={`${styles.resultsContainer} animate__animated animate__fadeIn`}>
                         
                         {results.map(user => 
-                            <div className={styles.result}>
+                            <div className={`${styles.result} animate__animated animate__fadeIn`}>
                                 
                                 {/* <Link to={`/user/${user._id}`}> */}
-                                <Link to={"/user/" + user._id}>
+                                <Link to={"/users/profile/" + user._id}>
                                     <img className={styles.resultsAvatar}  src={profile} />
                                     <p>{user.name}</p>
                                 </Link>

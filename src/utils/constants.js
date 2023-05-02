@@ -17,8 +17,8 @@ export const API_URLS = {
     createFriendship: (fromUserId, toUserId) =>
         `${API_ROOT}/friends/add?from_user=${fromUserId}&to_user=${toUserId}`, //
     friends: () => `${API_ROOT}/users/fetch_user_friends`, //
-    removeFriend: (userId) =>
-        `${API_ROOT}/friends/remove?from=${userId}`, //
+    removeFriend: (fromUserId, toUserId) =>
+        `${API_ROOT}/friends/remove?from=${fromUserId}&to=${toUserId}`, //
 
     toggleLike: (itemId, itemType) =>
         `${API_ROOT}/likes/toggle?likeable_id=${itemId}&likeable_type=${itemType}`, // itemType is 'Post'/'Comment'
@@ -33,7 +33,7 @@ export const API_URLS = {
 
     getMessages: (from_user, to_user) => `${API_ROOT}/chat/private/${from_user}/${to_user}`,
     createMessage: (message, from_user, to_user) => `${API_ROOT}/chat/createmessage/${message}/${from_user}/${to_user}`,
-    searchUsers: (searchText) => `${API_ROOT}/users/search?text=${searchText}`,
+    searchUsers: (searchText) => `${API_ROOT}/users/search?search=${searchText}`,
 };
 
 export const LOCALSTORAGE_TOKEN_KEY = '__social_token__';

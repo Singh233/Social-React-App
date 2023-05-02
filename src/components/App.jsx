@@ -10,6 +10,7 @@ import { getItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage
 import Messaging from '../pages/Messaging';
 import socketIo from 'socket.io-client';
 import env from '../utils/env';
+import Search from '../pages/Search';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -78,6 +79,16 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          <Route
+            path="/search"
+            element={
+              <PrivateRoute>
+                <Search />
+                <SmBottomnNav />
+              </PrivateRoute>
+            }
+          />    
 
           <Route
             path="/settings"
