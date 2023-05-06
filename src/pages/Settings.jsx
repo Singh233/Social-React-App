@@ -168,7 +168,7 @@ const Settings = () => {
 
                     <div className={styles.followers}>
                         <p className={styles.header}>Followers</p>
-                        <p className={styles.stat} >{auth.user.followers.length}</p>
+                        <p className={styles.stat} >{auth.user.followersCount}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartLine} />
                     </div>
 
@@ -176,7 +176,7 @@ const Settings = () => {
 
                     <div className={styles.following}>
                         <p className={styles.header}>Following</p>
-                        <p className={styles.stat} >{auth.user.following.length}</p>
+                        <p className={styles.stat} >{auth.user.followingCount}</p>
                         <FontAwesomeIcon className={styles.icon}  icon={faChartSimple} />
                     </div>
 

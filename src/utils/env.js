@@ -3,7 +3,7 @@ const development = {
     API_URL: 'http://localhost:8000/api/v1/',
     google_client_id: process.env.VITE_GOOGLE_CLIENT_ID,
     file_url: 'http://localhost:8000',
-    socket_url: 'https://localhost:4000',
+    socket_url: 'http://localhost:4000',
 }
 
 const production = {

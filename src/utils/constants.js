@@ -18,7 +18,7 @@ export const API_URLS = {
         `${API_ROOT}/friends/add?from_user=${fromUserId}&to_user=${toUserId}`, //
     friends: () => `${API_ROOT}/users/fetch_user_friends`, //
     removeFriend: (fromUserId, toUserId) =>
-        `${API_ROOT}/friends/remove?from=${fromUserId}&to=${toUserId}`, //
+        `${API_ROOT}/friends/remove?from_user=${fromUserId}&to_user=${toUserId}`, //
 
     toggleLike: (itemId, itemType) =>
         `${API_ROOT}/likes/toggle?likeable_id=${itemId}&likeable_type=${itemType}`, // itemType is 'Post'/'Comment'
@@ -31,8 +31,9 @@ export const API_URLS = {
     editUser: () => `${API_ROOT}/users/edit`,
     userInfo: (userId) => `${API_ROOT}/users/profile/${userId}`, //
 
-    getMessages: (from_user, to_user) => `${API_ROOT}/chat/private/${from_user}/${to_user}`,
-    createMessage: (message, from_user, to_user) => `${API_ROOT}/chat/createmessage/${message}/${from_user}/${to_user}`,
+    getMessages: (roomType, from_user, to_user, chatRoomId) => `${API_ROOT}/chat/${roomType}/${from_user}/${to_user}/${chatRoomId}`,
+    createMessage: (message, roomType, from_user, to_user, chatRoomId) => `${API_ROOT}/chat/createmessage/${message}/${roomType}/${from_user}/${to_user}/${chatRoomId}`,
+
     searchUsers: (searchText) => `${API_ROOT}/users/search?search=${searchText}`,
 };
 

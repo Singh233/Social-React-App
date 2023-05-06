@@ -129,8 +129,8 @@ const Navbar = () => {
                 {results.length > 0 && 
                     <div className={`${styles.resultsContainer} animate__animated animate__fadeIn`}>
                         
-                        {results.map(user => 
-                            <div className={`${styles.result} animate__animated animate__fadeIn`}>
+                        {results.map((user, index) => 
+                            <div key={index} className={`${styles.result} animate__animated animate__fadeIn`}>
                                 
                                 {/* <Link to={`/user/${user._id}`}> */}
                                 <Link to={"/users/profile/" + user._id}>

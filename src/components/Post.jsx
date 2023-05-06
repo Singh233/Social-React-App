@@ -87,9 +87,9 @@ const Post = ({post}) => {
 
         if (response.success) {
             if (response.data.deleted) {
-                toast.success("Like removed!");
+                // toast.success("Like removed!");
             } else {
-                toast.success("Like added!");
+                // toast.success("Like added!");
             }
             
         } else {
@@ -122,7 +122,6 @@ const Post = ({post}) => {
         });
 
         if (response.success) {
-            toast.success("Post deleted successfully!");
             posts.deletePost(post._id);
         } else {
             toast.error(response.message);
@@ -138,11 +137,18 @@ const Post = ({post}) => {
             <div className={styles.header}>
                 <div className={styles.userInfo}>
                     <img style={{height: 50, width: 50}} src={avatar} />
-                    <Link to={{
-                        pathname: `/users/profile/${post.user._id}`,
-                    }} state={{user: post.user}}>
-                        {post.user.name}
-                    </Link>
+                    {
+                        post.user._id === auth.user._id ? (
+                            <Link to='/settings'>{post.user.name}</Link>
+                        ) : (
+                            <Link to={{
+                                pathname: `/users/profile/${post.user._id}`,
+                            }} state={{user: post.user}}>
+                                {post.user.name}
+                            </Link>
+                        )
+                    }
+                    
                 </div>
 
                 <div className={styles.menuButton}>
@@ -164,32 +170,24 @@ const Post = ({post}) => {
 
                 <div className={`${expandMenu ? styles.menuExpand + ' animate__animated animate__faster animate__fadeInUp' : styles.hide}`}>
                     <FontAwesomeIcon icon={faXmark} className={styles.closeIcon} onClick={() => setExpandMenu(!expandMenu)} />
-                    <div className={styles.menuItem}>
-                        
-                        {
-
-                        }
-                        {/* <div className={styles.group}>
-                            <div onClick={handlePostLikeClick} className={` ${styles.likeButton}`}>
-                                <img src={`${isLiked ? likeFill : like}`} className={`animate__animated ${isActive ? 'animate__bounceIn' : ''}  ${styles.iconBg}`}/>
-                                <p className={styles.likeCount}>  {likes}</p>
-                            </div>
-                            <div className={styles.commentButton}>
-                                <img src={comment} className={styles.iconBg}/>
-                                <p className={styles.likeCount}>{post.comments.length}</p>
-                            </div>
-                        </div> */}
-
-                        
+                    <div className={styles.menuItem}> 
                         {
                             post.user._id == auth.user._id && (
                                 <p onClick={handleDeletePostClick} className={styles.delete}> <FontAwesomeIcon icon={faTrash} className={`${styles.icon} `} /> Delete Post</p>
                             )
                         }
                         <p>
-                            <Link to={`/users/profile/${post.user._id}`}>
-                                <FontAwesomeIcon icon={faUser} className={`${styles.icon} `} />Go to Profile
-                            </Link>
+                            {
+                                post.user._id === auth.user._id ? (
+                                    <Link to='/settings'>
+                                        <FontAwesomeIcon icon={faUser} className={`${styles.icon} `} />Go to Profile
+                                    </Link>
+                                ) : (
+                                    <Link to={`/users/profile/${post.user._id}`}>
+                                        <FontAwesomeIcon icon={faUser} className={`${styles.icon} `} />Go to Profile
+                                    </Link>
+                                )
+                            }
                         </p>
                         
                     </div>

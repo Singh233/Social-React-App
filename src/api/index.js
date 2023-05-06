@@ -60,7 +60,6 @@ const customFetch = async (url, {body, ...customConfig}) => {
         }
         throw new Error(data.message);
     } catch (error) {
-        console.log('error', error);
         return {
             message: error.message,
             success: false
@@ -225,16 +224,16 @@ export const searchUsers = (searchText) => {
 }
 
 // fetch messages 
-export const fetchMessages = (from_user, to_user) => {
-    return customFetch(API_URLS.getMessages(from_user, to_user), {
+export const fetchMessages = (roomType, from_user, to_user, chatRoomId) => {
+    return customFetch(API_URLS.getMessages(roomType, from_user, to_user, chatRoomId), {
         method: 'GET',
         
     })
 }
 
 // create message
-export const createMessage = (content, from_user, to_user) => {
-    return customFetch(API_URLS.createMessage(content, from_user, to_user), {
+export const createMessage = (roomType, content, from_user, to_user, chatRoomId) => {
+    return customFetch(API_URLS.createMessage(content, roomType, from_user, to_user, chatRoomId), {
         method: 'POST',
     })
 }

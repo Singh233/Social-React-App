@@ -108,7 +108,7 @@ const Login = () => {
                                     handleGoogleLogin(response, 'login');
                                 }}
                                 onError={() => {
-                                    console.log('Login Failed');
+                                    // console.log('Login Failed');
                                 }}
                                 theme="filled_blue"
                                 size="large"
@@ -130,7 +130,7 @@ const Login = () => {
 
                                 }}
                                 onError={() => {
-                                    console.log('Login Failed');
+                                    // console.log('Login Failed');
                                 }}
                                 theme="filled_blue"
                                 size="large"

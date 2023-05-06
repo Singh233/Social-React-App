@@ -11,6 +11,8 @@ import env from '../utils/env';
 const FriendList = ({friends}) => {
 
 
+    console.log(friends)
+
     return (
         <div className={styles.friendsListCard}>
                 <div className={styles.heading} >
@@ -19,7 +21,7 @@ const FriendList = ({friends}) => {
 
                 <div className={styles.list}>
                     {
-                        friends && friends.map((friend) => (
+                        friends && friends.map((friend) => friend.status === 'accepted' && (
                             <div key={`friend-${friend._id}`} className={styles.friend}>
                                 {/* <div className={styles.status}>
 

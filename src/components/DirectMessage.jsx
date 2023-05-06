@@ -38,7 +38,7 @@ export default function DirectMessage(props) {
         // scroll to bottom
         // fetch chat messages
         const getMessages = async () => {
-            const response = await fetchMessages(auth.user._id, friend._id); // fetch messages from_user, to_user
+            const response = await fetchMessages('private', auth.user._id, friend._id, chatRoom); // fetch messages from_user, to_user
             if (response.success) {
                 // console.log(response.data.chatRoom.messages);
                 setMessages(response.data.chatRoom.messages);
@@ -69,7 +69,6 @@ export default function DirectMessage(props) {
 
         let from_user = auth.user._id;
         let to_user = friend._id;
-        let chatRoom = from_user + to_user;
 
 
         socket.emit('send_private_message', {
@@ -83,7 +82,7 @@ export default function DirectMessage(props) {
             chatroom: chatRoom
         });
         setMessage('');
-        const response = await createMessage(message, from_user, to_user);
+        const response = await createMessage('private', message, from_user, to_user, chatRoom);
         if (response.success) {
             // console.log('added to db', response.data);
         }
@@ -99,11 +98,11 @@ export default function DirectMessage(props) {
     socket.on('receive_private_message', function(data){
 
         // check if the chatroom is the same as the current chatroom
-        if (data.from_user + data.to_user === chatRoom || data.to_user + data.from_user === chatRoom) {
+        if (data.chatroom === chatRoom) {
             // console.log('Chatroom is the same');
             // if from_user is the same as the auth user
             if (data.from_user === auth.user._id) {
-                // console.log('From user is the same as auth user');
+
                 // add the message to the messages list
                 setMessages([...messages, {
                     message: data.message,
@@ -162,7 +161,6 @@ export default function DirectMessage(props) {
         } else {
             let from_user = auth.user._id;
             let to_user = friend._id;
-            let chatRoom = from_user + to_user;
 
             // fire typingPrivate event
             socket.emit('typingPrivate', {
@@ -199,10 +197,9 @@ export default function DirectMessage(props) {
         // console.log('typing')
         const to_user = friend._id;
         const from_user = auth.user._id;
-        let chatRoomOne = to_user + from_user;
-        let chatRoomTwo = from_user + to_user;
 
-        if (data.chatroom == chatRoomOne || data.chatroom == chatRoomTwo){
+
+        if (data.chatroom === chatRoom){
 
             if (data.from_user !== from_user){
 
