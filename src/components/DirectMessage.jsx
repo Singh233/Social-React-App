@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { createMessage, fetchMessages } from '../api';
 import toast from 'react-hot-toast';
+import moment from 'moment';
 
 export default function DirectMessage(props) {
     const { setIsDirectMessageOpen, user, chatRoom } = props;
@@ -252,7 +253,7 @@ export default function DirectMessage(props) {
                                 {friend.posts.length} posts <span className={styles.dot}></span> {friend.followers.length} followers <span className={styles.dot}></span> {friend.following.length} following
                             </div>
                             <p className={styles.joinInfo}>
-                                Joined 2 years ago
+                                Joined {moment(friend.createdAt).format('MMMM YYYY')}
                             </p>
 
                             <Link to={`/users/profile/${friend._id}`} className={styles.viewProfile}>

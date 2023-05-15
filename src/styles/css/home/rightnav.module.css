@@ -1,322 +1,293 @@
-
-
 .container {
-    display: flex;
-    flex-direction: column;
-    /* background-color: #0F1216; */
-    border-radius: 30px;
-    /* position: sticky;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #0F1216; */
+  border-radius: 30px;
+  /* position: sticky;
     top: 0; */
 
-    position: fixed;
-    right: 0;
+  position: fixed;
+  right: 0;
 }
-
 
 /* Profile Card */
 
 .profileCard {
-    height: 41vh;
-    width: 24vw;
-    min-width: 300px;
-    background-color: #0F1216;
-    border-radius: 30px;
-    margin: 10px;
-    min-width: 325px;
-
+  height: 41vh;
+  width: 24vw;
+  min-width: 300px;
+  background-color: #0f1216;
+  border-radius: 30px;
+  margin: 10px;
+  min-width: 325px;
+  background: rgb(255, 138, 100);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 138, 100, 1) 0%,
+    rgba(255, 100, 51, 1) 21%,
+    rgba(186, 45, 0, 1) 50%,
+    rgba(62, 0, 0, 1) 100%
+  );
 }
 
 .profileCard .header {
-    height: 230px;
-    background-image: url('../../img/summerbg.jpg');
-    background-size: cover;
-    border-radius: 20px 20px 0 0;
+  height: 230px;
+  /* background-image: url('../../img/summerbg.jpg'); */
+  background-size: cover;
+  border-radius: 20px 20px 0 0;
 }
 
 .profileCard .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    height: auto;
+  height: auto;
 
-    background-color: #0F1216;
-    padding-bottom: 20px;
+  /* background-color: #0F1216; */
+  padding-bottom: 20px;
 
-    /* background-color: rgba(185, 185, 185, 0.202);
+  /* background-color: rgba(185, 185, 185, 0.202);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px); */
-    margin-top: -130px;
-    border-radius: 0 0 0 0;
+  margin-top: -130px;
+  border-radius: 0 0 0 0;
 }
 
 .profileCard .main .avatar {
-    /* background-color: black;
+  /* background-color: black;
     border-radius: 50%; */
-    height: 120px;
-    margin-top: -60px;
+  height: 120px;
+  margin-top: -60px;
 }
 
 .profileCard .main .userName {
-    margin: 5px;
-    font-size: 1.5rem;
-    margin-top: -10px;
-    font-weight: 600;
+  margin: 5px;
+  font-size: 1.5rem;
+  margin-top: -10px;
+  font-weight: 600;
 }
 
 .profileCard .main .bio {
-    margin: 5px;
-    width: 180px;
-    text-align: center;
+  margin: 5px;
+  width: 180px;
+  text-align: center;
 }
 
-
-
 .profileCard .stats {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
-    border-top: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin: 15px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+  border-top: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 
-    border: 1px solid rgba( 255, 255, 255, 0.18 );    
-    border-radius: 20px;
-    
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
 }
 
 .profileCard .stats .border {
-    align-self: center;
-    justify-self: center;
-    height: 40px;
-    width: 1px;
-    background-color: rgb(147, 147, 147);
+  align-self: center;
+  justify-self: center;
+  height: 40px;
+  width: 1px;
+  background-color: rgb(255, 255, 255);
 }
 
-
-
-.profileCard .stats .followers, .following {
-    /* border-right: 1px solid rgba( 255, 255, 255, 0.18 );     */
-    display: flex;
-    flex-direction: column;
-    
+.profileCard .stats .followers,
+.following {
+  /* border-right: 1px solid rgba( 255, 255, 255, 0.18 );     */
+  display: flex;
+  flex-direction: column;
 }
 
-.profileCard .stats .followers .stat, .following .stat {
-    margin: 5px;
-    font-size: 1.5rem;
-    font-weight: 600;
+.profileCard .stats .followers .stat,
+.following .stat {
+  margin: 5px;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
-
 
 .icon {
-    margin-top: 5px;
-    font-size: 0.85rem;
-    color: #a9a9a9;
-
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #a9a9a9;
 }
 
-
-
 .profileCard .stats .sHeader {
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin: 5px;
-    text-transform: uppercase;
-    color: #a9a9a9;
-    
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 5px;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
 .profileCard .stats .footer {
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin: 5px;
-    text-transform: uppercase;
-    color: #a9a9a9;
-
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin: 5px;
+  text-transform: uppercase;
+  color: #a9a9a9;
 }
 
-
 .profileCard .footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .profileCard .footer a {
-    color: #1B90FF;
-    padding: 10px;
+  color: #ffffff;
+  padding: 10px;
+  font-weight: 700;
 }
-
-
-
-
-
 
 /* Friends list card */
 
 .friendsListCard {
-    height: 41vh;
-    width: 22vw;
-    min-width: 300px;
+  height: 41vh;
+  width: 22vw;
+  min-width: 300px;
 
-    background-color: #0F1216;
-    border-radius: 30px;
-    margin: 10px;
-    margin-top: 5px;
-    padding: 10px;
+  background-color: #0f1216;
+  border-radius: 30px;
+  margin: 10px;
+  margin-top: 5px;
+  padding: 10px;
 
-    position: relative;
-
-
-    
-    
+  position: relative;
 }
 
-
-
 .friendsListCard .heading {
-    margin: 20px;
-    margin-bottom: 5px;
-    font-size: 1.2rem;
-    font-weight: 600;
+  margin: 20px;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .friendsListCard .list {
-    height: 67%;
-    margin: 10px 15px;
-    margin-top: 30px;
-    padding: 0px 0px;
-    border-radius: 30px;
-    /* border-top: 1px solid rgba( 255, 255, 255, 0.18 );
+  height: 77%;
+  margin: 10px 15px;
+  margin-top: 30px;
+  padding: 0px 0px;
+  border-radius: 30px;
+  /* border-top: 1px solid rgba( 255, 255, 255, 0.18 );
     border-right: 1px solid rgba( 255, 255, 255, 0.18 );
     border-left: 1px solid rgba( 255, 255, 255, 0.18 ); */
-    overflow-y: auto;
+  overflow-y: auto;
+  overscroll-behavior: none;
 }
 
 .friendsListCard .list::-webkit-scrollbar {
-    background-color: rgb(0, 0, 0);
-    border-radius: 10px;
-    width: 12px !important;
-
+  background-color: rgb(0, 0, 0);
+  border-radius: 10px;
+  width: 12px !important;
 }
 
 .friendsListCard .list::-webkit-scrollbar-thumb {
-    background-color: rgb( 255, 255, 255, 0.18 );
-    border-radius: 20px;
+  background-color: rgb(255, 255, 255, 0.18);
+  border-radius: 20px;
 }
 
-
 .friendsListCard .list .friend {
-    display: grid;
-    grid-template-columns: auto auto 1fr auto;
-    align-items: center;
-    /* border-bottom: 1px solid rgba( 255, 255, 255, 0.18 ); */
-    border-radius: 20px;
-    transition: 0.2s all ease;
-    
-
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  /* border-bottom: 1px solid rgba( 255, 255, 255, 0.18 ); */
+  border-radius: 20px;
+  transition: 0.2s all ease;
 }
 
 .friendsListCard .list .friend:hover {
-    background-color: #000000;
-
+  background-color: #000000;
 }
 
 .status {
-    height: 10px;
-    width: 10px;
-    background-color: #36a41d;
-    border-radius: 50%;
-    margin-left: 10px;
+  height: 10px;
+  width: 10px;
+  background-color: #36a41d;
+  border-radius: 50%;
+  margin-left: 10px;
 }
 
 .userName {
-    justify-self: start;
+  justify-self: start;
 }
 
-
 .messageIcon {
-    height: 35px;
-    justify-self: flex-end;
-    padding: 10px;
-    margin-right: 5px;
-    /* background-color: white;
+  height: 35px;
+  justify-self: flex-end;
+  padding: 10px;
+  margin-right: 5px;
+  /* background-color: white;
     color: black;
     border-radius: 20px;
     padding: 7px 20px; */
 }
 
 .avatar {
-    height: 70px;
+  height: 70px;
 }
 
 .profile {
-    height: 45px;
-    width: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 10px;
-    margin-right: 15px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 10px;
+  margin-right: 15px;
 }
 
-
 .friendsListCard .noFriends {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: auto;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #a9a9a9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #a9a9a9;
 }
 
 .friendsListCard .noFriends .exploreButton {
-    padding: 10px 20px;
-    border-radius: 20px;
-    background-color: #1B90FF;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s all ease;
-    border: none;
-    border: 1px solid #1B90FF;
-
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #1b90ff;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s all ease;
+  border: none;
+  border: 1px solid #1b90ff;
 }
 
 .friendsListCard .noFriends .exploreButton:hover {
-    background-color: #0F1216;
-    color: #1B90FF;
-    border: 1px solid #1B90FF;
+  background-color: #0f1216;
+  color: #1b90ff;
+  border: 1px solid #1b90ff;
 }
 
 .footer {
-    display: flex;
-    color: #1B90FF;
-    margin-top: -10px;
-    padding-left: 20px;
-    font-size: 1rem;
-    font-weight: 500;
-    
+  display: flex;
+  color: #1b90ff;
+  margin-top: -10px;
+  padding-left: 20px;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-
-
-
 @media screen and (max-width: 425px) {
-    .container {
-        display: none;
-    }
-
+  .container {
+    display: none;
+  }
 }

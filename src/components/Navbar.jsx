@@ -2,7 +2,7 @@ import styles from '../styles/css/navbar.module.css';
 import { ReactDOM, useEffect, useState } from 'react';
 
 import Chat from './Chat';
-
+import env from '../utils/env';
 // Icons
 import homeIcon from '../styles/icon/home.png';
 import notification from '../styles/icon/notification2.png';
@@ -134,7 +134,12 @@ const Navbar = () => {
                                 
                                 {/* <Link to={`/user/${user._id}`}> */}
                                 <Link to={"/users/profile/" + user._id}>
-                                    <img className={styles.resultsAvatar}  src={profile} />
+                                    {
+                                        user.avatar ? 
+                                        <img className={styles.resultsAvatar}  src={`${env.file_url}${user.avatar}`} />
+                                        :
+                                        <img style={{height: 50}}  src={profile} />
+                                    }
                                     <p>{user.name}</p>
                                 </Link>
                             </div>
@@ -145,9 +150,9 @@ const Navbar = () => {
             </div>
 
             <div className={styles.navOptions}>
-                <img onClick={auth.logout}  style={{height: 50, marginRight: -10}}  src={send} />
-                <img style={{height: 40, marginRight: -8}}  src={notification} />
-                <img style={{height: 45}}  src={explore} />
+                <img style={{height: 50}}  src={send} />
+                <img onClick={() => toast.success('In progress')} style={{height: 40}}  src={notification} />
+                {/* <img style={{height: 45}}  src={explore} /> */}
                 <img style={{height: 28, width: 28}}  src={notification} />
                 <Link onMouseOver={profileHover} onMouseLeave={profileLeave} className={styles.avatar} > <img className={styles.avatar}  src={profile} /> </Link> 
 

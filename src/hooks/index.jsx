@@ -234,7 +234,7 @@ export const useProvideAuth = () => {
     navigate('/login');
   };
 
-  const updateUserFriends = (addFriend, friend) => {
+  const updateUserFriends = async (addFriend, friend) => {
     if (addFriend) {
       // console.log('user followring', user.following);
       let isAlreadyFollowing = false;
@@ -254,10 +254,18 @@ export const useProvideAuth = () => {
         newfollowing = [...newfollowing, friend];
       }
 
+      const userFriendsResponse = await fetchUserFriends();
+
+      let friends = [];
+      if (userFriendsResponse.success) {
+        friends = userFriendsResponse.data.friends;
+      }
+
       setUser({
         ...user,
         following: newfollowing,
         followingCount: user.followingCount + 1,
+        friends,
       });
       return;
     } else {

@@ -200,7 +200,8 @@ $button-color-ligth-blue: #4db1ff;
                 height: 100%;
         
                 overflow: auto;
-        
+                overscroll-behavior: none;
+
                 // hide scrollbar
                 &::-webkit-scrollbar {
                     display: none;

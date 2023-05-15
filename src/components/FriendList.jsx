@@ -11,7 +11,7 @@ import env from '../utils/env';
 const FriendList = ({friends}) => {
 
 
-    console.log(friends)
+
 
     return (
         <div className={styles.friendsListCard}>
@@ -48,11 +48,11 @@ const FriendList = ({friends}) => {
                     )
                 }
                 {
-                    friends.length > 3  && (
-                        <div className={styles.footer}>
-                            <p>Show more</p>
-                        </div>
-                    )
+                    // friends.length > 3  && (
+                    //     <div className={styles.footer}>
+                    //         <p>Show more</p>
+                    //     </div>
+                    // )
                 }
                 
 

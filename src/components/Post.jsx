@@ -207,7 +207,7 @@ const Post = ({post}) => {
                 </div>
 
                 <div className={styles.rightIcons}>
-                    <div className={styles.saveButton}>
+                    <div onClick={() => toast.success('Coming soon!')} className={styles.saveButton}>
                         <img src={save} className={styles.iconBg}/>
                     </div>
                 </div>
