@@ -50,7 +50,7 @@ https://chillsanam.me/ 🚀
 Clone the project
 
 ```bash
-  git clone https://github.com/Singh233/Social-Web-App.git
+  git clone https://github.com/Singh233/Social-React-App.git
 ```
 
 Go to the project directory
@@ -100,21 +100,18 @@ To run this project, you will need to add the following environment variables to
 `VITE_GOOGLE_CLIENT_ID`
 
 
-
+## API Reference
+https://github.com/Singh233/Social-Media-API
 
 
 
 ## Screenshots
 
-<img width="1532" alt="Screenshot 2023-04-19 at 12 01 34 AM" src="https://user-images.githubusercontent.com/37498067/232870916-825cf3b1-4c62-4223-9459-d76c639034ff.png">
-<img width="1532" alt="Screenshot 2023-04-25 at 3 57 04 PM" src="https://user-images.githubusercontent.com/37498067/234249926-d21ddf2e-e3a3-4429-84ab-b1bb43c4a6ac.png">
-
-<img width="1532" alt="Screenshot 2023-04-19 at 12 02 09 AM" src="https://user-images.githubusercontent.com/37498067/232870978-bed5a0b7-8b80-48fc-b42e-378a23cb9db3.png">
-
+![241shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/a73f182a-8a65-4c99-a387-530083393627)
+![29shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/280f53d0-33d3-4d16-b5b5-beccf15a5a3f)
+![311shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/0074ec24-5413-4a2a-ac26-5d9c87246813)
 
 
-## API Reference
-Coming soon 🛠️
 
 ## Contributing
 
