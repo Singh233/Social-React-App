@@ -7,6 +7,7 @@ import dummyImg from '../styles/img/dummy.jpeg';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -226,6 +227,17 @@ export default function DirectMessage(props) {
 
     return (
         <div className={styles.container}>
+            {
+                // show overlay if chat is hidden
+                auth.hideMessage && (
+                <div className={`${styles.overlayForHide} animate__animated animate__fadeIn`}>
+                    <FontAwesomeIcon icon={faEyeSlash} className={styles.hideIcon} />
+                    <p>
+                    Chat Hidden
+                    </p>
+                </div> 
+                )
+            }
             <div className={styles.topContainer}>
                 <div className={styles.header}>
                     <FontAwesomeIcon className={styles.backIcon} onClick={() => setIsDirectMessageOpen(false)} icon={faChevronLeft} />

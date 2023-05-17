@@ -43,6 +43,8 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const auth = useAuth();
 
+  const [messageUser, setMessageUser] = useState(null);
+
   const checkIfUserIsAFriend = () => {
     const friends = auth.user.following;
     // console.log('friends', friends)
@@ -99,11 +101,8 @@ const UserProfile = () => {
     getuser();
     setIsFriend(checkIfUserIsAFriend());
 
-    return () => {
-
-    };
+    return () => {};
   }, [userId]);
-
 
   if (loading) {
     return <Loader />;
@@ -160,6 +159,31 @@ const UserProfile = () => {
     setRequestInProgress(false);
   };
 
+  const handleMessageClick = () => {
+    // check if the screen is mobile
+    
+
+    const friends = auth.user.following;
+    // console.log('friends', friends)
+
+    if (friends === undefined) {
+      return false;
+    }
+
+    const friendsId = friends.map((friend) => friend.to_user._id);
+    const index = friendsId.indexOf(userId);
+
+    if (index !== -1 && friends[index]) {
+      if (window.innerWidth <= 450) {
+        navigate(`/messages`);
+      }
+      auth.handleUserMessageClick(friends[index]);
+    } else {
+      toast.success(`Follow ${user.name} to send message`)
+    }
+    
+  };
+
   return (
     <div className={styles.settingsContainer}>
       <LoadingBar color="#f11946" progress="100" />
@@ -205,7 +229,11 @@ const UserProfile = () => {
                 Follow
               </button>
             )}
-            <button>Message</button>
+            <button
+              onClick={ handleMessageClick}
+            >
+              Message
+            </button>
           </div>
 
           {/* <div className={styles.stats}>

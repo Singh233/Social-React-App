@@ -30,6 +30,10 @@ export const useProvideAuth = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // state for hide message component
+  const [hideMessage, setHideMessage] = useState(false);
+  // state for user message icon click
+  const [userMessageClick, setUserMessageClick] = useState(null);
 
   // make socket connection
   const [socket, setSocket] = useState(null);
@@ -305,6 +309,17 @@ export const useProvideAuth = () => {
     }
   };
 
+  // function to hide message
+  const toggleMessageHide = () => {
+    setHideMessage(!hideMessage);
+  };
+
+  // handle user message click
+  const handleUserMessageClick = (user) => {
+    setUserMessageClick(user);
+
+  };
+
   return {
     user,
     login,
@@ -312,6 +327,10 @@ export const useProvideAuth = () => {
     signUp,
     logout,
     loading,
+    hideMessage,
+    userMessageClick,
+    handleUserMessageClick,
+    toggleMessageHide,
     updateUser,
     updateUserFriends,
     updateUserPosts,

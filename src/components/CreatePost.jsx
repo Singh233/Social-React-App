@@ -20,9 +20,12 @@ import 'filepond/dist/filepond.min.css';
 import '../styles/css/home/filepond.css';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 // Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileValidateType, FilePondPluginFileValidateSize)
 
 const CreatePost = () => {
     const [post, setPost] = useState('');
@@ -109,6 +112,11 @@ const CreatePost = () => {
                         }
                         allowMultiple={false}
                         maxFiles={1}
+                        allowFileTypeValidation={true}
+                        acceptedFileTypes={['image/*']}
+                        allowFileSizeValidation={true}
+                        maxFileSize={'5MB'}
+
                         
                         name="filepond" /* sets the file input name, it's filepond by default */
                         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
@@ -127,7 +135,10 @@ const CreatePost = () => {
                         
                 </button>
                 {/* <p className={styles.info}>or</p>     */}
-                <button className={styles.videoButton} onClick={toggleFileUpload} disabled={addingPost}>
+                <button className={styles.videoButton} onClick={() => {
+                    toast.success('Video upload is coming soon!');
+                    toggleFileUpload();
+                }} disabled={addingPost}>
                     <img  className={styles.icon} src={videoIcon} />
                     <p>Video</p>
                 </button> 

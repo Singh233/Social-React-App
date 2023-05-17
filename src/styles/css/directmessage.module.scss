@@ -26,7 +26,36 @@ $button-color-ligth-blue: #4db1ff;
     background: rgb(5,5,19);
     background: linear-gradient(169deg, rgba(5,5,19,1) 0%, rgba(20,16,64,1) 30%, rgba(42,36,142,1) 60%, rgba(86,80,187,1) 90%);
 
+    .overlayForHide {
+        position: absolute;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        // glass morphism effect
+        background: rgba(48, 48, 48, 0.25);
+        backdrop-filter: blur( 10px );
+        -webkit-backdrop-filter: blur( 10px );
+        border-radius: 30px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        p {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: gray;
+        }
+
+        svg {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: gray;
+        }
+
+    }
     .topContainer {
         display: flex;
         flex-direction: column;

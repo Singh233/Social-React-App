@@ -1,6 +1,7 @@
 
 
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks';
 import styles from '../styles/css/home/rightnav.module.css';
 
 import message from '../styles/icon/message2.png';
@@ -10,6 +11,7 @@ import env from '../utils/env';
 
 const FriendList = ({friends}) => {
 
+    const auth = useAuth();
 
 
 
@@ -33,7 +35,11 @@ const FriendList = ({friends}) => {
                                     <p >{friend.to_user.name}</p>
                                 </Link>
                                 
-                                <img className={styles.messageIcon} src={message} />
+                                <img onClick={
+                                    () => {
+                                        auth.handleUserMessageClick(friend);
+                                    }
+                                } className={styles.messageIcon} src={message} />
                             </div>
                         ))
                     }

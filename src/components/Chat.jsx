@@ -11,6 +11,7 @@ import send from '../styles/icon/message.png';
 // icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useAuth, usePosts } from '../hooks';
@@ -168,6 +169,21 @@ const Chat = () => {
     setIsDirectMessageOpen(true);
   };
 
+  useEffect(() => {
+    if (auth.userMessageClick) {
+      if (isDirectMessageOpen) {
+        setIsDirectMessageOpen(false);
+        setTimeout(() => {
+          handleFriendClick(auth.userMessageClick);
+          auth.handleUserMessageClick(null)
+        }, 0);
+      } else {
+        handleFriendClick(auth.userMessageClick);
+        auth.handleUserMessageClick(null)
+      }
+    }
+  }, [auth.userMessageClick]);
+
   const handleGlobalChatClick = () => {
     let to_user = 'global';
     let from_user = auth.user._id;
@@ -211,6 +227,19 @@ const Chat = () => {
         />
       ) : (
         <div className={styles.chatContainer}>
+          {
+            // show overlay if chat is hidden
+            auth.hideMessage && (
+              <div className={`${styles.overlayForHide} animate__animated animate__fadeIn`}>
+                <FontAwesomeIcon icon={faEyeSlash} className={styles.hideIcon} />
+                <p>
+                  Chat Hidden
+                </p>
+              </div> 
+            )
+          }
+          
+
           <div className={styles.header}>
             <div className={styles.info}>
               <p className={styles.text}>
@@ -234,8 +263,9 @@ const Chat = () => {
             <div className={styles.searchBar}>
               <input
                 className={styles.searchInput}
-                placeholder="Search friends"
+                placeholder="Coming soon!"
                 type="text"
+                disabled
               />
               <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
             </div>
@@ -281,7 +311,7 @@ const Chat = () => {
                       </div>
                     </div>
                     <div className={styles.friendTime}>
-                      <p className={styles.time}>12:00</p>
+                      <p className={styles.time}></p>
                     </div>
                   </div>
                 );

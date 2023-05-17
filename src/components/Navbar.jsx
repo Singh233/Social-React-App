@@ -150,7 +150,11 @@ const Navbar = () => {
             </div>
 
             <div className={styles.navOptions}>
-                <img style={{height: 50}}  src={send} />
+                <img className={styles.messageIcon} onClick={
+                    () => {
+                        auth.toggleMessageHide();
+                    }
+                } style={{height: 50}}  src={send} />
                 <img onClick={() => toast.success('In progress')} style={{height: 40}}  src={notification} />
                 {/* <img style={{height: 45}}  src={explore} /> */}
                 <img style={{height: 28, width: 28}}  src={notification} />
