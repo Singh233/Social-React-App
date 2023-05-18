@@ -33,6 +33,9 @@ const Navbar = () => {
 
     const auth = useAuth();
 
+    const [timeout, setTimeoutState] = useState(null);
+
+
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -53,8 +56,16 @@ const Navbar = () => {
         }
 
         if (searchText.length > 0) {
-            fetchUsers();
-            setCancelIcon(true);
+            // add debouncing here
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            setTimeoutState(setTimeout(() => {
+                fetchUsers();
+                setCancelIcon(true);
+            }, 800));
+            
+
         } else {
             setResults([]);
             setCancelIcon(false);

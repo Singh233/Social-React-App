@@ -11,6 +11,7 @@ import Messaging from '../pages/Messaging';
 import socketIo from 'socket.io-client';
 import env from '../utils/env';
 import Search from '../pages/Search';
+import SmCreatePost from '../pages/SmCreatePost';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -80,6 +81,7 @@ function App() {
             }
           />
 
+          {/* For small devices */}
           <Route
             path="/search"
             element={
@@ -88,7 +90,19 @@ function App() {
                 <SmBottomnNav />
               </PrivateRoute>
             }
-          />    
+          />  
+
+          {/* For small devices */}
+          <Route
+            path="/upload"
+            element={
+              <PrivateRoute>
+                <Navbar />
+                <SmCreatePost />
+                <SmBottomnNav />
+              </PrivateRoute>
+            }
+          />   
 
           <Route
             path="/settings"

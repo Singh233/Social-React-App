@@ -38,10 +38,14 @@ const SmBottomnNav = () => {
             </div>
 
             <div className={styles.uploadIcon}>
-                <img style={{height: 35}}  src={upload} />
+            <Link to='/upload' > <img style={{height: 35}}  src={upload} /> </Link>
             </div>
 
-            <div className={styles.notificationIcon}>
+            <div onClick={
+                () => {
+                    toast.success('Coming Soon!')
+                }
+            } className={styles.notificationIcon}>
                 <img style={{height: 35}}  src={notification} />
             </div>
 
