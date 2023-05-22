@@ -35,10 +35,27 @@ const CreatePost = () => {
     const posts = usePosts();
     const auth = useAuth();
 
-    const handleAddPostClick = async () => {
+
+    // Throttling the add post function
+    const throttle = (func, limit) => {
+        let inThrottle = false;
+
+        return function() {
+            if (inThrottle) return;
+            inThrottle = true;
+            func(...arguments);
+            console.log('throttling')
+            setTimeout(() => {
+                inThrottle = false;
+            }, limit);
+
+        }
+    }
+
+    const addPostFunction = async () => {
         // validate the post
         if (post.length < 1) {
-            toast.error("Post cannot be empty");
+            toast.error("Caption cannot be empty");
             return;
         }
         // validate the file
@@ -70,6 +87,10 @@ const CreatePost = () => {
         // clear the file input
         setFile([]);
     }
+
+    const handleAddPostClick = throttle(addPostFunction, 1000);
+
+    
 
     const toggleFileUpload = () => {
         setShowFileUpload(!showFileUpload);
@@ -143,7 +164,7 @@ const CreatePost = () => {
                     <p>Video</p>
                 </button> 
 
-                <button className={styles.postButton} onClick={handleAddPostClick} disabled={addingPost}>
+                <button className={styles.postButton} onClick={ handleAddPostClick } disabled={addingPost}>
                     <p>{addingPost ? 'Adding' : 'Post'}</p>
                     
                     <FontAwesomeIcon className={styles.arrowIcon}  icon={faArrowRight} />

@@ -53,12 +53,12 @@ const Login = () => {
 
         if (response.success) {
             // console.log(auth);
-            setLoggingIn(false);
             navigate('/');
-            return toast.success("Successfully logged in!");
+            toast.success("Successfully logged in!");
         } else {
-            return toast.error(response.message);
+            toast.error(response.message);
         }
+        setLoggingIn(false);
     }
 
     const handleGoogleLogin = async (cred, type) => {
@@ -110,6 +110,7 @@ const Login = () => {
                                 onError={() => {
                                     // console.log('Login Failed');
                                 }}
+                                useOneTap
                                 theme="filled_blue"
                                 size="large"
                                 text='Sign in with Google'

@@ -53,6 +53,11 @@ const Post = ({post}) => {
 
 
     const handleCreateCommentClick = async () => {
+        if (commentContent.length < 1) {
+            toast.error("Comment cannot be empty");
+            return;
+        }
+
         setLoading(true);
         // console.log('inside comment')
 
@@ -73,13 +78,16 @@ const Post = ({post}) => {
 
 
     const handlePostLikeClick = async () => {
-        
         if (isLiked) {
             setLikes(likes - 1);
             setIsLiked(false);
+            posts.handlePostDislike(post, auth.user);
+
         } else {
             setLikes(likes + 1);
             setIsLiked(true);
+            posts.handlePostLike(post, auth.user);
+
         }
         setIsActive(true);
 
@@ -88,8 +96,11 @@ const Post = ({post}) => {
         if (response.success) {
             if (response.data.deleted) {
                 // toast.success("Like removed!");
+                // posts.handlePostDislike(post, auth.user);
+
             } else {
                 // toast.success("Like added!");
+                // posts.handlePostLike(post, auth.user);
             }
             
         } else {

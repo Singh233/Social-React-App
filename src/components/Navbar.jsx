@@ -63,7 +63,7 @@ const Navbar = () => {
             setTimeoutState(setTimeout(() => {
                 fetchUsers();
                 setCancelIcon(true);
-            }, 800));
+            }, 500));
             
 
         } else {

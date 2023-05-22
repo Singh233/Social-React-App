@@ -317,7 +317,6 @@ export const useProvideAuth = () => {
   // handle user message click
   const handleUserMessageClick = (user) => {
     setUserMessageClick(user);
-
   };
 
   return {
@@ -397,13 +396,44 @@ export const useProvidePosts = () => {
     setPosts(newPosts);
   };
 
+  // function to handle post like
+  const handlePostLike = (post, user) => {
+    const newPosts = posts.map((p) => {
+      if (p._id === post._id) {
+        return {
+          ...p,
+          likes: [
+            ...p.likes,
+            { user: user._id, likeable: post._id, onModel: 'Post' },
+          ],
+        };
+      }
+      return p;
+    });
+    setPosts(newPosts);
+  };
+
+  const handlePostDislike = (post, user) => {
+    const newPosts = posts.map((p) => {
+      if (p._id === post._id) {
+        return {
+          ...p,
+          likes: p.likes.filter((like) => like.user !== user._id),
+        };
+      }
+      return p;
+    });
+    setPosts(newPosts);
+  };
+
   return {
     data: posts,
     loading,
     addPostToState,
     addComment,
     deleteComment,
-
+    handlePostLike,
+    handlePostDislike,
     deletePost,
   };
 };
