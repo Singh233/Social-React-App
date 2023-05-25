@@ -13,6 +13,8 @@ export const API_URLS = {
     posts: (page, limit) => `${API_ROOT}/posts`,  //
     createPost: () => `${API_ROOT}/posts/create`, // 
     deletePost: (postId) => `${API_ROOT}/posts/delete/${postId}`, // 
+    savePost: (postId) => `${API_ROOT}/posts/save/${postId}`, //
+    unsavePost: (postId) => `${API_ROOT}/posts/unsave/${postId}`, //
 
     createFriendship: (fromUserId, toUserId) =>
         `${API_ROOT}/friends/add?from_user=${fromUserId}&to_user=${toUserId}`, //
@@ -24,6 +26,7 @@ export const API_URLS = {
         `${API_ROOT}/likes/toggle?likeable_id=${itemId}&likeable_type=${itemType}`, // itemType is 'Post'/'Comment'
     getLikes: (itemId, itemType) =>
         `${API_ROOT}/likes?likeable_id=${itemId}&likeable_type=${itemType}`,
+
 
     comment: () => `${API_ROOT}/comments/create`, //
     deleteComment: (commentId) => `${API_ROOT}/comments/destroy/${commentId}`, //

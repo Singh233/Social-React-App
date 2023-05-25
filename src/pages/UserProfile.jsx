@@ -42,6 +42,7 @@ const UserProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const auth = useAuth();
+  const [currentHeader, setCurrentHeader] = useState('userPosts');
 
   const [messageUser, setMessageUser] = useState(null);
 
@@ -298,12 +299,22 @@ const UserProfile = () => {
 
         <div className={styles.postsContainer}>
           <div className={styles.header}>
-            <div className={styles.heading1}>
+            <div
+              onClick={() => setCurrentHeader('userPosts')}
+              className={`${styles.heading1} ${
+                currentHeader === 'userPosts' && styles.activeHeading
+              }`}
+            >
               <FontAwesomeIcon className={styles.imgIcon} icon={faClone} />
               <p>Posts</p>
             </div>
 
-            <div className={styles.heading2}>
+            <div
+              onClick={() => toast.success('Coming soon!')}
+              className={`${styles.heading1} ${
+                currentHeader === 'userVideos' && styles.activeHeading
+              }`}
+            >
               <FontAwesomeIcon
                 className={styles.videoIcon}
                 icon={faClapperboard}
@@ -311,16 +322,10 @@ const UserProfile = () => {
               <p>Videos</p>
             </div>
 
-            <div className={styles.heading3}>
-              <FontAwesomeIcon
-                className={styles.bookmarkIcon}
-                icon={faBookmark}
-              />
-              <p>Saved</p>
-            </div>
+            
           </div>
 
-          <div className={styles.posts}>
+          <div className={styles.userPosts}>
             {user.posts.map((post) => {
               return (
                 <div className={styles.post} key={post._id}>

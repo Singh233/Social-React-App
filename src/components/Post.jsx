@@ -1,13 +1,14 @@
 import styles from '../styles/css/home/main.module.css';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { addComment, deletePost, toggleLike } from '../api';
+import { addComment, deletePost, savePost, toggleLike, unsavePost } from '../api';
 import toast from 'react-hot-toast';
 
 import env from '../utils/env';
 
 import explore from '../styles/icon/explore.png';
 import save from '../styles/icon/bookmark.png';
+import saveFill from '../styles/icon/bookmarkFill.png';
 import like from '../styles/icon/heartblack.png';
 import send from '../styles/icon/send2.png';
 import likeWhite from '../styles/icon/heartwhite.png';
@@ -34,6 +35,7 @@ const Post = ({post}) => {
     
     const [expandMenu, setExpandMenu] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [likes, setLikes] = useState(post.likes.length);
     const [commentContent, setCommentContent] = useState('');
@@ -46,6 +48,13 @@ const Post = ({post}) => {
         for (let like of post.likes) {
             if (like.user == auth.user._id) {
                 setIsLiked(true);
+            }
+        }
+
+        // check if the post is saved by the user
+        for (let savedPost of auth.user.savedPosts) {
+            if (savedPost._id === post._id) {
+                setIsSaved(true);
             }
         }
 
@@ -141,6 +150,24 @@ const Post = ({post}) => {
         auth.updateUserPosts(false, response.data.post);
     }
 
+    // handle post save click
+    const handlePostSaveClick = async () => {
+        if (isSaved) {
+            setIsSaved(false);
+            toast.success("Post removed from saved posts!");
+        } else {
+            setIsSaved(true);
+            toast.success("Post saved successfully!");
+        }
+
+        const response = isSaved ? await auth.handleUnsavePost(post._id) : await auth.handleSavePost(post._id);
+
+        if (!response && !response.success) {
+            setIsSaved(isSaved ? true : false);
+            toast.error("Something went wrong!")
+        }
+    }
+
 
     return (
         <div className={`${styles.displayPosts} animate__animated animate__fadeIn`} key={`post-${post._id}`}>
@@ -218,8 +245,8 @@ const Post = ({post}) => {
                 </div>
 
                 <div className={styles.rightIcons}>
-                    <div onClick={() => toast.success('Coming soon!')} className={styles.saveButton}>
-                        <img src={save} className={styles.iconBg}/>
+                    <div onClick={handlePostSaveClick} className={styles.saveButton}>
+                        <img src={`${isSaved ? saveFill : save}`} className={styles.iconBg}/>
                     </div>
                 </div>
                 

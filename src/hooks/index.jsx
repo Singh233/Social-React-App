@@ -9,6 +9,8 @@ import {
   fetchUserProfile,
   googleLoginAPI,
   signout,
+  unsavePost,
+  savePost,
 } from '../api';
 import { signUp as userSignUp } from '../api';
 import {
@@ -319,6 +321,26 @@ export const useProvideAuth = () => {
     setUserMessageClick(user);
   };
 
+  // handle save post
+  const handleSavePost = async (postId) => {
+    const response = await savePost(postId);
+    if (response.success) {
+      user.savedPosts.push(response.data.post);
+    }
+    return response;
+  };
+
+  const handleUnsavePost = async (postId) => {
+    const response = await unsavePost(postId);
+    if (response.success) {
+      setUser({
+        ...user,
+        savedPosts: user.savedPosts.filter((post) => post._id !== postId),
+      });
+    }
+    return response;
+  };
+
   return {
     user,
     login,
@@ -334,6 +356,8 @@ export const useProvideAuth = () => {
     updateUserFriends,
     updateUserPosts,
     socket,
+    handleSavePost,
+    handleUnsavePost,
   };
 };
 

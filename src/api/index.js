@@ -192,6 +192,19 @@ export const deletePost = (postId) => {
     });
 }
 
+export const savePost = (postId) => {
+    return customFetch(API_URLS.savePost(postId), {
+        method: 'POST',
+    });
+}
+
+export const unsavePost = (postId) => {
+    return customFetch(API_URLS.unsavePost(postId), {
+        method: 'POST',
+    });
+}
+
+
 export const addComment = (content, post_id) => {
     return customFetch(API_URLS.comment(), {
         method: 'POST',

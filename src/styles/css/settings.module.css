@@ -202,6 +202,8 @@
 
 }
 
+
+
 .postsContainer .header .heading1, .heading2, .heading3 {
     display: flex;
     align-items: center;
@@ -218,11 +220,11 @@
     
 }
 
-.postsContainer .header .headings .heading1, .imgIcon {
-    color: white;
+.postsContainer .header .activeHeading p, .activeHeading svg {
+    color: white !important;
 }
 
-.postsContainer .posts {
+.postsContainer .userPosts, .savedPosts {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -230,7 +232,7 @@
 
 }
 
-.postsContainer .posts .post img {
+.postsContainer .userPosts .post img, .savedPosts .post img {
     height: 180px;
     width: 180px;
     border-radius: 20px;
@@ -238,18 +240,7 @@
 }
 
 
-.postsContainer .header .heading1::before {
-    content: '';
-    display: flex;
-    width: 80px;
-    position: absolute;
-    margin-top: 52px;
-    border-top: 2px solid white;
-    border-radius: 10px;
 
-    
-    /* box-shadow: #161C21 0px 8px 24px; */
-}
 
 
 
