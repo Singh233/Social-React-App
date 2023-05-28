@@ -76,6 +76,12 @@ export const getPosts = (page = 1, limit = 5) => {
     });
 }
 
+export const lazyLoadGetPosts = (offset, limit) => {
+    return customFetch(API_URLS.getPosts(offset, limit), {
+        method: 'GET'
+    })
+}
+
 export const login = (email, password) => {
     return customFetch(API_URLS.login(), {
         method: 'POST',

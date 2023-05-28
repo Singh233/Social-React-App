@@ -12,8 +12,16 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width: 0px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 10px;
+  width: 12px !important;
 }
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255, 0.18);
+  border-radius: 20px;
+}
+
 
 /* Loader */
 

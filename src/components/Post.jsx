@@ -8,7 +8,7 @@ import env from '../utils/env';
 
 import explore from '../styles/icon/explore.png';
 import save from '../styles/icon/bookmark.png';
-import saveFill from '../styles/icon/bookmarkFill.png';
+import saveFill from '../styles/icon/bookmarkfill.png';
 import like from '../styles/icon/heartblack.png';
 import send from '../styles/icon/send2.png';
 import likeWhite from '../styles/icon/heartwhite.png';

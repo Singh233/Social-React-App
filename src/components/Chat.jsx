@@ -98,21 +98,21 @@ const Chat = () => {
     setChatFriends(auth.user.following);
     // console.log(count++, 'chat friends', chatFriends)
     // find unique users from posts which are not in auth.user.following array
-    const usersAvatar = posts.data.map((post) =>
+    const usersAvatar = posts.posts.map((post) =>
       auth.user.following.find((friend) => friend.to_user._id === post.user._id)
         ? null
         : post.user.avatar
     );
     const uniqueUsers = [...new Set(usersAvatar)];
 
-    const usersId = posts.data.map((post) =>
+    const usersId = posts.posts.map((post) =>
       auth.user.following.find((friend) => friend.to_user._id === post.user._id)
         ? null
         : post.user._id
     );
     const uniqueUsersId = [...new Set(usersId)];
 
-    const userName = posts.data.map((post) =>
+    const userName = posts.posts.map((post) =>
       auth.user.following.find((friend) => friend.to_user._id === post.user._id)
         ? null
         : post.user.name

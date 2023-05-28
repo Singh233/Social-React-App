@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { lazy, useContext, useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import { AuthContext, PostsContext } from '../providers';
 import {
@@ -11,6 +11,7 @@ import {
   signout,
   unsavePost,
   savePost,
+  lazyLoadGetPosts,
 } from '../api';
 import { signUp as userSignUp } from '../api';
 import {
@@ -450,10 +451,23 @@ export const useProvidePosts = () => {
     setPosts(newPosts);
   };
 
+  const lazyLoadPosts = async () => {
+    const offset = posts.length;
+    const limit = 5;
+    const response = await lazyLoadGetPosts(offset, limit);
+
+    if (response.success) {
+      const newPosts = [...posts, ...response.data.posts]
+      setPosts(newPosts);
+    }
+
+  }
+
   return {
-    data: posts,
+    posts,
     loading,
     addPostToState,
+    lazyLoadPosts,
     addComment,
     deleteComment,
     handlePostLike,

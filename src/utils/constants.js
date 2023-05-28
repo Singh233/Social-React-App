@@ -11,6 +11,7 @@ export const API_URLS = {
     googleLogin: () => `${API_ROOT}/users/login/google`, //
 
     posts: (page, limit) => `${API_ROOT}/posts`,  //
+    getPosts: (offset, limit) => `${API_ROOT}/posts/index?offset=${offset}&limit=${limit}`,
     createPost: () => `${API_ROOT}/posts/create`, // 
     deletePost: (postId) => `${API_ROOT}/posts/delete/${postId}`, // 
     savePost: (postId) => `${API_ROOT}/posts/save/${postId}`, //

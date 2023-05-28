@@ -51,7 +51,7 @@ const Home = () => {
             
             <LeftNav socket={socket}/>
 
-            <Main posts={posts.data}/>
+            <Main posts={posts.posts}/>
 
             <RightNav/>
 
