@@ -24,6 +24,7 @@ https://chillsanam.me/ 🚀
     - Post image 🌆
     - Comment on Post 💬
     - Like Post ❤️
+    - Save Post 🛟
     - Follow/Unfollow Users 👀
 - User profile ⭐️
 - Direct Messaging 💬
@@ -35,14 +36,15 @@ https://chillsanam.me/ 🚀
 
 ## 🚧Work in progress
 
-- Save Post 🛟
 - Edit profile 📝
 - Global Messaging 🌍
 - Email of message request 📧
 - Receive incoming message notification 🔔
 - Responsivity
   - Tablet
-  
+- Video/Voice calling 📞
+- Video uploads 🎥
+- Email of message request ✉️
 
 
 ## Run Project Locally
@@ -107,6 +109,7 @@ https://github.com/Singh233/Social-Media-API
 
 ## Screenshots
 
+![591shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/c7868111-06cb-4632-93e6-665e29828d1f)
 ![241shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/a73f182a-8a65-4c99-a387-530083393627)
 ![29shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/280f53d0-33d3-4d16-b5b5-beccf15a5a3f)
 ![311shots_so](https://github.com/Singh233/Social-React-App/assets/37498067/0074ec24-5413-4a2a-ac26-5d9c87246813)
