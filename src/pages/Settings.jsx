@@ -55,7 +55,6 @@ const Settings = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
       // toast.success('More Updates Coming Soon');
@@ -256,7 +255,7 @@ const Settings = () => {
           {currentHeader === 'savedPosts' && (
             <div className={`${styles.savedPosts} animate__animated animate__fadeIn`}>
               {auth.user.savedPosts.map((post, index) => {
-                return (
+                return post && (
                   <div className={styles.post} key={index}>
                     <img
                       src={post.myfile ? env.file_url + post.myfile : dummyImg}

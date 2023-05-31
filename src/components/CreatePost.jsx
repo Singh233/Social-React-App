@@ -44,7 +44,6 @@ const CreatePost = () => {
             if (inThrottle) return;
             inThrottle = true;
             func(...arguments);
-            console.log('throttling')
             setTimeout(() => {
                 inThrottle = false;
             }, limit);

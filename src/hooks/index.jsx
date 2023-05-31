@@ -307,7 +307,9 @@ export const useProvideAuth = () => {
       setUser({
         ...user,
         posts: user.posts.filter((p) => p._id !== post._id),
+        savedPosts: user.savedPosts.filter((p) => post._id !== p._id),
       });
+
       return;
     }
   };
@@ -457,11 +459,10 @@ export const useProvidePosts = () => {
     const response = await lazyLoadGetPosts(offset, limit);
 
     if (response.success) {
-      const newPosts = [...posts, ...response.data.posts]
+      const newPosts = [...posts, ...response.data.posts];
       setPosts(newPosts);
     }
-
-  }
+  };
 
   return {
     posts,
