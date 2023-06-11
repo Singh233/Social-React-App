@@ -193,7 +193,7 @@ const Post = ({ post }) => {
       <div className={styles.post}>
         <img
           onDoubleClick={handlePostLikeClick}
-          src={post.myfile ? env.file_url + post.myfile : dummyImg}
+          src={post.myfile ? post.myfile : dummyImg}
         />
       </div>
 

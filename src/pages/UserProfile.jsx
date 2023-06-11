@@ -162,7 +162,6 @@ const UserProfile = () => {
 
   const handleMessageClick = () => {
     // check if the screen is mobile
-    
 
     const friends = auth.user.following;
     // console.log('friends', friends)
@@ -180,9 +179,8 @@ const UserProfile = () => {
       }
       auth.handleUserMessageClick(friends[index]);
     } else {
-      toast.success(`Follow ${user.name} to send message`)
+      toast.success(`Follow ${user.name} to send message`);
     }
-    
   };
 
   return (
@@ -230,11 +228,7 @@ const UserProfile = () => {
                 Follow
               </button>
             )}
-            <button
-              onClick={ handleMessageClick}
-            >
-              Message
-            </button>
+            <button onClick={handleMessageClick}>Message</button>
           </div>
 
           {/* <div className={styles.stats}>
@@ -321,17 +315,13 @@ const UserProfile = () => {
               />
               <p>Videos</p>
             </div>
-
-            
           </div>
 
           <div className={styles.userPosts}>
             {user.posts.map((post) => {
               return (
                 <div className={styles.post} key={post._id}>
-                  <img
-                    src={post.myfile ? env.file_url + post.myfile : dummyImg}
-                  />
+                  <img src={post.myfile ? post.myfile : dummyImg} />
                 </div>
               );
             })}

@@ -147,7 +147,7 @@ const Navbar = () => {
                                 <Link to={"/users/profile/" + user._id}>
                                     {
                                         user.avatar ? 
-                                        <img className={styles.resultsAvatar}  src={`${env.file_url}${user.avatar}`} />
+                                        <img className={styles.resultsAvatar}  src={`${user.avatar}`} />
                                         :
                                         <img style={{height: 50}}  src={profile} />
                                     }

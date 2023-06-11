@@ -253,7 +253,7 @@ const Chat = () => {
                 <img
                   src={
                     auth.user.avatar
-                      ? env.file_url + auth.user.avatar
+                      ?  auth.user.avatar
                       : dummyImg
                   }
                 />
@@ -283,7 +283,7 @@ const Chat = () => {
                     <img
                       src={
                         friend.to_user.avatar
-                          ? env.file_url + friend.to_user.avatar
+                          ?  friend.to_user.avatar
                           : dummyImg
                       }
                     />
@@ -337,7 +337,7 @@ const Chat = () => {
                             <img
                               src={
                                 user.avatar
-                                  ? env.file_url + user.avatar
+                                  ?  user.avatar
                                   : dummyImg
                               }
                             />
@@ -378,7 +378,7 @@ const Chat = () => {
                             <img
                               src={
                                 user.avatar
-                                  ? env.file_url + user.avatar
+                                  ?  user.avatar
                                   : dummyImg
                               }
                             />

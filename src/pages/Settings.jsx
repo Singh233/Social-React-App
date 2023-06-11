@@ -239,13 +239,13 @@ const Settings = () => {
           </div>
 
           {currentHeader === 'userPosts' && (
-            <div className={`${styles.userPosts} animate__animated animate__fadeIn`}>
+            <div
+              className={`${styles.userPosts} animate__animated animate__fadeIn`}
+            >
               {auth.user.posts.map((post) => {
                 return (
                   <div className={styles.post} key={post._id}>
-                    <img
-                      src={post.myfile ? env.file_url + post.myfile : dummyImg}
-                    />
+                    <img src={post.myfile ? post.myfile : dummyImg} />
                   </div>
                 );
               })}
@@ -253,14 +253,16 @@ const Settings = () => {
           )}
 
           {currentHeader === 'savedPosts' && (
-            <div className={`${styles.savedPosts} animate__animated animate__fadeIn`}>
+            <div
+              className={`${styles.savedPosts} animate__animated animate__fadeIn`}
+            >
               {auth.user.savedPosts.map((post, index) => {
-                return post && (
-                  <div className={styles.post} key={index}>
-                    <img
-                      src={post.myfile ? env.file_url + post.myfile : dummyImg}
-                    />
-                  </div>
+                return (
+                  post && (
+                    <div className={styles.post} key={index}>
+                      <img src={post.myfile ? post.myfile : dummyImg} />
+                    </div>
+                  )
                 );
               })}
             </div>
