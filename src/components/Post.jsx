@@ -1,6 +1,6 @@
 import styles from '../styles/css/home/main.module.css';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import {
   addComment,
   deletePost,
@@ -42,6 +42,8 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes.length);
   const [commentContent, setCommentContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false); // State to track if the image is loaded or not
+
   const posts = usePosts();
   const auth = useAuth();
 
@@ -59,6 +61,23 @@ const Post = ({ post }) => {
         setIsSaved(true);
       }
     }
+
+    const img = document.querySelector(`.${styles.blurLoad} img`);
+
+    // Function to handle the image load event
+    const handleLoaded = () => {
+      setImgLoaded(true);
+    };
+
+    if (img.complete) {
+      handleLoaded();
+    } else {
+      img.addEventListener('load', handleLoaded);
+    }
+
+    return () => {
+      img.removeEventListener('load', handleLoaded);
+    };
   }, []);
 
   const handleCreateCommentClick = async () => {
@@ -191,10 +210,16 @@ const Post = ({ post }) => {
       </div>
 
       <div className={styles.post}>
-        <img
-          onDoubleClick={handlePostLikeClick}
-          src={post.myfile ? post.myfile : dummyImg}
-        />
+        <div
+          className={`${styles.blurLoad} ${imgLoaded ? styles.loaded : ''}`}
+          style={{ backgroundImage: `url(${post.thumbnail})` }}
+        >
+          <img
+            loading="lazy"
+            onDoubleClick={handlePostLikeClick}
+            src={post.myfile ? post.myfile : dummyImg}
+          />
+        </div>
       </div>
 
       <div className={styles.actions}>
