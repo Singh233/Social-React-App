@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import DirectMessage from './DirectMessage';
 import socketIo from 'socket.io-client';
 import toast from 'react-hot-toast';
+import moment from 'moment';
 
 const Chat = () => {
   const auth = useAuth();
@@ -29,7 +30,7 @@ const Chat = () => {
   const posts = usePosts();
   const [users, setUsers] = useState([]);
   // state for chat friends
-  const [chatFriends, setChatFriends] = useState(auth.user.following);
+  const [chatFriends, setChatFriends] = useState(auth.user.friends);
   // state for direct message
   const [isDirectMessageOpen, setIsDirectMessageOpen] = useState(false);
   // state for clicked user
@@ -37,152 +38,194 @@ const Chat = () => {
   // state for chat room
   const [chatRoom, setChatRoom] = useState(null);
 
-  // const socket = socketIo.connect('https://sanam.social')
-
-  // listen to get_users event
-  socket.on('get_users', (data) => {
-    setChatFriends(auth.user.following);
-
-    let updatedChatFriends = [];
-    // iterate over all users
-    data.users.forEach((user) => {
-      // check if user is in chat friends and update status
-      updatedChatFriends = chatFriends.map((friend) => {
-        if (friend.to_user._id === user.userId) {
-          friend.activityStatus = user.status;
-          friend.moment = user.moment;
-          // update auth user following status
-          auth.user.following.map((friend) => {
-            if (friend.to_user._id === user.userId) {
-              friend.activityStatus = user.status;
-              friend.moment = user.moment;
-            }
-            return friend;
-          });
-        }
-        return friend;
-      });
-    });
-
-    setChatFriends(updatedChatFriends);
-  });
-
-  // socket to update user online status
-  socket.on('update_status', (data) => {
-    // update user status with key as user id
-    let updatedChatFriends = [];
-    data.map.forEach((element) => {
-      // update chat friends status
-      updatedChatFriends = chatFriends.map((friend) => {
-        // console.log(friend.to_user._id, element.userId)
-        if (friend.to_user._id === element.userId) {
-          friend.activityStatus = element.status;
-          friend.moment = element.moment;
-          // console.log('status updated', friend.status)
-
-          auth.user.following.map((friend) => {
-            if (friend.to_user._id === element.userId) {
-              friend.activityStatus = element.status;
-              friend.moment = element.moment;
-            }
-            return friend;
-          });
-        }
-        return friend;
-      });
-    });
-    setChatFriends(updatedChatFriends);
-  });
-
   useEffect(() => {
-    setChatFriends(auth.user.following);
-    // console.log(count++, 'chat friends', chatFriends)
-    // find unique users from posts which are not in auth.user.following array
-    const usersAvatar = posts.posts.map((post) =>
-      auth.user.following.find((friend) => friend.to_user._id === post.user._id)
-        ? null
-        : post.user.avatar
-    );
-    const uniqueUsers = [...new Set(usersAvatar)];
-
-    const usersId = posts.posts.map((post) =>
-      auth.user.following.find((friend) => friend.to_user._id === post.user._id)
-        ? null
-        : post.user._id
-    );
-    const uniqueUsersId = [...new Set(usersId)];
-
-    const userName = posts.posts.map((post) =>
-      auth.user.following.find((friend) => friend.to_user._id === post.user._id)
-        ? null
-        : post.user.name
-    );
-    const uniqueUserName = [...new Set(userName)];
-
-    const users = [];
-    // make an array of objects with user id and avatar
-    for (let i = 0; i < uniqueUsers.length && i < 3; i++) {
-      const user = {
-        id: uniqueUsersId[i],
-        avatar: uniqueUsers[i],
-        name: uniqueUserName[i],
-      };
-      users.push(user);
-    }
-    setUsers(users);
-
-    // console.log('get_users before ', chatFriends)
-
     socket.emit('user_online', {
       user_id: auth.user._id,
     });
 
-    return () => {
-      // socket clean up
-      socket.off('get_users');
-      socket.off('update_status');
-      socket.off('receive_notification');
-    };
-  }, [auth.user]);
+    // listen to get_users event
+    socket.on('get_users', (data) => {
+      setChatFriends(auth.user.friends);
 
-  const handleFriendClick = (friend) => {
-    // console.log(friend)
-    let to_user = friend.to_user._id;
-    let from_user = auth.user._id;
-    let chatRoom = friend.chat_room;
+      let updatedChatFriends = [];
+      // iterate over all users
+      data.users.forEach((user) => {
+        // check if user is in chat friends and update status
+        updatedChatFriends = chatFriends.map((friend) => {
+          if (friend._id === user.userId) {
+            friend.activityStatus = user.status;
+            friend.moment = user.moment;
+            // update auth user following status
+            auth.user.friends.map((friend) => {
+              if (friend._id === user.userId) {
+                friend.activityStatus = user.status;
+                friend.moment = user.moment;
+              }
+              return friend;
+            });
+          }
+          return friend;
+        });
+      });
 
-    socket.emit('join_private_room', {
-      user_email: auth.user.email,
-      user_name: auth.user.name,
-      user_profile: auth.user.avatar,
-      time: new Date().toLocaleTimeString('en-US', {
-        hour12: true,
-        hour: 'numeric',
-        minute: 'numeric',
-      }),
-      from_user,
-      to_user,
-      chatroom: chatRoom,
+      setChatFriends(updatedChatFriends);
     });
-    setChatRoom(chatRoom); // set chat room to state
-    setClickedUser(friend);
-    setIsDirectMessageOpen(true);
+
+    // socket to update user online status
+    socket.on('update_status', (data) => {
+      // update user status with key as user id
+      let updatedChatFriends = [];
+      data.map.forEach((element) => {
+        // update chat friends status
+        updatedChatFriends = chatFriends.map((friend) => {
+          // console.log(friend.to_user._id, element.userId)
+          if (friend._id === element.userId) {
+            friend.activityStatus = element.status;
+            friend.moment = element.moment;
+            // console.log('status updated', friend.status)
+
+            auth.user.friends.map((friend) => {
+              if (friend._id === element.userId) {
+                friend.activityStatus = element.status;
+                friend.moment = element.moment;
+              }
+              return friend;
+            });
+          }
+          return friend;
+        });
+      });
+      setChatFriends(updatedChatFriends);
+    });
+
+    // socket.on('receive_notification', function (data) {
+    //   // check if the chatroom is the same as the current chatroom
+    //   console.log('chat', data);
+    //   if (!isDirectMessageOpen) {
+    //     toast.success('New message from ' + data.user_name.split(' ')[0], {
+    //       position: 'top-left',
+    //       duration: 5000,
+    //       icon: '👋',
+    //       style: {
+    //         borderRadius: '10px',
+    //         background: '#333',
+    //         color: '#fff',
+    //       },
+    //     });
+    //   } else if (
+    //     clickedUser &&
+    //     clickedUser._id !== data.to_user &&
+    //     clickedUser._id !== data.from_user &&
+    //     data.user_email !== auth.user_email
+    //   ) {
+    //     toast.success(
+    //       `${data.user_name.split(' ')[0]} ${data.message.substring(0, 10)}`,
+    //       {
+    //         position: 'top-left',
+    //         duration: 5000,
+    //         icon: '💬',
+    //         style: {
+    //           borderRadius: '10px',
+    //           background: '#333',
+    //           color: '#fff',
+    //         },
+    //       }
+    //     );
+    //   }
+    //   auth.updateFriendsMessage(null, null, data);
+    // });
+
+    openRoomConnections();
+  }, [socket]);
+
+  useEffect(() => {
+    socket.off('receive_private_message');
+    socket.on('receive_private_message', function (data) {
+      // check if the chatroom is the same as the current chatroom
+      auth.updateFriendsMessage(null, null, data);
+      if (!isDirectMessageOpen) {
+        toast.success('New message from ' + data.user_name.split(' ')[0], {
+          position: 'top-left',
+          duration: 5000,
+          icon: '👋',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
+      } else if (
+        clickedUser &&
+        clickedUser._id !== data.to_user &&
+        clickedUser._id !== data.from_user &&
+        data.user_email !== auth.user_email
+      ) {
+        toast.success(
+          `${data.user_name.split(' ')[0]} says ${data.message.substring(0, 10)}`,
+          {
+            position: 'top-left',
+            duration: 5000,
+            icon: `💬`,
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          }
+        );
+      }
+    });
+  }, [socket, isDirectMessageOpen]);
+
+  const openRoomConnections = () => {
+    if (!socket && !socket.connected) {
+      return;
+    }
+    chatFriends.map((friend) => {
+      let to_user = friend._id;
+      let from_user = auth.user._id;
+      let chatRoom = friend.chatRoom;
+
+      socket.emit('join_private_room', {
+        user_email: auth.user.email,
+        user_name: auth.user.name,
+        user_profile: auth.user.avatar,
+        time: new Date().toLocaleTimeString('en-US', {
+          hour12: true,
+          hour: 'numeric',
+          minute: 'numeric',
+        }),
+        from_user,
+        to_user,
+        chatroom: chatRoom._id,
+      });
+    });
   };
 
   useEffect(() => {
+    setChatFriends(auth.user.friends);
+
     if (auth.userMessageClick) {
       if (isDirectMessageOpen) {
         setIsDirectMessageOpen(false);
         setTimeout(() => {
           handleFriendClick(auth.userMessageClick);
-          auth.handleUserMessageClick(null)
+          auth.handleUserMessageClick(null);
         }, 0);
       } else {
         handleFriendClick(auth.userMessageClick);
-        auth.handleUserMessageClick(null)
+        auth.handleUserMessageClick(null);
       }
     }
-  }, [auth.userMessageClick]);
+  }, [auth.user, auth.userMessageClick, auth.user.friends]);
+
+  const handleFriendClick = (friend) => {
+    // console.log(friend)
+
+    setChatRoom(friend.chatRoom); // set chat room to state
+    setClickedUser(friend);
+    setIsDirectMessageOpen(true);
+  };
 
   const handleGlobalChatClick = () => {
     let to_user = 'global';
@@ -194,28 +237,6 @@ const Chat = () => {
       </span>
     ));
   };
-
-  // listen to receive_notification event
-  // socket.on('receive_notification', function(data) {
-  //     // console.log('notification received', data);
-  //     console.log(isDirectMessageOpen)
-
-  //     if (!isDirectMessageOpen) {
-  //         toast.success('New message from ' + data.user_name.split(' ')[0], {
-  //             position: 'top-left',
-  //             duration: 5000,
-  //             icon: '👋',
-  //             style: {
-  //                 borderRadius: '10px',
-  //                 background: '#333',
-  //                 color: '#fff',
-  //             },
-
-  //             }
-  //         );
-  //     }
-
-  // })
 
   return (
     <>
@@ -230,15 +251,17 @@ const Chat = () => {
           {
             // show overlay if chat is hidden
             auth.hideMessage && (
-              <div className={`${styles.overlayForHide} animate__animated animate__fadeIn`}>
-                <FontAwesomeIcon icon={faEyeSlash} className={styles.hideIcon} />
-                <p>
-                  Chat Hidden
-                </p>
-              </div> 
+              <div
+                className={`${styles.overlayForHide} animate__animated animate__fadeIn`}
+              >
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  className={styles.hideIcon}
+                />
+                <p>Chat Hidden</p>
+              </div>
             )
           }
-          
 
           <div className={styles.header}>
             <div className={styles.info}>
@@ -250,13 +273,7 @@ const Chat = () => {
                 Messages
               </p>
               <Link to={`/settings`}>
-                <img
-                  src={
-                    auth.user.avatar
-                      ?  auth.user.avatar
-                      : dummyImg
-                  }
-                />
+                <img src={auth.user.avatar ? auth.user.avatar : dummyImg} />
               </Link>
             </div>
 
@@ -280,15 +297,9 @@ const Chat = () => {
                     onClick={() => handleFriendClick(friend)}
                     className={`animate__animated animate__fadeIn ${styles.friend}`}
                   >
-                    <img
-                      src={
-                        friend.to_user.avatar
-                          ?  friend.to_user.avatar
-                          : dummyImg
-                      }
-                    />
+                    <img src={friend.avatar ? friend.avatar : dummyImg} />
                     <div className={styles.friendInfo}>
-                      <p className={styles.friendName}>{friend.to_user.name}</p>
+                      <p className={styles.friendName}>{friend.name}</p>
                       <div className={styles.activity}>
                         <FontAwesomeIcon
                           icon={faCircle}
@@ -301,7 +312,18 @@ const Chat = () => {
                         <div
                           className={`${styles.status} animate__animated animate__fadeIn`}
                         >
-                          {friend.activityStatus === 'Active now'
+                          {friend.chatRoom && friend.chatRoom.lastMessage
+                            ? friend.chatRoom.lastMessage.from_user._id ===
+                              auth.user._id
+                              ? `You ${friend.chatRoom.lastMessage.message.substring(
+                                  0,
+                                  15
+                                )}`
+                              : friend.chatRoom.lastMessage.message.substring(
+                                  0,
+                                  10
+                                )
+                            : friend.activityStatus === 'Active now'
                             ? 'Active now'
                             : friend.moment
                             ? 'Active ' + friend.moment
@@ -311,7 +333,20 @@ const Chat = () => {
                       </div>
                     </div>
                     <div className={styles.friendTime}>
-                      <p className={styles.time}></p>
+                      <p className={styles.time}>
+                        {friend.chatRoom &&
+                          friend.chatRoom.lastMessage &&
+                          moment(
+                            friend.chatRoom.lastMessage.timestamp
+                          ).calendar(null, {
+                            sameDay: 'LT',
+                            nextDay: '[Tomorrow]',
+                            nextWeek: 'dddd',
+                            lastDay: '[Yesterday]',
+                            lastWeek: 'dddd',
+                            sameElse: 'DD/MM/YYYY',
+                          })}
+                      </p>
                     </div>
                   </div>
                 );
@@ -334,13 +369,7 @@ const Chat = () => {
                             key={user.id}
                             className={styles.recommendation}
                           >
-                            <img
-                              src={
-                                user.avatar
-                                  ?  user.avatar
-                                  : dummyImg
-                              }
-                            />
+                            <img src={user.avatar ? user.avatar : dummyImg} />
                             <p className={styles.recommendationName}>
                               {user.name.split(' ')[0]}
                             </p>
@@ -375,13 +404,7 @@ const Chat = () => {
                             key={user.id}
                             className={styles.recommendation}
                           >
-                            <img
-                              src={
-                                user.avatar
-                                  ?  user.avatar
-                                  : dummyImg
-                              }
-                            />
+                            <img src={user.avatar ? user.avatar : dummyImg} />
                             <p className={styles.recommendationName}>
                               {user.name.split(' ')[0]}
                             </p>

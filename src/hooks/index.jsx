@@ -56,7 +56,6 @@ export const useProvideAuth = () => {
         }
 
         const response = await fetchUserProfile(user._id);
-
         if (!response.success) {
           toast.error(response.message);
           removeItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
@@ -319,9 +318,93 @@ export const useProvideAuth = () => {
     setHideMessage(!hideMessage);
   };
 
+  // function to update friends messages
+  const updateFriendsMessage = (friend, messages, liveData) => {
+    const timestamp = new Date().toISOString();
+    let friends = [...user.friends];
+
+    let toUser = null;
+    let flag = true;
+    if (user.email === liveData.user_email) {
+      toUser = liveData.to_user;
+      flag = false;
+    } else {
+      toUser = liveData.user_email;
+    }
+    friends.map((userFriend) => {
+      let checkFriend = userFriend._id;
+      if (flag) {
+        checkFriend = userFriend.email;
+      }
+
+      if (checkFriend === toUser) {
+        userFriend.chatRoom.messages.push({
+          sender: {
+            _id: liveData.from_user,
+            avatar: liveData.user_profile,
+            name: liveData.user_name,
+            email: liveData.user_email,
+          },
+          receiver: {
+            _id: liveData.to_user,
+          },
+          message: `${liveData.message}`,
+          createdAt: timestamp,
+        });
+
+        userFriend.chatRoom.lastMessage = {
+          from_user: {
+            _id: liveData.from_user,
+            avatar: liveData.user_profile,
+            name: liveData.user_name,
+            email: liveData.user_email,
+          },
+          message: liveData.message,
+          timestamp: timestamp,
+        };
+      }
+    });
+
+    const compareByCreatedAt = (a, b) => {
+      // Convert createdAt strings to Date objects
+      const timeA = a.chatRoom.lastMessage
+        ? a.chatRoom.lastMessage.timestamp
+        : `2000-05-11T18:05:57.632Z`;
+      const timeB = b.chatRoom.lastMessage
+        ? b.chatRoom.lastMessage.timestamp
+        : `2000-05-11T18:05:57.632Z`;
+
+      const dateA = new Date(timeA);
+      const dateB = new Date(timeB);
+
+      // Compare the dates
+      if (dateA > dateB) {
+        return -1;
+      }
+      if (dateA < dateB) {
+        return 1;
+      }
+      return 0;
+    };
+    friends.sort(compareByCreatedAt);
+
+    setUser({
+      ...user,
+      friends: friends,
+    });
+  };
+
   // handle user message click
-  const handleUserMessageClick = (user) => {
-    setUserMessageClick(user);
+  const handleUserMessageClick = (clickedUser) => {
+    if (!clickedUser) {
+      return;
+    }
+    user.friends.map((friend) => {
+      if (friend._id === clickedUser.to_user._id) {
+        setUserMessageClick(friend);
+        return;
+      }
+    })
   };
 
   // handle save post
@@ -355,6 +438,7 @@ export const useProvideAuth = () => {
     userMessageClick,
     handleUserMessageClick,
     toggleMessageHide,
+    updateFriendsMessage,
     updateUser,
     updateUserFriends,
     updateUserPosts,

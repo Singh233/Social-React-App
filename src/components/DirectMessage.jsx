@@ -15,6 +15,7 @@ import { useAuth } from '../hooks';
 import { createMessage, fetchMessages } from '../api';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import _ from 'lodash';
 
 export default function DirectMessage(props) {
   const { setIsDirectMessageOpen, user, chatRoom } = props;
@@ -26,47 +27,72 @@ export default function DirectMessage(props) {
   const [lastMessage, setLastMessage] = useState(null);
 
   // state for messages
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(chatRoom.messages);
 
   // state for input message
   const [message, setMessage] = useState('');
 
+  let typing = false;
+  let timeout = undefined;
+  let animationTimeout = undefined;
+  const [typingStatus, setTypingStatus] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [userAvatar, setUserAvatar] = useState(null);
+
+  function timeoutFunction() {
+    typing = false;
+    setFadeOut(true);
+    animationTimeout = setTimeout(function () {
+      setTypingStatus(false);
+    }, 400);
+  }
   // find the user from the auth users friends list
-  let friend = auth.user.friends.find(
-    (friend) => friend.to_user._id == user.to_user._id
-  );
+  let friend = auth.user.friends.find((friend) => friend._id == user._id);
   // update the user with the friend object
-  friend = friend.to_user;
+  friend = friend;
 
   useEffect(() => {
-    // scroll to bottom
-    // fetch chat messages
-    const getMessages = async () => {
-      const response = await fetchMessages(
-        'private',
-        auth.user._id,
-        friend._id,
-        chatRoom
-      ); // fetch messages from_user, to_user
-      if (response.success) {
-        // console.log(response.data.chatRoom.messages);
-        setMessages(response.data.chatRoom.messages);
-        setTimeout(() => {
-          lastMessageRef.current?.scrollIntoView({});
-        }, 0);
+    // listen to typing event and show the typing status
+    socket.on('typingResponsePrivate', function (data) {
+      const to_user = friend._id;
+      const from_user = auth.user._id;
+
+      if (data.chatroom === chatRoom._id) {
+        if (data.from_user !== from_user) {
+          if (typing === false) {
+            clearTimeout(animationTimeout);
+            // $('#typing-status-private').removeClass('animate__fadeOut');
+            setFadeOut(false);
+
+            typing = true;
+            setTypingStatus(true);
+            setUserAvatar(data.user_profile);
+            timeout = setTimeout(timeoutFunction, 500);
+          } else {
+            clearTimeout(timeout);
+            timeout = setTimeout(timeoutFunction, 500);
+          }
+        }
       }
-    };
+    });
+    socket.off('receive_private_message');
+    socket.on('receive_private_message', function (data) {
+      // check if the chatroom is the same as the current chatroom
+      auth.updateFriendsMessage(null, null, data);
+      setMessages(chatRoom.messages);
+      setTimeout(() => {
+        lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    });
 
-    getMessages();
-    // console.log(messages);
+    setTimeout(() => {
+      lastMessageRef.current?.scrollIntoView({});
+    }, 100);
+  }, [socket]);
 
-    return () => {
-      // socket cleanup
-      socket.off('receive_private_message');
-      socket.off('private_user_joined');
-      socket.off('typingResponsePrivate');
-    };
-  }, []);
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({});
+  }, [auth.user]);
 
   const handleSendMessageClick = async () => {
     if (message.trim().length === 0) {
@@ -89,7 +115,7 @@ export default function DirectMessage(props) {
       }),
       from_user,
       to_user,
-      chatroom: chatRoom,
+      chatroom: chatRoom._id,
     });
     setMessage('');
     const response = await createMessage(
@@ -97,73 +123,12 @@ export default function DirectMessage(props) {
       message,
       from_user,
       to_user,
-      chatRoom
+      chatRoom._id
     );
     if (response.success) {
       // console.log('added to db', response.data);
     }
   };
-
-  socket.on('private_user_joined', async function (data) {
-    // scroll to bottom
-  });
-
-  socket.on('receive_private_message', function (data) {
-    // check if the chatroom is the same as the current chatroom
-    if (data.chatroom === chatRoom) {
-      // console.log('Chatroom is the same');
-      // if from_user is the same as the auth user
-      if (data.from_user === auth.user._id) {
-        // add the message to the messages list
-        setMessages([
-          ...messages,
-          {
-            message: data.message,
-            sender: {
-              _id: auth.user._id,
-              email: auth.user.email,
-              name: auth.user.name,
-              avatar: auth.user.avatar,
-            },
-            receiver: {
-              email: data.user_email,
-              name: data.user_name,
-              avatar: data.user_profile,
-            },
-            chatRoomId: data.chatroom,
-            createdAt: new Date(),
-          },
-        ]);
-      } else {
-        // console.log('From user is not the same as auth user');
-        // add the message to the messages list
-        setMessages([
-          ...messages,
-          {
-            message: data.message,
-            sender: {
-              _id: data.from_user,
-              email: data.user_email,
-              name: data.user_name,
-              avatar: data.user_profile,
-            },
-            receiver: {
-              email: auth.user.email,
-              name: auth.user.name,
-              avatar: auth.user.avatar,
-            },
-            chatRoomId: data.chatroom,
-            createdAt: new Date(),
-          },
-        ]);
-      }
-    } else {
-      // console.log('Chatroom is not the same');
-    }
-    setTimeout(() => {
-      lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  });
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -183,52 +148,10 @@ export default function DirectMessage(props) {
         user_profile: auth.user.avatar,
         from_user,
         to_user,
-        chatroom: chatRoom,
+        chatroom: chatRoom._id,
       });
     }
   };
-
-  let typing = false;
-  let timeout = undefined;
-  let animationTimeout = undefined;
-  const [typingStatus, setTypingStatus] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
-  const [userAvatar, setUserAvatar] = useState(null);
-
-  function timeoutFunction() {
-    typing = false;
-    setFadeOut(true);
-    animationTimeout = setTimeout(function () {
-      setTypingStatus(false);
-    }, 700);
-  }
-
-  // listen to typing event and show the typing status
-  socket.on('typingResponsePrivate', function (data) {
-    // console.log(data)
-    // console.log('typing')
-    const to_user = friend._id;
-    const from_user = auth.user._id;
-
-    if (data.chatroom === chatRoom) {
-      if (data.from_user !== from_user) {
-        if (typing === false) {
-          clearTimeout(animationTimeout);
-          // $('#typing-status-private').removeClass('animate__fadeOut');
-          setFadeOut(false);
-
-          typing = true;
-          setTypingStatus(true);
-          setUserAvatar(data.user_profile);
-          // console.log('typed')
-          timeout = setTimeout(timeoutFunction, 1000);
-        } else {
-          clearTimeout(timeout);
-          timeout = setTimeout(timeoutFunction, 1000);
-        }
-      }
-    }
-  });
 
   return (
     <div className={styles.container}>
@@ -258,13 +181,13 @@ export default function DirectMessage(props) {
               <FontAwesomeIcon
                 icon={faCircle}
                 className={
-                  user.status === 'Active now'
+                  user.activityStatus === 'Active now'
                     ? styles.circleGreen
                     : styles.circleGray
                 }
               />
               <span className={styles.time}>
-                {user.status === 'Active now'
+                {user.activityStatus === 'Active now'
                   ? 'Active now'
                   : user.moment
                   ? 'Active ' + user.moment
