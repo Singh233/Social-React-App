@@ -43,61 +43,6 @@ const Chat = () => {
       user_id: auth.user._id,
     });
 
-    // listen to get_users event
-    socket.on('get_users', (data) => {
-      setChatFriends(auth.user.friends);
-
-      let updatedChatFriends = [];
-      // iterate over all users
-      data.users.forEach((user) => {
-        // check if user is in chat friends and update status
-        updatedChatFriends = chatFriends.map((friend) => {
-          if (friend._id === user.userId) {
-            friend.activityStatus = user.status;
-            friend.moment = user.moment;
-            // update auth user following status
-            auth.user.friends.map((friend) => {
-              if (friend._id === user.userId) {
-                friend.activityStatus = user.status;
-                friend.moment = user.moment;
-              }
-              return friend;
-            });
-          }
-          return friend;
-        });
-      });
-
-      setChatFriends(updatedChatFriends);
-    });
-
-    // socket to update user online status
-    socket.on('update_status', (data) => {
-      // update user status with key as user id
-      let updatedChatFriends = [];
-      data.map.forEach((element) => {
-        // update chat friends status
-        updatedChatFriends = chatFriends.map((friend) => {
-          // console.log(friend.to_user._id, element.userId)
-          if (friend._id === element.userId) {
-            friend.activityStatus = element.status;
-            friend.moment = element.moment;
-            // console.log('status updated', friend.status)
-
-            auth.user.friends.map((friend) => {
-              if (friend._id === element.userId) {
-                friend.activityStatus = element.status;
-                friend.moment = element.moment;
-              }
-              return friend;
-            });
-          }
-          return friend;
-        });
-      });
-      setChatFriends(updatedChatFriends);
-    });
-
     // socket.on('receive_notification', function (data) {
     //   // check if the chatroom is the same as the current chatroom
     //   console.log('chat', data);
@@ -161,7 +106,10 @@ const Chat = () => {
         data.user_email !== auth.user_email
       ) {
         toast.success(
-          `${data.user_name.split(' ')[0]} says ${data.message.substring(0, 10)}`,
+          `${data.user_name.split(' ')[0]} says ${data.message.substring(
+            0,
+            10
+          )}`,
           {
             position: 'top-left',
             duration: 5000,
@@ -176,6 +124,80 @@ const Chat = () => {
       }
     });
   }, [socket, isDirectMessageOpen]);
+
+  useEffect(() => {
+    setChatFriends(auth.user.friends);
+
+    if (auth.userMessageClick) {
+      if (isDirectMessageOpen) {
+        setIsDirectMessageOpen(false);
+        setTimeout(() => {
+          handleFriendClick(auth.userMessageClick);
+          auth.handleUserMessageClick(null);
+        }, 0);
+      } else {
+        handleFriendClick(auth.userMessageClick);
+        auth.handleUserMessageClick(null);
+      }
+    }
+  }, [auth.user, auth.userMessageClick, auth.user.friends]);
+
+  // listen to get_users event
+  socket.on('get_users', (data) => {
+    let updatedChatFriends = [];
+    // iterate over all users
+    data.users.forEach((user) => {
+      // check if user is in chat friends and update status
+      updatedChatFriends = chatFriends.map((friend) => {
+        if (friend._id === user.userId) {
+          friend.activityStatus = user.status;
+          friend.moment = user.moment;
+          // update auth user following status
+          auth.user.friends.map((friend) => {
+            if (friend._id === user.userId) {
+              friend.activityStatus = user.status;
+              friend.moment = user.moment;
+            }
+            return friend;
+          });
+        }
+        return friend;
+      });
+    });
+
+    if (updatedChatFriends && updatedChatFriends.length > 0) {
+      setChatFriends(updatedChatFriends);
+    }
+  });
+
+  // socket to update user online status
+  socket.on('update_status', (data) => {
+    // update user status with key as user id
+    let updatedChatFriends = [];
+    data.map.forEach((element) => {
+      // update chat friends status
+      updatedChatFriends = chatFriends.map((friend) => {
+        // console.log(friend.to_user._id, element.userId)
+        if (friend._id === element.userId) {
+          friend.activityStatus = element.status;
+          friend.moment = element.moment;
+          // console.log('status updated', friend.status)
+
+          auth.user.friends.map((friend) => {
+            if (friend._id === element.userId) {
+              friend.activityStatus = element.status;
+              friend.moment = element.moment;
+            }
+            return friend;
+          });
+        }
+        return friend;
+      });
+    });
+    if (updatedChatFriends && updatedChatFriends.length > 0) {
+      setChatFriends(updatedChatFriends);
+    }
+  });
 
   const openRoomConnections = () => {
     if (!socket && !socket.connected) {
@@ -201,23 +223,6 @@ const Chat = () => {
       });
     });
   };
-
-  useEffect(() => {
-    setChatFriends(auth.user.friends);
-
-    if (auth.userMessageClick) {
-      if (isDirectMessageOpen) {
-        setIsDirectMessageOpen(false);
-        setTimeout(() => {
-          handleFriendClick(auth.userMessageClick);
-          auth.handleUserMessageClick(null);
-        }, 0);
-      } else {
-        handleFriendClick(auth.userMessageClick);
-        auth.handleUserMessageClick(null);
-      }
-    }
-  }, [auth.user, auth.userMessageClick, auth.user.friends]);
 
   const handleFriendClick = (friend) => {
     // console.log(friend)
