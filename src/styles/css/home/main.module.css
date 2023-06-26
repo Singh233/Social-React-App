@@ -20,7 +20,6 @@
   position: relative;
   z-index: -1;
   border-radius: 30px;
-
 }
 
 .displayPosts .post .blurLoad::before {
@@ -31,7 +30,6 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 30px;
-
 }
 
 @keyframes pulse {
@@ -50,7 +48,6 @@
   background-size: cover;
   background-position: center;
   border-radius: 30px;
-
 }
 
 .displayPosts .post .blurLoad img {
@@ -428,7 +425,7 @@ a {
   cursor: pointer;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
   .container {
     max-width: 100vw;
   }

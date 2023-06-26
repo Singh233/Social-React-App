@@ -11,11 +11,11 @@
 
     height: 70%;
     width: 24vw;
-    min-width: 300px;
     background-color: #0F1216;
     border-radius: 30px;
     margin: 10px;
     min-width: 325px;
+    max-width: 410px;
 
     background: rgb(5,5,19);
     background: linear-gradient(169deg, rgba(5,5,19,1) 0%, rgba(20,16,64,1) 30%, rgba(42,36,142,1) 60%, rgba(86,80,187,1) 90%);
@@ -360,7 +360,7 @@
 
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
 
     .chatContainer {
         width: 100%;

@@ -15,11 +15,12 @@
 .profileCard {
   height: 41vh;
   width: 24vw;
-  min-width: 300px;
   background-color: #0f1216;
   border-radius: 30px;
   margin: 10px;
   min-width: 325px;
+  max-width: 410px;
+
   background: rgb(255, 138, 100);
   background: linear-gradient(
     0deg,
@@ -152,7 +153,8 @@
 .friendsListCard {
   height: 41vh;
   width: 22vw;
-  min-width: 300px;
+  min-width: 325px;
+  max-width: 390px ;
 
   background-color: #0f1216;
   border-radius: 30px;
@@ -258,6 +260,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: #a9a9a9;
+  
 }
 
 .friendsListCard .noFriends .exploreButton {
@@ -288,7 +291,7 @@
   font-weight: 500;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
   .container {
     display: none;
   }

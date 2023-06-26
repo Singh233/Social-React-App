@@ -397,6 +397,7 @@ export const useProvideAuth = () => {
   // handle user message click
   const handleUserMessageClick = (clickedUser) => {
     if (!clickedUser) {
+      setUserMessageClick(null);
       return;
     }
     user.friends.map((friend) => {

@@ -18,7 +18,7 @@
     }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
     .homeContainer {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto 1fr;
