@@ -367,10 +367,10 @@ export const useProvideAuth = () => {
 
     const compareByCreatedAt = (a, b) => {
       // Convert createdAt strings to Date objects
-      const timeA = a.chatRoom.lastMessage
+      const timeA = a.chatRoom.lastMessage && a.chatRoom.lastMessage.timestamp
         ? a.chatRoom.lastMessage.timestamp
         : `2000-05-11T18:05:57.632Z`;
-      const timeB = b.chatRoom.lastMessage
+      const timeB = b.chatRoom.lastMessage && b.chatRoom.lastMessage.timestamp
         ? b.chatRoom.lastMessage.timestamp
         : `2000-05-11T18:05:57.632Z`;
 
@@ -405,7 +405,7 @@ export const useProvideAuth = () => {
         setUserMessageClick(friend);
         return;
       }
-    })
+    });
   };
 
   // handle save post

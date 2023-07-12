@@ -243,6 +243,12 @@ $button-color-ligth-blue: #4db1ff;
           .messageContent {
             display: flex;
             align-items: center;
+            svg {
+              padding: 10px;
+              background: #202020;
+              border-radius: 50%;
+              color: white;
+            }
 
             .chatBubble {
               height: 100%;
@@ -323,6 +329,12 @@ $button-color-ligth-blue: #4db1ff;
           .messageContent {
             display: flex;
             align-items: center;
+            svg {
+              padding: 10px;
+              background: #202020;
+              border-radius: 50%;
+              color: white;
+            }
             .chatBubble {
               height: 100%;
               display: flex;

@@ -6,7 +6,7 @@ import styles from '../styles/css/directmessage.module.scss';
 import dummyImg from '../styles/img/dummy.jpeg';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +18,7 @@ import moment from 'moment';
 import _ from 'lodash';
 
 export default function DirectMessage(props) {
-  const { setIsDirectMessageOpen, user, chatRoom } = props;
+  const { isDirectMessageOpen, setIsDirectMessageOpen, user, chatRoom } = props;
   const auth = useAuth();
   const socket = auth.socket;
   const lastMessageRef = useRef(null);
@@ -27,7 +27,7 @@ export default function DirectMessage(props) {
   const [lastMessage, setLastMessage] = useState(null);
 
   // state for messages
-  const [messages, setMessages] = useState(chatRoom.messages);
+  const [messages, setMessages] = useState(user.chatRoom.messages);
 
   // state for input message
   const [message, setMessage] = useState('');
@@ -53,6 +53,7 @@ export default function DirectMessage(props) {
 
   useEffect(() => {
     // listen to typing event and show the typing status
+    socket.off('typingResponsePrivate');
     socket.on('typingResponsePrivate', function (data) {
       const to_user = friend._id;
       const from_user = auth.user._id;
@@ -75,24 +76,23 @@ export default function DirectMessage(props) {
         }
       }
     });
-    socket.off('receive_private_message');
-    socket.on('receive_private_message', function (data) {
-      // check if the chatroom is the same as the current chatroom
-      auth.updateFriendsMessage(null, null, data);
-      setMessages(chatRoom.messages);
-      setTimeout(() => {
-        lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    });
 
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({});
     }, 100);
-  }, [socket]);
+  }, [socket, isDirectMessageOpen]);
 
   useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({});
+    lastMessageRef.current?.scrollIntoView();
   }, [auth.user]);
+
+  useEffect(() => {
+    auth.user.friends?.map((friend) => {
+      if (friend._id === user._id) {
+        setMessages(friend.chatRoom.messages);
+      }
+    });
+  }, [user.chatRoom.messages]);
 
   const handleSendMessageClick = async () => {
     if (message.trim().length === 0) {
@@ -121,6 +121,7 @@ export default function DirectMessage(props) {
     const response = await createMessage(
       'private',
       message,
+      'text',
       from_user,
       to_user,
       chatRoom._id
@@ -243,6 +244,20 @@ export default function DirectMessage(props) {
                       // if previous message is same as current message
                       messages[index + 1]?.sender._id === message.sender._id ? (
                         <>
+                          {message.messageType &&
+                          message.messageType === 'call' ? (
+                            <FontAwesomeIcon
+                              icon={faVideo}
+                              style={{
+                                backgroundColor:
+                                  message.message === 'Video call started'
+                                    ? '#37dc52'
+                                    : '#d20a0a',
+                              }}
+                            />
+                          ) : (
+                            ''
+                          )}
                           <span className={styles.withoutChatBubble}>
                             {message.message}{' '}
                             <sup>
@@ -256,6 +271,7 @@ export default function DirectMessage(props) {
                               )}
                             </sup>
                           </span>
+
                           {/* <img style={{visibility: 'hidden'}} src='' /> */}
                         </>
                       ) : (
@@ -273,6 +289,20 @@ export default function DirectMessage(props) {
                               )}
                             </sup>
                           </span>
+                          {message.messageType &&
+                          message.messageType === 'call' ? (
+                            <FontAwesomeIcon
+                              icon={faVideo}
+                              style={{
+                                backgroundColor:
+                                  message.message === 'Video call started'
+                                    ? '#37dc52'
+                                    : '#d20a0a',
+                              }}
+                            />
+                          ) : (
+                            ''
+                          )}
                           {/* <img src={ message.sender.avatar ?  message.sender.avatar : dummyImg } /> */}
                         </>
                       )

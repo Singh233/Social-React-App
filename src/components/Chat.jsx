@@ -84,46 +84,55 @@ const Chat = () => {
   }, [socket]);
 
   useEffect(() => {
-    socket.off('receive_private_message');
-    socket.on('receive_private_message', function (data) {
-      // check if the chatroom is the same as the current chatroom
-      auth.updateFriendsMessage(null, null, data);
-      if (!isDirectMessageOpen) {
-        toast.success('New message from ' + data.user_name.split(' ')[0], {
-          position: 'top-left',
-          duration: 5000,
-          icon: '👋',
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        });
-      } else if (
-        clickedUser &&
-        clickedUser._id !== data.to_user &&
-        clickedUser._id !== data.from_user &&
-        data.user_email !== auth.user_email
-      ) {
-        toast.success(
-          `${data.user_name.split(' ')[0]} says ${data.message.substring(
-            0,
-            10
-          )}`,
-          {
+    const isUserChatBoxOpened = isDirectMessageOpen;
+    if (socket && socket.connected) {
+      socket.off('receive_private_message');
+      socket.on('receive_private_message', function (data) {
+        // check if the chatroom is the same as the current chatroom
+
+        auth.updateFriendsMessage(null, null, data);
+        if (!isUserChatBoxOpened) {
+          toast.success('New message from ' + data.user_name.split(' ')[0], {
             position: 'top-left',
             duration: 5000,
-            icon: `💬`,
+            icon: '👋',
             style: {
               borderRadius: '10px',
               background: '#333',
               color: '#fff',
             },
-          }
-        );
-      }
-    });
-  }, [socket, isDirectMessageOpen]);
+          });
+        } else if (
+          clickedUser &&
+          clickedUser._id !== data.to_user &&
+          clickedUser._id !== data.from_user &&
+          data.user_email !== auth.user.email
+        ) {
+          toast.success(
+            `${data.user_name.split(' ')[0]} says ${data.message.substring(
+              0,
+              10
+            )}`,
+            {
+              position: 'top-left',
+              duration: 5000,
+              icon: `💬`,
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            }
+          );
+        }
+      });
+    }
+
+    return () => {
+      socket.off('get_users');
+      socket.off('update_status');
+    };
+  }, [socket.connected, isDirectMessageOpen]);
 
   useEffect(() => {
     setChatFriends(auth.user.friends);
@@ -247,6 +256,7 @@ const Chat = () => {
     <>
       {isDirectMessageOpen ? (
         <DirectMessage
+          isDirectMessageOpen={isDirectMessageOpen}
           setIsDirectMessageOpen={setIsDirectMessageOpen}
           user={clickedUser}
           chatRoom={chatRoom}
@@ -317,7 +327,9 @@ const Chat = () => {
                         <div
                           className={`${styles.status} animate__animated animate__fadeIn`}
                         >
-                          {friend.chatRoom && friend.chatRoom.lastMessage
+                          {friend.chatRoom &&
+                          friend.chatRoom.lastMessage &&
+                          friend.chatRoom.lastMessage.from_user
                             ? friend.chatRoom.lastMessage.from_user._id ===
                               auth.user._id
                               ? `You ${friend.chatRoom.lastMessage.message.substring(
