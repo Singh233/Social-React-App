@@ -42,97 +42,60 @@ const Chat = () => {
     socket.emit('user_online', {
       user_id: auth.user._id,
     });
-
-    // socket.on('receive_notification', function (data) {
-    //   // check if the chatroom is the same as the current chatroom
-    //   console.log('chat', data);
-    //   if (!isDirectMessageOpen) {
-    //     toast.success('New message from ' + data.user_name.split(' ')[0], {
-    //       position: 'top-left',
-    //       duration: 5000,
-    //       icon: '👋',
-    //       style: {
-    //         borderRadius: '10px',
-    //         background: '#333',
-    //         color: '#fff',
-    //       },
-    //     });
-    //   } else if (
-    //     clickedUser &&
-    //     clickedUser._id !== data.to_user &&
-    //     clickedUser._id !== data.from_user &&
-    //     data.user_email !== auth.user_email
-    //   ) {
-    //     toast.success(
-    //       `${data.user_name.split(' ')[0]} ${data.message.substring(0, 10)}`,
-    //       {
-    //         position: 'top-left',
-    //         duration: 5000,
-    //         icon: '💬',
-    //         style: {
-    //           borderRadius: '10px',
-    //           background: '#333',
-    //           color: '#fff',
-    //         },
-    //       }
-    //     );
-    //   }
-    //   auth.updateFriendsMessage(null, null, data);
-    // });
-
     openRoomConnections();
-  }, [socket]);
+  }, [socket, socket.connected, auth.user.friends]);
 
   useEffect(() => {
     const isUserChatBoxOpened = isDirectMessageOpen;
-    if (socket && socket.connected) {
-      socket.off('receive_private_message');
-      socket.on('receive_private_message', function (data) {
-        // check if the chatroom is the same as the current chatroom
+    // if (socket && socket.connected) {
 
-        auth.updateFriendsMessage(null, null, data);
-        if (!isUserChatBoxOpened) {
-          toast.success('New message from ' + data.user_name.split(' ')[0], {
+    socket.off('receive_private_message');
+    socket.on('receive_private_message', function (data) {
+      // check if the chatroom is the same as the current chatroom
+
+      auth.updateFriendsMessage(null, null, data);
+      if (!isUserChatBoxOpened) {
+        toast.success('New message from ' + data.user_name.split(' ')[0], {
+          position: 'top-left',
+          duration: 5000,
+          icon: '👋',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
+      } else if (
+        clickedUser &&
+        clickedUser._id !== data.to_user &&
+        clickedUser._id !== data.from_user &&
+        data.user_email !== auth.user.email
+      ) {
+        toast.success(
+          `${data.user_name.split(' ')[0]} says ${data.message.substring(
+            0,
+            10
+          )}`,
+          {
             position: 'top-left',
             duration: 5000,
-            icon: '👋',
+            icon: `💬`,
             style: {
               borderRadius: '10px',
               background: '#333',
               color: '#fff',
             },
-          });
-        } else if (
-          clickedUser &&
-          clickedUser._id !== data.to_user &&
-          clickedUser._id !== data.from_user &&
-          data.user_email !== auth.user.email
-        ) {
-          toast.success(
-            `${data.user_name.split(' ')[0]} says ${data.message.substring(
-              0,
-              10
-            )}`,
-            {
-              position: 'top-left',
-              duration: 5000,
-              icon: `💬`,
-              style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-              },
-            }
-          );
-        }
-      });
-    }
+          }
+        );
+      }
+    });
+    // }
 
     return () => {
-      socket.off('get_users');
-      socket.off('update_status');
+      // socket.off('get_users');
+      // socket.off('update_status');
     };
-  }, [socket.connected, isDirectMessageOpen]);
+  }, [socket, socket.connected, isDirectMessageOpen]);
 
   useEffect(() => {
     setChatFriends(auth.user.friends);
@@ -186,11 +149,9 @@ const Chat = () => {
     data.map.forEach((element) => {
       // update chat friends status
       updatedChatFriends = chatFriends.map((friend) => {
-        // console.log(friend.to_user._id, element.userId)
         if (friend._id === element.userId) {
           friend.activityStatus = element.status;
           friend.moment = element.moment;
-          // console.log('status updated', friend.status)
 
           auth.user.friends.map((friend) => {
             if (friend._id === element.userId) {
@@ -209,10 +170,11 @@ const Chat = () => {
   });
 
   const openRoomConnections = () => {
-    if (!socket && !socket.connected) {
+    if (!socket.connected) {
       return;
     }
-    chatFriends.map((friend) => {
+
+    auth.user.friends.map((friend) => {
       let to_user = friend._id;
       let from_user = auth.user._id;
       let chatRoom = friend.chatRoom;
@@ -234,8 +196,6 @@ const Chat = () => {
   };
 
   const handleFriendClick = (friend) => {
-    // console.log(friend)
-
     setChatRoom(friend.chatRoom); // set chat room to state
     setClickedUser(friend);
     setIsDirectMessageOpen(true);
@@ -314,7 +274,10 @@ const Chat = () => {
                   >
                     <img src={friend.avatar ? friend.avatar : dummyImg} />
                     <div className={styles.friendInfo}>
-                      <p className={styles.friendName}>{friend.name}</p>
+                      <p className={styles.friendName}>{friend.name.substring(
+                                  0,
+                                  15
+                                )}</p>
                       <div className={styles.activity}>
                         <FontAwesomeIcon
                           icon={faCircle}

@@ -15,51 +15,24 @@ import socketIo from 'socket.io-client';
 import env from '../../utils/env';
 
 const Home = () => {
+  const auth = useAuth();
+  const posts = usePosts();
 
-    const auth = useAuth();
-    const posts = usePosts();
+  if (posts.loading) {
+    return <Loader />;
+  }
 
+  return (
+    <div className={styles.homeContainer}>
+      {auth.loading ? '' : <LoadingBar color="#f11946" progress="100" />}
 
-    const socket = socketIo.connect(env.socket_url, { 
-        query: {
-            userId: auth.user._id
-        }
-    });
+      <LeftNav />
 
-    socket.on('connect', () => {
+      <Main posts={posts.posts} />
 
-        socket.emit('user_online', {
-            user_id: auth.user._id,
-        })
-    });
-
-        
-
-
-
-    
-
-    if (posts.loading) {
-        return <Loader/>
-    }
-
-    
-
-    return (
-        <div className={styles.homeContainer}>
-            {auth.loading ? ''  : <LoadingBar color="#f11946" progress='100'  />}
-            
-            <LeftNav socket={socket}/>
-
-            <Main posts={posts.posts}/>
-
-            <RightNav/>
-
-            
-            
-        </div>
-    );
+      <RightNav />
+    </div>
+  );
 };
-
 
 export default Home;

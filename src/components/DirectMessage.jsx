@@ -80,7 +80,7 @@ export default function DirectMessage(props) {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({});
     }, 100);
-  }, [socket, isDirectMessageOpen]);
+  }, [socket && socket.connected]);
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView();
@@ -196,10 +196,37 @@ export default function DirectMessage(props) {
               </span>
             </span>
           </p>
-          <p></p>
+          <FontAwesomeIcon
+            className={styles.videoIcon}
+            onClick={() =>
+              toast('Coming soon!', {
+                icon: '🚀',
+              })
+            }
+            icon={faVideo}
+          />
         </div>
 
         <div className={styles.content}>
+          {typingStatus && (
+            <div
+              className={`${styles.typingStatus} animate__animated ${
+                fadeOut ? 'animate__fadeOut' : ''
+              }`}
+            >
+              <img
+                className="animate__animated animate__fadeIn"
+                src={userAvatar ? userAvatar : dummyImg}
+              />
+              <div
+                className={`${styles.animation} animate__animated animate__fadeIn`}
+              >
+                <div className={styles.animation__dot1}></div>
+                <div className={styles.animation__dot2}></div>
+                <div className={styles.animation__dot3}></div>
+              </div>
+            </div>
+          )}
           <div className={styles.messagesList}>
             <div className={styles.userProfile}>
               <img
@@ -244,6 +271,26 @@ export default function DirectMessage(props) {
                       // if previous message is same as current message
                       messages[index + 1]?.sender._id === message.sender._id ? (
                         <>
+                          <span
+                            className={`${styles.withoutChatBubble} ${
+                              message.messageType &&
+                              message.messageType === 'call'
+                                ? styles.callBubble
+                                : ''
+                            }`}
+                          >
+                            {message.message}{' '}
+                            <sup>
+                              {new Date(message.createdAt).toLocaleTimeString(
+                                'en-US',
+                                {
+                                  hour12: true,
+                                  hour: 'numeric',
+                                  minute: 'numeric',
+                                }
+                              )}
+                            </sup>
+                          </span>
                           {message.messageType &&
                           message.messageType === 'call' ? (
                             <FontAwesomeIcon
@@ -258,25 +305,19 @@ export default function DirectMessage(props) {
                           ) : (
                             ''
                           )}
-                          <span className={styles.withoutChatBubble}>
-                            {message.message}{' '}
-                            <sup>
-                              {new Date(message.createdAt).toLocaleTimeString(
-                                'en-US',
-                                {
-                                  hour12: true,
-                                  hour: 'numeric',
-                                  minute: 'numeric',
-                                }
-                              )}
-                            </sup>
-                          </span>
 
                           {/* <img style={{visibility: 'hidden'}} src='' /> */}
                         </>
                       ) : (
                         <>
-                          <span className={styles.chatBubble}>
+                          <span
+                            className={`${styles.chatBubble} ${
+                              message.messageType &&
+                              message.messageType === 'call'
+                                ? styles.callBubble
+                                : ''
+                            }`}
+                          >
                             {message.message}{' '}
                             <sup>
                               {new Date(message.createdAt).toLocaleTimeString(
@@ -327,7 +368,28 @@ export default function DirectMessage(props) {
                       messages[index + 1]?.sender._id === message.sender._id ? (
                         <>
                           {/* <img style={{visibility: 'hidden'}} src='' /> */}
-                          <span className={styles.withoutChatBubble}>
+                          {message.messageType &&
+                          message.messageType === 'call' ? (
+                            <FontAwesomeIcon
+                              icon={faVideo}
+                              style={{
+                                backgroundColor:
+                                  message.message === 'Video call started'
+                                    ? '#37dc52'
+                                    : '#d20a0a',
+                              }}
+                            />
+                          ) : (
+                            ''
+                          )}
+                          <span
+                            className={`${styles.withoutChatBubble} ${
+                              message.messageType &&
+                              message.messageType === 'call'
+                                ? styles.callBubble
+                                : ''
+                            }`}
+                          >
                             {message.message}{' '}
                             <sup>
                               {new Date(message.createdAt).toLocaleTimeString(
@@ -344,7 +406,28 @@ export default function DirectMessage(props) {
                       ) : (
                         <>
                           {/* <img src={ message.sender.avatar ?  message.sender.avatar : dummyImg } /> */}
-                          <span className={styles.chatBubble}>
+                          {message.messageType &&
+                          message.messageType === 'call' ? (
+                            <FontAwesomeIcon
+                              icon={faVideo}
+                              style={{
+                                backgroundColor:
+                                  message.message === 'Video call started'
+                                    ? '#37dc52'
+                                    : '#d20a0a',
+                              }}
+                            />
+                          ) : (
+                            ''
+                          )}
+                          <span
+                            className={`${styles.chatBubble} ${
+                              message.messageType &&
+                              message.messageType === 'call'
+                                ? styles.callBubble
+                                : ''
+                            }`}
+                          >
                             {message.message}{' '}
                             <sup>
                               {new Date(message.createdAt).toLocaleTimeString(
@@ -388,26 +471,6 @@ export default function DirectMessage(props) {
                         </div> */}
           </div>
         </div>
-
-        {typingStatus && (
-          <div
-            className={`${styles.typingStatus} animate__animated ${
-              fadeOut ? 'animate__fadeOut' : ''
-            }`}
-          >
-            <img
-              className="animate__animated animate__fadeIn"
-              src={userAvatar ? userAvatar : dummyImg}
-            />
-            <div
-              className={`${styles.animation} animate__animated animate__fadeIn`}
-            >
-              <div className={styles.animation__dot1}></div>
-              <div className={styles.animation__dot2}></div>
-              <div className={styles.animation__dot3}></div>
-            </div>
-          </div>
-        )}
       </div>
 
       <div className={styles.bottomContainer}>

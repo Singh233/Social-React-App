@@ -16,6 +16,8 @@ $button-color-ligth-blue: #4db1ff;
   height: 70%;
   width: 24vw;
 
+  overflow-x: hidden !important;
+
   background-color: #0f1216;
   border-radius: 30px;
   margin: 10px;
@@ -64,28 +66,34 @@ $button-color-ligth-blue: #4db1ff;
     display: flex;
     flex-direction: column;
 
+    position: relative;
+
     width: 100%;
-    height: 85%;
+    height: 100%;
     // background-image: linear-gradient(rgba(0, 0, 0, 0.7), #0F1216), url('../img/lovebg.jpg');
 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.362);
+    background-color: linear-gradient(
+      rgba(0, 0, 0, 0.362) 0%,
+      rgba(0, 0, 0, 0.362) 100%
+    );
     border-radius: 30px;
 
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 15px;
+      padding: 10px 0;
       padding-bottom: 0px;
 
       .backIcon {
-        padding: 12px;
+        padding: 12px 15px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
         border-radius: 50%;
+        margin-left: 10px;
 
         &:hover {
           background-color: rgba(255, 255, 255, 0.1);
@@ -146,6 +154,18 @@ $button-color-ligth-blue: #4db1ff;
         border-radius: 50%;
         object-fit: cover;
       }
+
+      .videoIcon {
+        margin-right: 10px;
+        padding: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+        color: rgba(255, 255, 255, 0.568);
+
+        &:hover {
+          color: white;
+        }
+      }
     }
 
     .content {
@@ -153,8 +173,94 @@ $button-color-ligth-blue: #4db1ff;
       flex-direction: column;
       overflow: auto;
 
+      position: relative;
+
       height: 100%;
       padding: 0;
+      padding-bottom: 82px;
+
+      .typingStatus {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+
+        background-color: #202020;
+        background-color: rgba(34, 34, 34, 0.402);
+
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border-radius: 30px;
+        padding: 5px;
+
+        img {
+          border-radius: 50%;
+          height: 30px;
+          width: 30px;
+          object-fit: cover;
+        }
+
+        .animation {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          padding: 10px;
+
+          border-radius: 30px;
+          border: none;
+
+          .animation__dot1 {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: gray;
+            margin: 0 3px;
+            animation: pulse 1s infinite;
+          }
+
+          .animation__dot2 {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: gray;
+            margin: 0 3px;
+            animation: pulse 1s infinite;
+            animation-delay: 0.2s;
+          }
+
+          .animation__dot3 {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: gray;
+            margin: 0 3px;
+            animation: pulse 1s infinite;
+            animation-delay: 0.4s;
+          }
+
+          @keyframes pulse {
+            0% {
+              transform: scale(0.8);
+              opacity: 0.5;
+            }
+            70% {
+              transform: scale(1);
+              opacity: 1;
+            }
+            100% {
+              transform: scale(0.8);
+              opacity: 0.5;
+            }
+          }
+        }
+      }
 
       .userProfile {
         display: flex;
@@ -236,9 +342,8 @@ $button-color-ligth-blue: #4db1ff;
           flex-direction: column;
           align-items: flex-start;
           width: auto;
-          text-align: right;
+          text-align: left;
           padding: 5px;
-          height: 40px;
 
           .messageContent {
             display: flex;
@@ -251,23 +356,25 @@ $button-color-ligth-blue: #4db1ff;
             }
 
             .chatBubble {
-              height: 100%;
+              height: max-content;
               display: flex;
               align-items: center;
-              padding: 6px;
-              padding-left: 10px;
+              padding: 12px;
+              padding-left: 17px;
               border-radius: 20px;
               font-size: 0.9rem;
               margin-left: 6px;
               position: relative;
 
-              background-color: rgba(0, 0, 0, 0.647);
+              background-color: rgba(0, 0, 0, 0.947);
 
               sup {
                 align-self: flex-end;
-                padding: 2px 10px;
+                padding: 2px 7px;
+                padding-right: 0px;
                 font-size: 0.7rem;
                 color: gray;
+                min-width: max-content;
               }
 
               &::before {
@@ -278,30 +385,38 @@ $button-color-ligth-blue: #4db1ff;
                 left: 0px;
                 height: 20px;
                 width: 20px;
-                background-color: rgba(0, 0, 0, 0.647);
+                background-color: rgba(0, 0, 0, 0.947);
                 border-bottom-right-radius: 15px;
               }
             }
 
             .withoutChatBubble {
-              height: 100%;
+              height: max-content;
               display: flex;
               align-items: center;
-              padding: 6px;
-              padding-left: 10px;
+              padding: 12px;
+              padding-left: 17px;
               border-radius: 20px;
               font-size: 0.9rem;
               margin-left: 6px;
               position: relative;
+              text-align: left;
+              // margin-bottom: 10px;
 
-              background-color: rgba(0, 0, 0, 0.647);
+              background-color: rgba(0, 0, 0, 0.947);
 
               sup {
                 align-self: flex-end;
-                padding: 2px 10px;
+                padding: 2px 7px;
+                padding-right: 0px;
                 font-size: 0.7rem;
                 color: gray;
+                min-width: max-content;
               }
+            }
+
+            .callBubble {
+              background-color: rgb(0, 0, 0);
             }
 
             img {
@@ -324,7 +439,6 @@ $button-color-ligth-blue: #4db1ff;
           width: auto;
           text-align: right;
           padding: 5px;
-          height: 40px;
 
           .messageContent {
             display: flex;
@@ -339,7 +453,7 @@ $button-color-ligth-blue: #4db1ff;
               height: 100%;
               display: flex;
               align-items: center;
-              padding: 6px;
+              padding: 12px;
               padding-left: 15px;
               border-radius: 20px 20px 0 20px;
               font-size: 0.9rem;
@@ -375,9 +489,11 @@ $button-color-ligth-blue: #4db1ff;
 
               sup {
                 align-self: flex-end;
-                padding: 2px 10px;
+                padding: 2px 7px;
+                padding-right: 0px;
                 font-size: 0.7rem;
                 color: rgba(255, 255, 255, 0.584);
+                min-width: max-content;
               }
 
               // add a bubble like effect to the message for example: ios messages app
@@ -398,7 +514,7 @@ $button-color-ligth-blue: #4db1ff;
               height: 100%;
               display: flex;
               align-items: center;
-              padding: 6px;
+              padding: 12px;
               padding-left: 15px;
               border-radius: 20px 20px 20px 20px;
               font-size: 0.9rem;
@@ -410,10 +526,16 @@ $button-color-ligth-blue: #4db1ff;
 
               sup {
                 align-self: flex-end;
-                padding: 2px 10px;
+                padding: 2px 7px;
+                padding-right: 0px;
                 font-size: 0.7rem;
                 color: rgba(255, 255, 255, 0.584);
+                min-width: max-content;
               }
+            }
+
+            .callBubble {
+              background-color: rgb(0, 0, 0);
             }
 
             img {
@@ -426,88 +548,6 @@ $button-color-ligth-blue: #4db1ff;
 
           sub {
             margin: 5px;
-          }
-        }
-      }
-    }
-
-    .typingStatus {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      position: absolute;
-      top: 75px;
-      left: 50%;
-      transform: translateX(-50%);
-
-      background-color: #202020;
-      background-color: rgba(34, 34, 34, 0.402);
-
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-
-      border-radius: 30px;
-      padding: 5px;
-
-      img {
-        border-radius: 50%;
-        height: 30px;
-        width: 30px;
-        object-fit: cover;
-      }
-
-      .animation {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        padding: 10px;
-
-        border-radius: 30px;
-        border: none;
-
-        .animation__dot1 {
-          height: 10px;
-          width: 10px;
-          border-radius: 50%;
-          background-color: gray;
-          margin: 0 3px;
-          animation: pulse 1s infinite;
-        }
-
-        .animation__dot2 {
-          height: 10px;
-          width: 10px;
-          border-radius: 50%;
-          background-color: gray;
-          margin: 0 3px;
-          animation: pulse 1s infinite;
-          animation-delay: 0.2s;
-        }
-
-        .animation__dot3 {
-          height: 10px;
-          width: 10px;
-          border-radius: 50%;
-          background-color: gray;
-          margin: 0 3px;
-          animation: pulse 1s infinite;
-          animation-delay: 0.4s;
-        }
-
-        @keyframes pulse {
-          0% {
-            transform: scale(0.8);
-            opacity: 0.5;
-          }
-          70% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(0.8);
-            opacity: 0.5;
           }
         }
       }
@@ -576,7 +616,7 @@ $button-color-ligth-blue: #4db1ff;
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 550px) {
   .container {
     width: 100%;
     height: 100vh;
@@ -584,21 +624,44 @@ $button-color-ligth-blue: #4db1ff;
     margin: 0;
 
     .topContainer {
-      height: 88%;
+      .header {
+        position: fixed;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.13);
+        z-index: 2;
+
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .content {
+        padding-top: 0px;
+        padding-bottom: 72px;
+
+        .typingStatus {
+          top: 80px;
+        }
+
+        .userProfile {
+          padding-top: 80px;
+        }
+      }
     }
 
     .bottomContainer {
       width: 90%;
-      padding: 20px 20px;
+      padding: 15px 20px;
       border-radius: 30px 30px 0 0;
       background-color: rgba(0, 0, 0, 0.835);
 
       input {
         background-color: rgba(255, 255, 255, 0.126);
+        margin-left: 5px;
       }
 
       button {
         background-color: rgba(255, 255, 255, 0.126);
+        margin-right: 5px;
       }
     }
   }
