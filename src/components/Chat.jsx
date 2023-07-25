@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import styles from '../styles/css/chat.module.scss';
 import env from '../utils/env';
@@ -20,14 +21,18 @@ import DirectMessage from './DirectMessage';
 import socketIo from 'socket.io-client';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import Peer from 'peerjs';
 
-const Chat = () => {
+const Chat = ({ isCallMinimised, setIsCallMinimised }) => {
   const auth = useAuth();
   const socket = auth.socket;
 
   let count = 0;
 
   const posts = usePosts();
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+  const [scale, setScale] = useState(1);
   const [users, setUsers] = useState([]);
   // state for chat friends
   const [chatFriends, setChatFriends] = useState(auth.user.friends);
@@ -37,6 +42,18 @@ const Chat = () => {
   const [clickedUser, setClickedUser] = useState(null);
   // state for chat room
   const [chatRoom, setChatRoom] = useState(null);
+
+  useEffect(() => {
+    if (isCallMinimised) {
+      setX(0);
+      setY(0);
+      setScale(1);
+    } else {
+      setX(115);
+      setY(-66);
+      setScale(1.3);
+    }
+  }, [isCallMinimised]);
 
   useEffect(() => {
     socket.emit('user_online', {
@@ -220,9 +237,23 @@ const Chat = () => {
           setIsDirectMessageOpen={setIsDirectMessageOpen}
           user={clickedUser}
           chatRoom={chatRoom}
+          isCallMinimised={isCallMinimised}
+          setIsCallMinimised={setIsCallMinimised}
+          x={x}
+          y={y}
+          setX={setX}
+          setY={setY}
+          scale={scale}
+          setScale={setScale}
         />
       ) : (
-        <div className={styles.chatContainer}>
+        <motion.div
+          initial={false}
+          layout
+          animate={{ x, y, scale }}
+          transition={{ type: 'spring' }}
+          className={`${styles.chatContainer} `}
+        >
           {
             // show overlay if chat is hidden
             auth.hideMessage && (
@@ -274,10 +305,9 @@ const Chat = () => {
                   >
                     <img src={friend.avatar ? friend.avatar : dummyImg} />
                     <div className={styles.friendInfo}>
-                      <p className={styles.friendName}>{friend.name.substring(
-                                  0,
-                                  15
-                                )}</p>
+                      <p className={styles.friendName}>
+                        {friend.name.substring(0, 15)}
+                      </p>
                       <div className={styles.activity}>
                         <FontAwesomeIcon
                           icon={faCircle}
@@ -403,7 +433,7 @@ const Chat = () => {
           <div onClick={handleGlobalChatClick} className={styles.footer}>
             <p> Join Global Chat</p>
           </div>
-        </div>
+        </motion.div>
       )}
     </>
   );

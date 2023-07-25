@@ -1,0 +1,1193 @@
+video {
+  width: 100%;
+  height: 100%;
+  min-width: 500px;
+  max-width: 500px;
+  min-height: 375px;
+  max-height: 375px;
+  border-radius: 30px;
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
+}
+
+.incomingOutgoingCallWindow {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 1000;
+
+  padding: 20px;
+  padding-bottom: 5px;
+
+  .callExpandButton {
+    position: absolute;
+    z-index: 2;
+    top: 30px;
+    right: 30px;
+    padding: 5px;
+    transform: rotateZ(45deg);
+    font-size: 1.8rem;
+    transition: all 0.1s ease-out;
+    cursor: pointer;
+    color: gray;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  .receiverVideo {
+    display: none;
+  }
+
+  .receiverCardCover {
+    width: 100%;
+    height: 100%;
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 376px;
+    max-height: 376px;
+    border-radius: 30px;
+    object-fit: cover;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+    -moz-transform: rotateY(180deg); /* Firefox */
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.65) 0%,
+        rgba(0, 0, 0, 0.65) 100%
+      ),
+      url('../img/dummy.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .incomingCall,
+  .outgoingCall {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 375px;
+    max-height: 375px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    padding: 0px;
+    border: 1px solid rgba(233, 233, 233, 0.233);
+    // transition: all 0.4s ease-in-out;
+
+    // background-color: rgba(255, 255, 255, 0.149);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    img {
+      height: 75px;
+      width: 75px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 10px;
+    }
+
+    .username {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .callStatus {
+      font-size: 1.3rem;
+    }
+  }
+
+  .incomingCall {
+    // display: none;
+    .username {
+      margin: 10px;
+    }
+    .incomingCallActions {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+
+      .answer,
+      .reject {
+        display: flex;
+        align-items: center;
+        padding: 0px 30px;
+        border-radius: 15px;
+        font-size: 1.3rem;
+        color: white;
+        margin: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+        svg {
+          margin-right: 7px;
+        }
+        p {
+          margin: 0;
+          padding: 15px 0;
+        }
+      }
+      .answer {
+        background-color: #37dc52;
+        border: 1px solid #06be2d;
+
+        &:hover {
+          background-color: lighten($color: #37dc52, $amount: 20%);
+        }
+      }
+      .reject {
+        background-color: #d20a0adb;
+        border: 1px solid #d20a0a;
+        &:hover {
+          background-color: lighten($color: #d20a0adb, $amount: 20%);
+        }
+      }
+    }
+  }
+
+  .outgoingCall {
+    display: none;
+
+    .rejectedCallOptions {
+      display: none;
+      align-items: center;
+
+      .callAgainButton,
+      .closeCallButton {
+        padding: 10px 20px;
+        color: white;
+        border-radius: 15px;
+
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        width: max-content;
+        cursor: pointer;
+        transition: background-color 0.2s ease-out;
+
+        svg {
+          margin-right: 5px;
+        }
+      }
+
+      .callAgainButton {
+        background-color: #37dc52;
+        border: 1px solid #06be2d;
+        &:hover {
+          background-color: lighten($color: #37dc52, $amount: 15%);
+        }
+      }
+
+      .closeCallButton {
+        background-color: #d20a0adb;
+        border: 1px solid #d20a0a;
+
+        &:hover {
+          background-color: lighten($color: #d20a0adb, $amount: 15%);
+        }
+      }
+    }
+  }
+
+  .header {
+    display: none;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    margin-top: 20px;
+    width: 93%;
+    border-radius: 30px 30px 0 0;
+
+    background: linear-gradient(
+      0deg,
+      rgba(138, 0, 154, 0) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+    img {
+      height: 55px;
+      width: 55px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 10px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .userStatus {
+      position: absolute;
+      right: 10px;
+
+      display: flex;
+      align-items: center;
+
+      svg {
+        color: white;
+        margin: 5px;
+        padding: 10px;
+        border-radius: 50%;
+        border: 1px solid rgba(233, 233, 233, 0.233);
+        background-color: rgba(255, 255, 255, 0.139);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+      }
+
+      .micIcon {
+        padding: 10px 13px;
+      }
+
+      .hide {
+        display: none;
+      }
+    }
+  }
+}
+
+.dummyVideo {
+
+  position: fixed;
+  top: 50%;
+  right: 63px;
+  // z-index: 9999;
+
+}
+
+.callMinimised {
+  top: 68px;
+  right: 3px;
+
+  .receiverCardCover {
+    min-width: 338px;
+    min-height: 238px;
+  }
+
+  .incomingCall,
+  .outgoingCall {
+    min-width: 338px;
+    min-height: 238px;
+
+    img {
+      height: 45px;
+      width: 45px;
+    }
+  }
+
+  .incomingCall {
+    .incomingCallActions {
+      .reject,
+      .answer {
+        border-radius: 12px;
+        p {
+          // padding: 12px;
+          // margin: 0px;
+          // padding-left: 0px;
+          // padding-right: 0px;
+        }
+      }
+    }
+  }
+}
+
+.callMaximised {
+  top: 28%;
+  right: 45px;
+  transform: translate(0%, -50%);
+
+  .receiverCardCover {
+    width: 100%;
+    height: 100%;
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 376px;
+    max-height: 376px;
+    border-radius: 30px;
+  }
+
+  .incomingCall,
+  .outgoingCall {
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 375px;
+    max-height: 375px;
+    margin-top: 8px;
+  }
+}
+
+.callContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.406);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overscroll-behavior: none;
+
+  .callWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 50px;
+    // background: black;
+    border-radius: 20px;
+    width: 100vw;
+
+    .dummyVideoSpace {
+      width: 100%;
+      height: 100%;
+      min-width: 500px;
+      max-width: 500px;
+      min-height: 375px;
+      max-height: 375px;
+      border-radius: 30px;
+      object-fit: cover;
+      transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+      -moz-transform: rotateY(180deg); /* Firefox */
+    }
+
+    .callMinimiseButton {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      padding: 5px;
+      transform: rotateZ(230deg);
+      font-size: 2rem;
+      transition: all 0.1s ease-out;
+      cursor: pointer;
+      color: gray;
+
+      &:hover {
+        color: white;
+      }
+    }
+
+    .callerCard {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      padding: 20px;
+      padding-top: 5px;
+
+      .header {
+        display: flex;
+        align-items: center;
+
+        width: 93%;
+        border-radius: 30px 30px 0 0;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        background: linear-gradient(
+          0deg,
+          rgba(138, 0, 154, 0) 0%,
+          rgba(0, 0, 0, 1) 100%
+        );
+        img {
+          height: 55px;
+          width: 55px;
+          object-fit: cover;
+          border-radius: 50%;
+          margin: 10px;
+        }
+
+        p {
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+      }
+
+      .callActions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 93%;
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(233, 233, 233, 0.233);
+        background-color: rgba(255, 255, 255, 0.139);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+
+        position: absolute;
+        bottom: 23px;
+        left: 50%;
+        right: 50%;
+        width: max-content;
+        margin: auto;
+        transform: translate(-50%, -10px);
+
+        svg {
+          background-color: rgba(255, 255, 255, 0.541);
+          border-radius: 50%;
+          padding: 10px;
+          margin: 5px;
+          color: white;
+          font-size: 1.4rem;
+          cursor: pointer;
+          transition: background-color 0.2s ease-out;
+
+          &:hover {
+            background-color: lighten($color: #d20a0a, $amount: 0%);
+          }
+        }
+
+        .disabled {
+          background-color: #d20a0a;
+        }
+
+        .micIcon {
+          padding: 10px 13px;
+        }
+      }
+    }
+
+    .receiverCard {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      padding: 20px;
+      padding-bottom: 5px;
+
+      .receiverVideo {
+        display: none;
+      }
+
+      .dummyCard {
+        width: 100%;
+        height: 100%;
+        min-width: 500px;
+        max-width: 500px;
+        min-height: 376px;
+        max-height: 376px;
+        border-radius: 30px;
+      }
+
+      .incomingCall,
+      .outgoingCall {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        min-width: 500px;
+        max-width: 500px;
+        min-height: 375px;
+        max-height: 375px;
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+        padding: 20px;
+        border: 1px solid rgba(233, 233, 233, 0.233);
+        transition: all 0.3s ease-in-out;
+
+        // background-color: rgba(255, 255, 255, 0.149);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        img {
+          height: 55px;
+          width: 55px;
+          object-fit: cover;
+          border-radius: 50%;
+          margin: 10px;
+        }
+
+        .username {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        .callStatus {
+        }
+      }
+
+      .incomingCall {
+        .incomingCallActions {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+
+          .answer,
+          .reject {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            color: white;
+            margin: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            svg {
+              margin-right: 7px;
+            }
+            p {
+              padding: 0px;
+            }
+          }
+          .answer {
+            background-color: #37dc52;
+            border: 1px solid #06be2d;
+
+            &:hover {
+              background-color: lighten($color: #37dc52, $amount: 20%);
+            }
+          }
+          .reject {
+            background-color: #d20a0adb;
+            border: 1px solid #d20a0a;
+            &:hover {
+              background-color: lighten($color: #d20a0adb, $amount: 20%);
+            }
+          }
+        }
+      }
+
+      .outgoingCall {
+        .rejectedCallOptions {
+          display: none;
+          align-items: center;
+
+          .callAgainButton,
+          .closeCallButton {
+            padding: 10px 20px;
+            color: white;
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            margin: 10px;
+            width: max-content;
+            cursor: pointer;
+            transition: background-color 0.2s ease-out;
+
+            svg {
+              margin-right: 5px;
+            }
+          }
+
+          .callAgainButton {
+            background-color: #37dc52;
+            border: 1px solid #06be2d;
+            &:hover {
+              background-color: lighten($color: #37dc52, $amount: 15%);
+            }
+          }
+
+          .closeCallButton {
+            background-color: #d20a0adb;
+            border: 1px solid #d20a0a;
+
+            &:hover {
+              background-color: lighten($color: #d20a0adb, $amount: 15%);
+            }
+          }
+        }
+      }
+
+      .header {
+        display: none;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        margin-top: 20px;
+        width: 93%;
+        border-radius: 30px 30px 0 0;
+
+        background: linear-gradient(
+          0deg,
+          rgba(138, 0, 154, 0) 0%,
+          rgba(0, 0, 0, 1) 100%
+        );
+        img {
+          height: 45px;
+          width: 45px;
+          object-fit: cover;
+          border-radius: 50%;
+          margin: 10px;
+        }
+
+        p {
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .userStatus {
+          position: absolute;
+          right: 10px;
+
+          display: flex;
+          align-items: center;
+
+          svg {
+            color: white;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(233, 233, 233, 0.233);
+            background-color: rgba(255, 255, 255, 0.139);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+          }
+
+          .micIcon {
+            padding: 10px 13px;
+          }
+
+          .hide {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.removeCallContainer {
+  display: none;
+}
+
+@media screen and (max-width: '550px') {
+  video {
+    min-width: 94vw;
+    max-width: none;
+    min-height: 42vh;
+    max-height: none;
+  }
+
+  .incomingOutgoingCallWindow {
+    padding: 10px;
+    .callExpandButton {
+      font-size: 1.1rem;
+      top: 82%;
+      right: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transform: rotateZ(180deg);
+    }
+
+    .receiverCardCover {
+      width: 100%;
+      height: 100%;
+      min-width: 94vw;
+      min-height: 205px;
+    }
+
+    .incomingCall,
+    .outgoingCall {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      min-width: 0;
+      max-width: 0;
+      min-height: 0;
+      max-height: 0;
+      width: 100%;
+      height: 100%;
+      margin-top: 8px;
+      img {
+        height: 45px;
+        width: 45px;
+      }
+
+      .username {
+        font-size: 1.1rem;
+      }
+    }
+
+    .incomingCall {
+      .incomingCallActions {
+        margin-top: 10px;
+
+        .answer,
+        .reject {
+          padding: 10px 20px;
+          border-radius: 15px;
+          font-size: 1rem;
+
+          p {
+          }
+          svg {
+            margin-right: 7px;
+          }
+        }
+      }
+    }
+
+    .outgoingCall {
+      .rejectedCallOptions {
+        .callAgainButton,
+        .closeCallButton {
+          padding: 10px 20px;
+          color: white;
+          border-radius: 15px;
+
+          display: none;
+          align-items: center;
+          margin: 10px;
+          width: max-content;
+
+          p {
+            // display: none;
+          }
+
+          svg {
+            margin-right: 6px;
+          }
+        }
+      }
+    }
+
+    .header {
+      margin-top: 10px;
+      width: 96%;
+      background: none;
+      img {
+        height: 45px;
+        width: 45px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: 10px;
+      }
+
+      p {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .userStatus {
+        position: absolute;
+        right: 10px;
+
+        svg {
+          margin: 5px;
+          padding: 10px;
+          border-radius: 50%;
+        }
+
+        .micIcon {
+          padding: 10px 13px;
+        }
+
+        .hide {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .callMinimised {
+    top: 63px;
+    left: 0;
+    width: 100vw;
+
+    .receiverCardCover {
+      display: flex;
+    }
+
+    .incomingCall,
+    .outgoingCall {
+      // flex-direction: row;
+      min-width: 95svw;
+      min-height: 205px;
+      padding: 0px;
+      margin-top: 0px;
+
+      img {
+        height: 45px;
+        width: 45px;
+      }
+    }
+  }
+
+  .callMaximised {
+    top: 25%;
+    right: 45px;
+    transform: translate(0%, -50%);
+
+    .receiverCardCover {
+      width: 100%;
+      height: 100%;
+      min-width: 92.5vw;
+      max-width: 92.5vw;
+      min-height: 48vh;
+      max-height: 48vh;
+      border-radius: 30px;
+    }
+
+    .incomingCall,
+    .outgoingCall {
+      flex-direction: column;
+      min-width: 93vw;
+      max-width: 0;
+      min-height: 48vh;
+      max-height: 0;
+      margin-top: 2px;
+    }
+  }
+
+  .callContainer {
+    .callWrapper {
+      .callMinimiseButton {
+        display: none;
+      }
+
+      .callerCard {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        bottom: 0;
+
+        padding: 10px;
+        padding-top: 5px;
+
+        .callerVideo {
+          width: 94vw;
+          height: 43vh;
+        }
+
+        .header {
+          width: 96%;
+          position: absolute;
+          top: 5px;
+
+          img {
+            height: 45px;
+            width: 45px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 10px;
+          }
+
+          p {
+            font-size: 1.1rem;
+            font-weight: 600;
+          }
+        }
+
+        .callActions {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 93%;
+          padding: 10px 20px;
+          border-radius: 20px;
+          border: 1px solid rgba(233, 233, 233, 0.233);
+          background-color: rgba(255, 255, 255, 0.139);
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+
+          position: absolute;
+          bottom: 23px;
+          left: 50%;
+          right: 50%;
+          width: max-content;
+          margin: auto;
+          transform: translate(-50%, -10px);
+
+          svg {
+            background-color: rgba(255, 255, 255, 0.541);
+            border-radius: 50%;
+            padding: 10px;
+            margin: 5px;
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-out;
+
+            &:hover {
+              background-color: lighten($color: #d20a0a, $amount: 0%);
+            }
+          }
+
+          .disabled {
+            background-color: #d20a0a;
+          }
+
+          .micIcon {
+            padding: 10px 13px;
+          }
+        }
+      }
+
+      .receiverCard {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        padding: 20px;
+        padding-bottom: 5px;
+
+        .receiverVideo {
+          display: none;
+          width: 94vw;
+          height: 43vh;
+        }
+
+        .dummyCard {
+          width: 100%;
+          height: 100%;
+          min-width: 500px;
+          max-width: 500px;
+          min-height: 376px;
+          max-height: 376px;
+          border-radius: 30px;
+        }
+
+        .incomingCall,
+        .outgoingCall {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          z-index: 1;
+          transform: translate(-50%, -50%);
+          min-width: 500px;
+          max-width: 500px;
+          min-height: 375px;
+          max-height: 375px;
+          margin-top: 8px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border-radius: 30px;
+          padding: 20px;
+          border: 1px solid rgba(233, 233, 233, 0.233);
+          // transition: all 0.4s ease-in-out;
+
+          // background-color: rgba(255, 255, 255, 0.149);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+
+          img {
+            height: 75px;
+            width: 75px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 10px;
+          }
+
+          .username {
+            font-size: 1.2rem;
+            font-weight: 600;
+          }
+
+          .callStatus {
+          }
+        }
+
+        .incomingCall {
+          .incomingCallActions {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+
+            .answer,
+            .reject {
+              p {
+                // display: none;
+              }
+              svg {
+                margin-right: 7px;
+              }
+            }
+            .answer {
+              background-color: #37dc52;
+              border: 1px solid #06be2d;
+
+              &:hover {
+                background-color: lighten($color: #37dc52, $amount: 20%);
+              }
+            }
+            .reject {
+              background-color: #d20a0adb;
+              border: 1px solid #d20a0a;
+              &:hover {
+                background-color: lighten($color: #d20a0adb, $amount: 20%);
+              }
+            }
+          }
+        }
+
+        .outgoingCall {
+          .rejectedCallOptions {
+            display: none;
+            align-items: center;
+
+            .callAgainButton,
+            .closeCallButton {
+              padding: 10px 20px;
+              color: white;
+              border-radius: 15px;
+
+              display: flex;
+              align-items: center;
+              margin: 10px;
+              width: max-content;
+              cursor: pointer;
+              transition: background-color 0.2s ease-out;
+
+              p {
+                // display: none;
+              }
+
+              svg {
+                margin-right: 6px;
+              }
+            }
+
+            .callAgainButton {
+              background-color: #37dc52;
+              border: 1px solid #06be2d;
+              &:hover {
+                background-color: lighten($color: #37dc52, $amount: 15%);
+              }
+            }
+
+            .closeCallButton {
+              background-color: #d20a0adb;
+              border: 1px solid #d20a0a;
+
+              &:hover {
+                background-color: lighten($color: #d20a0adb, $amount: 15%);
+              }
+            }
+          }
+        }
+
+        .header {
+          display: none;
+          align-items: center;
+          position: absolute;
+          top: 0;
+          z-index: 1;
+          margin-top: 20px;
+          width: 93%;
+          border-radius: 30px 30px 0 0;
+
+          background: linear-gradient(
+            0deg,
+            rgba(138, 0, 154, 0) 0%,
+            rgba(0, 0, 0, 1) 100%
+          );
+          img {
+            height: 45px;
+            width: 45px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 10px;
+          }
+
+          p {
+            font-size: 1.1rem;
+            font-weight: 600;
+          }
+
+          .userStatus {
+            position: absolute;
+            right: 10px;
+
+            display: flex;
+            align-items: center;
+
+            svg {
+            }
+
+            .micIcon {
+              padding: 10px 13px;
+            }
+
+            .hide {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Expand Animation classes
+  .toastContainerExpAnimate {
+    animation: zoomInToast 0.5s;
+  }
+
+  .receiverCardExpAnimate {
+    animation: recieverCardAnimationZoomIn 0.5s;
+  }
+
+  .incomingOutgoingExpAnimate {
+    animation: incomingOutgoingAnimationZoomIn 0.5s;
+  }
+  @keyframes zoomInToast {
+    0% {
+      top: 63px;
+      left: 0;
+    }
+    100% {
+      top: 28%;
+      right: 50px;
+      transform: translate(0%, -50%);
+    }
+  }
+
+  @keyframes recieverCardAnimationZoomIn {
+    0% {
+      min-width: 94vw;
+      min-height: 115px;
+    }
+    100% {
+      width: 100%;
+      height: 100%;
+      min-width: 92.5vw;
+      max-width: 92.5vw;
+      min-height: 48vh;
+      max-height: 48vh;
+      border-radius: 30px;
+    }
+  }
+
+  @keyframes incomingOutgoingAnimationZoomIn {
+    0% {
+      min-width: 94vw;
+      min-height: 115px;
+    }
+    100% {
+      width: 100%;
+      height: 100%;
+      min-width: 92.5vw;
+      max-width: 92.5vw;
+      min-height: 48vh;
+      max-height: 48vh;
+      border-radius: 30px;
+    }
+  }
+}

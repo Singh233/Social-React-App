@@ -6,12 +6,29 @@ $text-color-gray: #d0d0d0;
 $button-color-gray: #202020;
 $button-color-ligth-blue: #4db1ff;
 
+.containerMaximised {
+  position: absolute !important;
+  top: 45%;
+  left: 50px;
+  transform: translate(0%, -50%);
+  z-index: 9999;
+
+  height: 95% !important;
+  width: 24vw !important;
+  background-color: #0f1216;
+  border-radius: 30px;
+  margin: 10px;
+  min-width: 410px !important;
+  max-width: 410px !important;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
 
   position: relative;
+  z-index: 9999;
 
   height: 70%;
   width: 24vw;

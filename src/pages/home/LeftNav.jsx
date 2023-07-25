@@ -4,7 +4,7 @@ import styles from '../../styles/css/home/leftnav.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,49 +18,54 @@ import { useAuth } from '../../hooks';
 import { FriendList } from '../../components';
 import { Link } from 'react-router-dom';
 import Chat from '../../components/Chat';
+import VideoCall from '../../components/VideoCall';
 
 const LeftNav = () => {
-    const auth = useAuth();
+  const [isCallMinimised, setIsCallMinimised] = useState(false);
 
+  const auth = useAuth();
 
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.header}></div>
 
-    return (
-        <>
-        <div className={styles.container}>
-            <div className={styles.header}>
-                
-            </div>
+        <div className={styles.content}>
+          <Link to="/" className={`${styles.menu} ${styles.currentMenu}`}>
+            <img style={{ height: 30, width: 30 }} src={homeIcon} />
+            <p></p>
+          </Link>
 
-            <div className={styles.content}>
-                <Link to='/' className={`${styles.menu} ${styles.currentMenu}`}>
-                    <img style={{height: 30, width: 30}}  src={homeIcon} />
-                    <p></p>
-                </Link>
+          <Link to="/settings" className={`${styles.menu} `}>
+            <img style={{ height: 30, width: 30 }} src={profile} />
+            <p></p>
+          </Link>
 
-                <Link to='/settings' className={`${styles.menu} `}>
-                    <img style={{height: 30, width: 30}}  src={profile} />
-                    <p></p>
-                </Link>
-
-                <Link to='/settings' className={`${styles.menu} `}>
-                    <img style={{height: 30, width: 30}}  src={settings} />
-                </Link>
-            </div>
-            
-            <Chat/>
-
-            <button onClick={auth.logout} className={styles.signOutButton}>
-                <FontAwesomeIcon className={styles.optionsIcon}  icon={faRightFromBracket} />
-                <span>Log Out &nbsp;</span>
-            </button>
+          <Link to="/settings" className={`${styles.menu} `}>
+            <img style={{ height: 30, width: 30 }} src={settings} />
+          </Link>
         </div>
 
+        <Chat
+          isCallMinimised={isCallMinimised}
+          setIsCallMinimised={setIsCallMinimised}
+        />
 
-        
-        </>
-        
-    );
+        <VideoCall
+          isCallMinimised={isCallMinimised}
+          setIsCallMinimised={setIsCallMinimised}
+        />
+
+        <button onClick={auth.logout} className={styles.signOutButton}>
+          <FontAwesomeIcon
+            className={styles.optionsIcon}
+            icon={faRightFromBracket}
+          />
+          <span>Log Out &nbsp;</span>
+        </button>
+      </div>
+    </>
+  );
 };
-
 
 export default LeftNav;

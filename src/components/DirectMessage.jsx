@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import env from '../utils/env';
 
@@ -18,10 +19,24 @@ import moment from 'moment';
 import _ from 'lodash';
 
 export default function DirectMessage(props) {
-  const { isDirectMessageOpen, setIsDirectMessageOpen, user, chatRoom } = props;
+  const {
+    isDirectMessageOpen,
+    setIsDirectMessageOpen,
+    user,
+    chatRoom,
+    isCallMinimised,
+    setIsCallMinimised,
+    x,
+    y,
+    setX,
+    setY,
+    scale,
+    setScale
+  } = props;
   const auth = useAuth();
   const socket = auth.socket;
   const lastMessageRef = useRef(null);
+
 
   //state for last message
   const [lastMessage, setLastMessage] = useState(null);
@@ -50,6 +65,18 @@ export default function DirectMessage(props) {
   let friend = auth.user.friends.find((friend) => friend._id == user._id);
   // update the user with the friend object
   friend = friend;
+
+  useEffect(() => {
+    if (isCallMinimised) {
+      setX(0);
+      setY(0);
+      setScale(1);
+    } else {
+      setX(115);
+      setY(-66);
+      setScale(1.3);
+    }
+  }, [isCallMinimised]);
 
   useEffect(() => {
     // listen to typing event and show the typing status
@@ -155,7 +182,13 @@ export default function DirectMessage(props) {
   };
 
   return (
-    <div className={styles.container}>
+    <motion.div
+      initial={false}
+      layout
+      animate={{ x, y, scale }}
+      transition={{ type: 'spring' }}
+      className={`${styles.container}`}
+    >
       {
         // show overlay if chat is hidden
         auth.hideMessage && (
@@ -486,6 +519,6 @@ export default function DirectMessage(props) {
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
