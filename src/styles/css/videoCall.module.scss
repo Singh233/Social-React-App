@@ -65,7 +65,8 @@ video {
   }
 
   .incomingCall,
-  .outgoingCall {
+  .outgoingCall,
+  .cancelledCall {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -109,7 +110,7 @@ video {
   }
 
   .incomingCall {
-    // display: none;
+    display: none;
     .username {
       margin: 10px;
     }
@@ -157,14 +158,16 @@ video {
 
   .outgoingCall {
     display: none;
+  }
 
+  .cancelledCall {
     .rejectedCallOptions {
-      display: none;
+      display: flex;
       align-items: center;
 
       .callAgainButton,
       .closeCallButton {
-        padding: 10px 20px;
+        padding: 0px 20px;
         color: white;
         border-radius: 15px;
 
@@ -257,12 +260,10 @@ video {
 }
 
 .dummyVideo {
-
   position: fixed;
   top: 50%;
   right: 63px;
   // z-index: 9999;
-
 }
 
 .callMinimised {

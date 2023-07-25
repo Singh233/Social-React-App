@@ -183,6 +183,22 @@ $button-color-ligth-blue: #4db1ff;
           color: white;
         }
       }
+
+      .videoIcon,
+      .videoIconSlash {
+        margin-right: 10px;
+        padding: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+        color: rgba(255, 255, 255, 0.568);
+
+        &:hover {
+          color: white;
+        }
+      }
+      .videoIconSlash {
+        cursor: not-allowed;
+      }
     }
 
     .content {

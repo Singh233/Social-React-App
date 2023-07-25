@@ -23,8 +23,14 @@ import toast from 'react-hot-toast';
 import moment from 'moment';
 import Peer from 'peerjs';
 
-const Chat = ({ isCallMinimised, setIsCallMinimised }) => {
+const Chat = () => {
   const auth = useAuth();
+  const {
+    isCallMinimised,
+    setIsCallMinimised,
+    videoIconClicked,
+    setVideoIconClicked,
+  } = auth.video;
   const socket = auth.socket;
 
   let count = 0;
@@ -44,16 +50,22 @@ const Chat = ({ isCallMinimised, setIsCallMinimised }) => {
   const [chatRoom, setChatRoom] = useState(null);
 
   useEffect(() => {
-    if (isCallMinimised) {
+    if (videoIconClicked) {
+      if (isCallMinimised) {
+        setX(0);
+        setY(0);
+        setScale(1);
+      } else {
+        setX(115);
+        setY(-66);
+        setScale(1.3);
+      }
+    } else {
       setX(0);
       setY(0);
       setScale(1);
-    } else {
-      setX(115);
-      setY(-66);
-      setScale(1.3);
     }
-  }, [isCallMinimised]);
+  }, [videoIconClicked, isCallMinimised]);
 
   useEffect(() => {
     socket.emit('user_online', {
@@ -237,8 +249,6 @@ const Chat = ({ isCallMinimised, setIsCallMinimised }) => {
           setIsDirectMessageOpen={setIsDirectMessageOpen}
           user={clickedUser}
           chatRoom={chatRoom}
-          isCallMinimised={isCallMinimised}
-          setIsCallMinimised={setIsCallMinimised}
           x={x}
           y={y}
           setX={setX}

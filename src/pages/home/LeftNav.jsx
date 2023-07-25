@@ -21,8 +21,6 @@ import Chat from '../../components/Chat';
 import VideoCall from '../../components/VideoCall';
 
 const LeftNav = () => {
-  const [isCallMinimised, setIsCallMinimised] = useState(false);
-
   const auth = useAuth();
 
   return (
@@ -46,15 +44,9 @@ const LeftNav = () => {
           </Link>
         </div>
 
-        <Chat
-          isCallMinimised={isCallMinimised}
-          setIsCallMinimised={setIsCallMinimised}
-        />
+        <Chat />
 
-        <VideoCall
-          isCallMinimised={isCallMinimised}
-          setIsCallMinimised={setIsCallMinimised}
-        />
+        <VideoCall />
 
         <button onClick={auth.logout} className={styles.signOutButton}>
           <FontAwesomeIcon

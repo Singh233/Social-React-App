@@ -7,7 +7,11 @@ import styles from '../styles/css/directmessage.module.scss';
 import dummyImg from '../styles/img/dummy.jpeg';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faVideo } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronLeft,
+  faVideo,
+  faVideoSlash,
+} from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -24,19 +28,24 @@ export default function DirectMessage(props) {
     setIsDirectMessageOpen,
     user,
     chatRoom,
-    isCallMinimised,
-    setIsCallMinimised,
     x,
     y,
     setX,
     setY,
     scale,
-    setScale
+    setScale,
   } = props;
   const auth = useAuth();
+  const {
+    isCallMinimised,
+    setIsCallMinimised,
+    videoIconClicked,
+    setVideoIconClicked,
+    initiateVideoCall,
+  } = auth.video;
   const socket = auth.socket;
   const lastMessageRef = useRef(null);
-
+  const videoIcon = useRef();
 
   //state for last message
   const [lastMessage, setLastMessage] = useState(null);
@@ -67,16 +76,18 @@ export default function DirectMessage(props) {
   friend = friend;
 
   useEffect(() => {
-    if (isCallMinimised) {
-      setX(0);
-      setY(0);
-      setScale(1);
-    } else {
-      setX(115);
-      setY(-66);
-      setScale(1.3);
+    if (videoIconClicked) {
+      if (isCallMinimised) {
+        setX(0);
+        setY(0);
+        setScale(1);
+      } else {
+        setX(115);
+        setY(-66);
+        setScale(1.3);
+      }
     }
-  }, [isCallMinimised]);
+  }, [videoIconClicked, isCallMinimised]);
 
   useEffect(() => {
     // listen to typing event and show the typing status
@@ -181,6 +192,10 @@ export default function DirectMessage(props) {
     }
   };
 
+  const handleVideoButtonClick = () => {
+    initiateVideoCall();
+  };
+
   return (
     <motion.div
       initial={false}
@@ -230,13 +245,10 @@ export default function DirectMessage(props) {
             </span>
           </p>
           <FontAwesomeIcon
-            className={styles.videoIcon}
-            onClick={() =>
-              toast('Coming soon!', {
-                icon: '🚀',
-              })
-            }
-            icon={faVideo}
+            ref={videoIcon}
+            className={`${videoIconClicked ? styles.videoIconSlash : styles.videoIcon}`}
+            onClick={!videoIconClicked ? handleVideoButtonClick : () => {}}
+            icon={videoIconClicked ? faVideoSlash : faVideo}
           />
         </div>
 

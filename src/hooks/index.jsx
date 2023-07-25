@@ -37,6 +37,10 @@ export const useProvideAuth = () => {
   const [hideMessage, setHideMessage] = useState(false);
   // state for user message icon click
   const [userMessageClick, setUserMessageClick] = useState(null);
+  // state for video icon click
+  const [videoIconClicked, setVideoIconCliked] = useState(false);
+  // state for call minimised or maximised
+  const [isCallMinimised, setIsCallMinimised] = useState(false);
 
   // make socket connection
   const [socket, setSocket] = useState(null);
@@ -367,12 +371,14 @@ export const useProvideAuth = () => {
 
     const compareByCreatedAt = (a, b) => {
       // Convert createdAt strings to Date objects
-      const timeA = a.chatRoom.lastMessage && a.chatRoom.lastMessage.timestamp
-        ? a.chatRoom.lastMessage.timestamp
-        : `2000-05-11T18:05:57.632Z`;
-      const timeB = b.chatRoom.lastMessage && b.chatRoom.lastMessage.timestamp
-        ? b.chatRoom.lastMessage.timestamp
-        : `2000-05-11T18:05:57.632Z`;
+      const timeA =
+        a.chatRoom.lastMessage && a.chatRoom.lastMessage.timestamp
+          ? a.chatRoom.lastMessage.timestamp
+          : `2000-05-11T18:05:57.632Z`;
+      const timeB =
+        b.chatRoom.lastMessage && b.chatRoom.lastMessage.timestamp
+          ? b.chatRoom.lastMessage.timestamp
+          : `2000-05-11T18:05:57.632Z`;
 
       const dateA = new Date(timeA);
       const dateB = new Date(timeB);
@@ -428,6 +434,16 @@ export const useProvideAuth = () => {
     return response;
   };
 
+  // handle initiate video call
+  const initiateVideoCall = () => {
+    setVideoIconCliked(true);
+  };
+
+  // handle exit video call
+  const exitVideoCall = () => {
+    setVideoIconCliked(false);
+  };
+
   return {
     user,
     login,
@@ -446,6 +462,14 @@ export const useProvideAuth = () => {
     socket,
     handleSavePost,
     handleUnsavePost,
+    video: {
+      videoIconClicked,
+      setVideoIconCliked,
+      initiateVideoCall,
+      isCallMinimised,
+      setIsCallMinimised,
+      exitVideoCall
+    },
   };
 };
 
