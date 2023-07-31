@@ -26,13 +26,14 @@ import avatar from '../styles/memojis/memo3.png';
 import 'animate.css';
 
 import Comment from './Comment';
-import { useAuth, usePosts } from '../hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import moment from 'moment';
+import { usePosts } from '../hooks/usePosts';
+import { useAuth } from '../hooks/useAuth';
 
 const Post = ({ post }) => {
   const [expandMenu, setExpandMenu] = useState(false);

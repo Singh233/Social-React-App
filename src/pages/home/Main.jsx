@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CreatePost, Post } from '../../components';
 import toast from 'react-hot-toast';
-import { usePosts } from '../../hooks';
 import _ from 'lodash';
+import { usePosts } from '../../hooks/usePosts';
 
 const Main = ({ posts }) => {
   const postsState = usePosts();

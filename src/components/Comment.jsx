@@ -6,19 +6,20 @@ import likeFill from '../styles/icon/heartfill.png';
 import { deleteComment, toggleLike } from '../api';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useAuth, usePosts } from '../hooks';
 
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { usePosts } from '../hooks/usePosts';
+import { useAuth } from '../hooks/useAuth';
 
 function Comment({ comment, postId }) {
   const posts = usePosts();
+  const auth = useAuth();
 
   const [likes, setLikes] = useState(comment.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-  const auth = useAuth();
 
   useEffect(() => {
     // check if the comment is liked by the user

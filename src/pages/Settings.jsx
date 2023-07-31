@@ -2,7 +2,7 @@ import LoadingBar from 'react-top-loading-bar';
 // Styles
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth } from '../hooks/useAuth.jsx';
 import styles from '../styles/css/settings.module.css';
 
 import env from '../utils/env';

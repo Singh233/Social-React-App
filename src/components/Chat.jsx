@@ -15,13 +15,15 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { useAuth, usePosts } from '../hooks';
+
 import { Link } from 'react-router-dom';
 import DirectMessage from './DirectMessage';
 import socketIo from 'socket.io-client';
 import toast from 'react-hot-toast';
 import moment from 'moment';
-import Peer from 'peerjs';
+import { useVideo } from '../hooks/useVideo';
+import { useAuth } from '../hooks/useAuth';
+import { usePosts } from '../hooks/usePosts';
 
 const Chat = () => {
   const auth = useAuth();
@@ -30,7 +32,8 @@ const Chat = () => {
     setIsCallMinimised,
     videoIconClicked,
     setVideoIconClicked,
-  } = auth.video;
+    incomingCall,
+  } = useVideo();
   const socket = auth.socket;
 
   let count = 0;
@@ -50,7 +53,7 @@ const Chat = () => {
   const [chatRoom, setChatRoom] = useState(null);
 
   useEffect(() => {
-    if (videoIconClicked) {
+    if (videoIconClicked || incomingCall) {
       if (isCallMinimised) {
         setX(0);
         setY(0);
@@ -65,7 +68,7 @@ const Chat = () => {
       setY(0);
       setScale(1);
     }
-  }, [videoIconClicked, isCallMinimised]);
+  }, [videoIconClicked, isCallMinimised, incomingCall]);
 
   useEffect(() => {
     socket.emit('user_online', {

@@ -54,28 +54,27 @@ video {
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg); /* Safari and Chrome */
     -moz-transform: rotateY(180deg); /* Firefox */
+
     background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.65) 0%,
-        rgba(0, 0, 0, 0.65) 100%
-      ),
-      url('../img/dummy.jpeg');
+      169deg,
+      rgba(5, 5, 19, 1) 0%,
+      rgba(20, 16, 64, 1) 50%,
+      rgba(42, 36, 142, 1) 90%
+    );
     background-repeat: no-repeat;
     background-size: cover;
   }
 
-  .incomingCall,
-  .outgoingCall,
-  .cancelledCall {
+  .call {
     position: absolute;
     top: 50%;
     left: 50%;
     z-index: 1;
     transform: translate(-50%, -50%);
-    min-width: 500px;
-    max-width: 500px;
-    min-height: 375px;
-    max-height: 375px;
+    min-width: 499px;
+    max-width: 499px;
+    min-height: 376px;
+    max-height: 376px;
     margin-top: 8px;
     display: flex;
     flex-direction: column;
@@ -83,12 +82,12 @@ video {
     justify-content: center;
     border-radius: 30px;
     padding: 0px;
-    border: 1px solid rgba(233, 233, 233, 0.233);
+    // border: 1px solid rgba(233, 233, 233, 0.233);
     // transition: all 0.4s ease-in-out;
 
     // background-color: rgba(255, 255, 255, 0.149);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    // backdrop-filter: blur(12px);
+    // -webkit-backdrop-filter: blur(12px);
 
     img {
       height: 75px;
@@ -101,19 +100,15 @@ video {
     .username {
       font-size: 1.7rem;
       font-weight: 600;
-      margin: 0;
+      margin: 10px;
+      margin-top: 5px;
     }
 
     .callStatus {
       font-size: 1.3rem;
-    }
-  }
-
-  .incomingCall {
-    display: none;
-    .username {
       margin: 10px;
     }
+
     .incomingCallActions {
       display: flex;
       align-items: center;
@@ -126,6 +121,7 @@ video {
         padding: 0px 30px;
         border-radius: 15px;
         font-size: 1.3rem;
+        font-weight: 500;
         color: white;
         margin: 5px;
         cursor: pointer;
@@ -154,14 +150,9 @@ video {
         }
       }
     }
-  }
 
-  .outgoingCall {
-    display: none;
-  }
-
-  .cancelledCall {
-    .rejectedCallOptions {
+    .rejectedCallOptions,
+    .outgoingCallOptions {
       display: flex;
       align-items: center;
 
@@ -170,7 +161,8 @@ video {
         padding: 0px 20px;
         color: white;
         border-radius: 15px;
-
+        font-size: 1.3rem;
+        font-weight: 500;
         display: flex;
         align-items: center;
         margin: 10px;
@@ -180,6 +172,10 @@ video {
 
         svg {
           margin-right: 5px;
+        }
+        p {
+          margin: 0;
+          padding: 15px 0;
         }
       }
 
@@ -201,6 +197,106 @@ video {
       }
     }
   }
+
+  // .incomingCall {
+  //   display: none;
+  //   .username {
+  //     margin: 10px;
+  //   }
+  //   .incomingCallActions {
+  //     display: flex;
+  //     align-items: center;
+  //     margin-top: 10px;
+
+  //     .answer,
+  //     .reject {
+  //       display: flex;
+  //       align-items: center;
+  //       padding: 0px 30px;
+  //       border-radius: 15px;
+  //       font-size: 1.3rem;
+  //       color: white;
+  //       margin: 5px;
+  //       cursor: pointer;
+  //       transition: all 0.2s ease-out;
+  //       svg {
+  //         margin-right: 7px;
+  //       }
+  //       p {
+  //         margin: 0;
+  //         padding: 15px 0;
+  //       }
+  //     }
+  //     .answer {
+  //       background-color: #37dc52;
+  //       border: 1px solid #06be2d;
+
+  //       &:hover {
+  //         background-color: lighten($color: #37dc52, $amount: 20%);
+  //       }
+  //     }
+  //     .reject {
+  //       background-color: #d20a0adb;
+  //       border: 1px solid #d20a0a;
+  //       &:hover {
+  //         background-color: lighten($color: #d20a0adb, $amount: 20%);
+  //       }
+  //     }
+  //   }
+  // }
+
+  // .outgoingCall {
+  //   display: none;
+  // }
+
+  // .cancelledCall {
+  //   .username {
+  //     margin: 5px;
+  //   }
+
+  //   .callStatus {
+  //     margin: 5px;
+  //   }
+  //   .rejectedCallOptions {
+  //     display: flex;
+  //     align-items: center;
+
+  //     .callAgainButton,
+  //     .closeCallButton {
+  //       padding: 0px 20px;
+  //       color: white;
+  //       border-radius: 15px;
+
+  //       display: flex;
+  //       align-items: center;
+  //       margin: 10px;
+  //       width: max-content;
+  //       cursor: pointer;
+  //       transition: background-color 0.2s ease-out;
+
+  //       svg {
+  //         margin-right: 5px;
+  //       }
+  //     }
+
+  //     .callAgainButton {
+  //       background-color: #37dc52;
+  //       border: 1px solid #06be2d;
+  //       &:hover {
+  //         background-color: lighten($color: #37dc52, $amount: 15%);
+  //       }
+  //     }
+
+  //     .closeCallButton {
+  //       background-color: #d20a0adb;
+  //       border: 1px solid #d20a0a;
+
+  //       &:hover {
+  //         background-color: lighten($color: #d20a0adb, $amount: 15%);
+  //       }
+  //     }
+  //   }
+  // }
 
   .header {
     display: none;
@@ -473,7 +569,7 @@ video {
       padding-bottom: 5px;
 
       .receiverVideo {
-        display: none;
+        // display: none;
       }
 
       .dummyCard {

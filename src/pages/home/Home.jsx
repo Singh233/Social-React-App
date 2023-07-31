@@ -6,13 +6,15 @@ import styles from '../../styles/css/home/home.module.css';
 import LeftNav from './LeftNav';
 import RightNav from './RightNav';
 import Main from './Main';
-import { useAuth, usePosts } from '../../hooks';
+
 import LoadingBar from 'react-top-loading-bar';
 import Chat from '../../components/Chat';
 
 import socketIo from 'socket.io-client';
 
 import env from '../../utils/env';
+import { useAuth } from '../../hooks/useAuth';
+import { usePosts } from '../../hooks/usePosts';
 
 const Home = () => {
   const auth = useAuth();

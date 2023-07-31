@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth } from '../hooks/useAuth.jsx';
 import styles from '../styles/css/home/rightnav.module.css';
 
 import message from '../styles/icon/message2.png';

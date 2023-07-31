@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import FriendList from '../../components/FriendList';
-import { useAuth } from '../../hooks';
+import { useAuth } from '../../hooks/useAuth';
 
 import styles from '../../styles/css/home/rightnav.module.css';
 import avatar from '../../styles/memojis/memo3.png';

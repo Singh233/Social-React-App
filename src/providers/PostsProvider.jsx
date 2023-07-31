@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { useProvidePosts } from '../hooks';
+import { useProvidePosts } from '../hooks/usePosts';
 
 const initialState = {
   posts: [],

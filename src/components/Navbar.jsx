@@ -21,7 +21,7 @@ import { faCloud } from '@fortawesome/free-solid-svg-icons';
 
 import profile from '../styles/memojis/memo3.png';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { searchUsers } from '../api';
 import toast from 'react-hot-toast';
 

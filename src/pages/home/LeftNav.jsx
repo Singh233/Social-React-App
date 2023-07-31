@@ -14,11 +14,12 @@ import chat from '../../styles/icon/chat.png';
 import profile from '../../styles/icon/profile.png';
 import settings from '../../styles/icon/settingnormal.png';
 import explore from '../../styles/icon/explore2.png';
-import { useAuth } from '../../hooks';
+
 import { FriendList } from '../../components';
 import { Link } from 'react-router-dom';
 import Chat from '../../components/Chat';
 import VideoCall from '../../components/VideoCall';
+import { useAuth } from '../../hooks/useAuth';
 
 const LeftNav = () => {
   const auth = useAuth();

@@ -2,7 +2,7 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom';
 // Styles
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth } from '../hooks/useAuth.jsx';
 import styles from '../styles/css/settings.module.css';
 import avatar from '../styles/memojis/memo3.png';
 import LoadingBar from 'react-top-loading-bar';

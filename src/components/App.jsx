@@ -1,12 +1,16 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { redirect } from 'react-router-dom';
 
 import { Home, SignInUp, Settings, UserProfile } from '../pages';
 import { Loader, Navbar, SmBottomnNav } from './';
 import React, { useState } from 'react';
 import LoadingBar from 'react-top-loading-bar';
-import { getItemInLocalStorage, LOCALSTORAGE_TOKEN_KEY, removeItemInLocalStorage } from '../utils';
+import {
+  getItemInLocalStorage,
+  LOCALSTORAGE_TOKEN_KEY,
+  removeItemInLocalStorage,
+} from '../utils';
 import Messaging from '../pages/Messaging';
 import socketIo from 'socket.io-client';
 import env from '../utils/env';
@@ -15,7 +19,11 @@ import SmCreatePost from '../pages/SmCreatePost';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
-  return getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY) ? children : <Navigate to="/login" />;
+  return getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY) ? (
+    children
+  ) : (
+    <Navigate to="/login" />
+  );
 }
 
 const Page404 = () => {
@@ -30,7 +38,6 @@ function App() {
   let socket = null;
 
   if (auth.user) {
-    
   }
 
   // if (auth.loading) {
@@ -51,7 +58,6 @@ function App() {
 
   return (
     <div className="App">
-      
       <LoadingBar color="#f11946" progress="100" />
       {auth.loading ? (
         <Loader />
@@ -71,7 +77,6 @@ function App() {
 
           <Route path="/login" element={<SignInUp />} />
 
-
           <Route
             path="/messages"
             element={
@@ -90,7 +95,7 @@ function App() {
                 <SmBottomnNav />
               </PrivateRoute>
             }
-          />  
+          />
 
           {/* For small devices */}
           <Route
@@ -102,7 +107,7 @@ function App() {
                 <SmBottomnNav />
               </PrivateRoute>
             }
-          />   
+          />
 
           <Route
             path="/settings"
@@ -129,7 +134,6 @@ function App() {
       )}
 
       {/* For Small Devices */}
-      
     </div>
   );
 }

@@ -16,11 +16,12 @@ import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { createMessage, fetchMessages } from '../api';
 import toast from 'react-hot-toast';
 import moment from 'moment';
 import _ from 'lodash';
+import { useVideo } from '../hooks/useVideo';
 
 export default function DirectMessage(props) {
   const {
@@ -42,7 +43,10 @@ export default function DirectMessage(props) {
     videoIconClicked,
     setVideoIconClicked,
     initiateVideoCall,
-  } = auth.video;
+    setCallReceiver,
+    incomingCall,
+    setCamLoading,
+  } = useVideo();
   const socket = auth.socket;
   const lastMessageRef = useRef(null);
   const videoIcon = useRef();
@@ -76,7 +80,7 @@ export default function DirectMessage(props) {
   friend = friend;
 
   useEffect(() => {
-    if (videoIconClicked) {
+    if (videoIconClicked || incomingCall) {
       if (isCallMinimised) {
         setX(0);
         setY(0);
@@ -86,8 +90,12 @@ export default function DirectMessage(props) {
         setY(-66);
         setScale(1.3);
       }
+    } else {
+      setX(0);
+      setY(0);
+      setScale(1);
     }
-  }, [videoIconClicked, isCallMinimised]);
+  }, [videoIconClicked, isCallMinimised, incomingCall]);
 
   useEffect(() => {
     // listen to typing event and show the typing status
@@ -194,6 +202,8 @@ export default function DirectMessage(props) {
 
   const handleVideoButtonClick = () => {
     initiateVideoCall();
+    setCamLoading(true);
+    setCallReceiver(friend);
   };
 
   return (
@@ -246,7 +256,9 @@ export default function DirectMessage(props) {
           </p>
           <FontAwesomeIcon
             ref={videoIcon}
-            className={`${videoIconClicked ? styles.videoIconSlash : styles.videoIcon}`}
+            className={`${
+              videoIconClicked ? styles.videoIconSlash : styles.videoIcon
+            }`}
             onClick={!videoIconClicked ? handleVideoButtonClick : () => {}}
             icon={videoIconClicked ? faVideoSlash : faVideo}
           />
