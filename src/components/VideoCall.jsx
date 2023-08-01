@@ -7,10 +7,12 @@ import {
   faAngleUp,
   faCancel,
   faMicrophone,
+  faMicrophoneSlash,
   faPhone,
   faPhoneSlash,
   faRightFromBracket,
   faVideo,
+  faVideoSlash,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../hooks/useAuth.jsx';
@@ -42,6 +44,11 @@ export default function VideoCall() {
   const [animate, setAnimate] = useState(true);
   const [callType, setCallType] = useState(CALL_TYPE.OUTGOING);
   const [callState, setCallState] = useState(CALL_STATE.IDLE);
+  const [micToggle, setMicToggle] = useState(false);
+  const [cameraToggle, setCameraToggle] = useState(false);
+  const [otherUserMicToggle, setOtherUserMicToggle] = useState(false);
+  const [otherUserCameraToggle, setOtherUserCameraToggle] = useState(false);
+
   // current video stream state
   const [currentAudioVideoStream, setCurrentAudioVideoStream] = useState(null);
   // peer connection state
@@ -102,6 +109,48 @@ export default function VideoCall() {
     mediaStream = null;
   };
 
+  // Stop audio only
+  const toggleAudioOnly = async (isDisabled) => {
+    await mediaStream?.getTracks().forEach(async (track) => {
+      if (
+        (track.readyState === 'live' || track.readyState === 'ended') &&
+        track.kind === 'audio'
+      ) {
+        track.enabled = !isDisabled;
+      }
+    });
+
+    await currentAudioVideoStream?.getTracks().forEach(async (track) => {
+      if (
+        (track.readyState === 'live' || track.readyState === 'ended') &&
+        track.kind === 'audio'
+      ) {
+        track.enabled = !isDisabled;
+      }
+    });
+  };
+
+  // Stop camera only
+  const toggleVideoOnly = async (isDisabled) => {
+    await mediaStream?.getTracks().forEach(async (track) => {
+      if (
+        (track.readyState === 'live' || track.readyState === 'ended') &&
+        track.kind === 'video'
+      ) {
+        track.enabled = !isDisabled;
+      }
+    });
+
+    await currentAudioVideoStream?.getTracks().forEach(async (track) => {
+      if (
+        (track.readyState === 'live' || track.readyState === 'ended') &&
+        track.kind === 'video'
+      ) {
+        track.enabled = !isDisabled;
+      }
+    });
+  };
+
   // Adds a video stream to the video grid
   const addVideoStream = (video, stream) => {
     video.current.srcObject = stream;
@@ -109,6 +158,16 @@ export default function VideoCall() {
     video.current.addEventListener('loadedmetadata', () => {
       video.current.play();
     });
+  };
+
+  // Reset camera, mic toggle state
+  const resetCallActions = () => {
+    setCameraToggle(false);
+    setMicToggle(false);
+    setOtherUserCameraToggle(false);
+    setOtherUserMicToggle(false);
+    toggleAudioOnly();
+    toggleVideoOnly();
   };
 
   const displayCamLoadingToast = async () => {
@@ -170,6 +229,26 @@ export default function VideoCall() {
     }
   }, [videoIconClicked]);
 
+  useEffect(() => {
+    // Emit event in case of call is not yet started but users mic is disabled
+    // and the event will fire once connectedPeer is set
+    if (connectedPeer) {
+      if (micToggle) {
+        emitMicToggleSocket(true);
+      }
+    }
+  }, [connectedPeer, micToggle]);
+
+  useEffect(() => {
+    // Emit event in case of call is not yet started but users camera is disabled
+    // and the event will fire once connectedPeer is set
+    if (connectedPeer) {
+      if (cameraToggle) {
+        emitCameraToggleSocket(true);
+      }
+    }
+  }, [connectedPeer, cameraToggle]);
+
   const initiateCall = async () => {
     if (!myPeer) await initiatePeerConnection();
     if (!currentAudioVideoStream) await startAudioAndVideo();
@@ -222,6 +301,7 @@ export default function VideoCall() {
     setY([-200, -200]);
     setScale(1);
     setCallContainerOpacity([0, 1]);
+    resetCallActions();
   };
 
   const handleCallAgainClick = async () => {
@@ -261,6 +341,48 @@ export default function VideoCall() {
     });
   };
 
+  const handleMicToggleClick = () => {
+    if (callState === CALL_STATE.ANSWERED) {
+      // emit event to self and connected user
+      if (micToggle) emitMicToggleSocket(!micToggle);
+    }
+
+    toggleAudioOnly(!micToggle);
+    toast.success(`Mic ${micToggle ? 'enabled!' : 'disabled!'}`);
+    setMicToggle(!micToggle);
+  };
+
+  const handleCameraToggleClick = () => {
+    // Emit event to the connected user
+    if (callState === CALL_STATE.ANSWERED) {
+      // Only emit if camera was off because on case is handled in useEffect
+      if (cameraToggle) emitCameraToggleSocket(!cameraToggle);
+    }
+    toggleVideoOnly(!cameraToggle);
+    toast.success(`Camera ${cameraToggle ? 'enabled!' : 'disabled!'}`);
+    setCameraToggle(!cameraToggle);
+  };
+
+  const emitMicToggleSocket = (isDisabled) => {
+    socket.emit('call_mic_toggle', {
+      from_user: auth.user._id,
+      to_user: callReceiver ? callReceiver._id : callee ? callee._id : '',
+      user_name: auth.user.name,
+      user_profile: auth.user.avatar,
+      isDisabled: isDisabled,
+    });
+  };
+
+  const emitCameraToggleSocket = (isDisabled) => {
+    socket.emit('call_camera_toggle', {
+      from_user: auth.user._id,
+      to_user: callReceiver ? callReceiver._id : callee ? callee._id : '',
+      user_name: auth.user.name,
+      user_profile: auth.user.avatar,
+      isDisabled: isDisabled,
+    });
+  };
+
   const emitNotification = () => {
     const { _id: toUserId, chatRoomId: callRoomId } = callReceiver;
     const {
@@ -290,6 +412,7 @@ export default function VideoCall() {
     });
     myPeer.on('call', (call) => {
       call.answer(mediaStream);
+      setConnectedPeer(call);
       call.on('stream', (userVideoStream) => {
         addVideoStream(receiverVideoRef, userVideoStream);
         toast.success('Connected!');
@@ -397,6 +520,8 @@ export default function VideoCall() {
       }
 
       setCallType(CALL_TYPE.CANCELLED);
+      setOtherUserCameraToggle(false);
+      setOtherUserMicToggle(false);
     });
 
     // Event listener for other user call connected
@@ -406,6 +531,68 @@ export default function VideoCall() {
       callUser(data);
       // update is in call variable
       setCallState(CALL_STATE.ANSWERED);
+    });
+
+    // Event listeners when user toggle mic or camera
+    socket.off('mic_toggled');
+    socket.on('mic_toggled', (data) => {
+      if (data.from_user === auth.user._id) {
+        return;
+      }
+      // Return if call is not connected
+      if (callState === CALL_STATE.IDLE || callState === CALL_STATE.RINGING) {
+        return;
+      }
+      if (data.isDisabled) {
+        // update mic icon of connected user
+
+        toast(`${data.user_name && data.user_name.split(' ')[0]} is muted!`, {
+          icon: '🎤',
+        });
+      } else {
+        // update mic icon of connected user
+
+        toast(
+          `${data.user_name && data.user_name.split(' ')[0]} is now unmuted!`,
+          {
+            icon: '🎤',
+          }
+        );
+      }
+      setOtherUserMicToggle(data.isDisabled);
+    });
+    socket.off('camera_toggled');
+    socket.on('camera_toggled', (data) => {
+      if (data.from_user === auth.user._id) {
+        return;
+      }
+      if (callState === CALL_STATE.IDLE || callState === CALL_STATE.RINGING) {
+        return;
+      }
+      if (data.isDisabled) {
+        // update video icon of connected user
+
+        toast(
+          `${
+            data.user_name && data.user_name.split(' ')[0]
+          } turned off their video!`,
+          {
+            icon: '🎥',
+          }
+        );
+      } else {
+        // update video icon of connected user
+
+        toast(
+          `${
+            data.user_name && data.user_name.split(' ')[0]
+          } turned on their video!`,
+          {
+            icon: '🎥',
+          }
+        );
+      }
+      setOtherUserCameraToggle(data.isDisabled);
     });
 
     // if the user is disconnected(tab closed, internet issues, or log out)
@@ -430,7 +617,7 @@ export default function VideoCall() {
 
   const callUser = (data) => {
     const call = myPeer.call(data.fromUserPeerId, currentAudioVideoStream);
-    // self.peers[userId] = call;
+    // peers[userId] = call;
     setConnectedPeer(call);
 
     call.on('stream', (userVideoStream) => {
@@ -492,12 +679,16 @@ export default function VideoCall() {
 
               <div className={`${styles.userStatus}`}>
                 <FontAwesomeIcon
-                  icon={faMicrophone}
-                  className={`${styles.micIcon}`}
+                  icon={otherUserMicToggle ? faMicrophoneSlash : faMicrophone}
+                  className={`${styles.micIcon} ${
+                    otherUserMicToggle ? styles.cameraSlash : ''
+                  }`}
                 />
                 <FontAwesomeIcon
-                  icon={faVideo}
-                  className={`${styles.videoIcon}`}
+                  icon={otherUserCameraToggle ? faVideoSlash : faVideo}
+                  className={`${styles.videoIcon} ${
+                    otherUserCameraToggle ? styles.cameraSlash : ''
+                  }`}
                 />
               </div>
             </div>
@@ -667,15 +858,21 @@ export default function VideoCall() {
                   src=""
                 ></motion.video>
 
-                <div className={`${styles.callActions}`}>
+                <div className={`${styles.callActions} `}>
                   <FontAwesomeIcon
-                    icon={faMicrophone}
-                    className={`${styles.micIcon}`}
+                    icon={micToggle ? faMicrophoneSlash : faMicrophone}
+                    className={`${styles.micIcon} ${
+                      micToggle ? styles.micSlash : ''
+                    }`}
+                    onClick={handleMicToggleClick}
                   />
 
                   <FontAwesomeIcon
-                    icon={faVideo}
-                    className={`${styles.videoIcon}`}
+                    icon={cameraToggle ? faVideoSlash : faVideo}
+                    className={`${styles.videoIcon} ${
+                      cameraToggle ? styles.cameraSlash : ''
+                    }`}
+                    onClick={handleCameraToggleClick}
                   />
 
                   <FontAwesomeIcon
