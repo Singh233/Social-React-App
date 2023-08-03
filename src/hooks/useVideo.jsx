@@ -17,6 +17,8 @@ export const useProvideVideo = () => {
   const [callReceiver, setCallReceiver] = useState(null);
   // state for incoming call
   const [incomingCall, setIncomingCall] = useState(false);
+  // state for x position of call wrapper
+  const [boundX, setBoundX] = useState(0);
 
   // handle initiate video call
   const initiateVideoCall = () => {
@@ -31,6 +33,8 @@ export const useProvideVideo = () => {
   };
 
   return {
+    boundX,
+    setBoundX,
     camLoading,
     setCamLoading,
     incomingCall,

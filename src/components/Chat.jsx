@@ -33,6 +33,8 @@ const Chat = () => {
     videoIconClicked,
     setVideoIconClicked,
     incomingCall,
+    boundX,
+    setBoundX,
   } = useVideo();
   const socket = auth.socket;
 
@@ -42,6 +44,13 @@ const Chat = () => {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [scale, setScale] = useState(1);
+  const [background, setBackground] = useState(`linear-gradient(
+    169deg,
+    rgba(5, 5, 19, 1) 0%,
+    rgba(20, 16, 64, 1) 30%,
+    rgba(42, 36, 142, 1) 60%,
+    rgba(86, 80, 187, 1) 90%
+  )`);
   const [users, setUsers] = useState([]);
   // state for chat friends
   const [chatFriends, setChatFriends] = useState(auth.user.friends);
@@ -58,17 +67,21 @@ const Chat = () => {
         setX(0);
         setY(0);
         setScale(1);
+        console.log('if');
       } else {
-        setX(115);
-        setY(-66);
-        setScale(1.3);
+        if (boundX !== 0) {
+          setX(boundX + 40);
+          setY(-20);
+          setScale(1.2);
+        }
       }
     } else {
+      console.log('else');
       setX(0);
       setY(0);
       setScale(1);
     }
-  }, [videoIconClicked, isCallMinimised, incomingCall]);
+  }, [videoIconClicked, isCallMinimised, incomingCall, boundX]);
 
   useEffect(() => {
     socket.emit('user_online', {
@@ -265,7 +278,11 @@ const Chat = () => {
           layout
           animate={{ x, y, scale }}
           transition={{ type: 'spring' }}
-          className={`${styles.chatContainer} `}
+          className={`${styles.chatContainer} ${
+            !isCallMinimised && (videoIconClicked || incomingCall)
+              ? styles.changeBg
+              : ''
+          }`}
         >
           {
             // show overlay if chat is hidden

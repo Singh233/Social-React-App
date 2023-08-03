@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleUp,
   faCancel,
+  faCircleInfo,
   faMicrophone,
   faMicrophoneSlash,
   faPhone,
@@ -20,10 +21,29 @@ import Peer from 'peerjs';
 import { toast } from 'react-hot-toast';
 import { useVideo } from '../hooks/useVideo';
 import env from '../utils/env.js';
+import videoPng from '../styles/icon/video.png';
+import _ from 'lodash';
+import { Tooltip } from 'react-tooltip';
 
 export default function VideoCall() {
   const auth = useAuth();
   const socket = auth.socket;
+  const {
+    isCallMinimised,
+    setIsCallMinimised,
+    videoIconClicked,
+    setVideoIconClicked,
+    exitVideoCall,
+    callReceiver,
+    setCallReceiver,
+    incomingCall,
+    setIncomingCall,
+    camLoading,
+    setCamLoading,
+    initiateVideoCall,
+    boundX,
+    setBoundX,
+  } = useVideo();
   const CALL_TYPE = {
     OUTGOING: 'Outgoing',
     INCOMING: 'Incoming',
@@ -37,8 +57,8 @@ export default function VideoCall() {
     RINGING: 'ringing',
   };
 
-  const [x, setX] = useState([0, 0]);
-  const [y, setY] = useState([-200, -200]);
+  const [x, setX] = useState([-(boundX + 21), -(boundX + 21)]);
+  const [y, setY] = useState([44, 44]);
   const [scale, setScale] = useState(1);
   const [callContainerOpacity, setCallContainerOpacity] = useState([0, 1]);
   const [animate, setAnimate] = useState(true);
@@ -62,20 +82,7 @@ export default function VideoCall() {
 
   const videoRef = useRef();
   const receiverVideoRef = useRef();
-  const {
-    isCallMinimised,
-    setIsCallMinimised,
-    videoIconClicked,
-    setVideoIconClicked,
-    exitVideoCall,
-    callReceiver,
-    setCallReceiver,
-    incomingCall,
-    setIncomingCall,
-    camLoading,
-    setCamLoading,
-    initiateVideoCall,
-  } = useVideo();
+  const callWrapperRef = useRef();
 
   const startAudioAndVideo = async () => {
     await navigator.mediaDevices
@@ -186,6 +193,26 @@ export default function VideoCall() {
     });
   };
 
+  const handleResize = _.debounce(() => {
+    // setWindowWidth(window.innerWidth);
+    if (callWrapperRef.current) {
+      setBoundX(callWrapperRef.current.getBoundingClientRect().x);
+    }
+  }, 500);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (callWrapperRef.current) {
+      setBoundX(callWrapperRef.current.getBoundingClientRect().x);
+    }
+  }, [isCallMinimised, videoIconClicked, currentAudioVideoStream]);
+
   useEffect(() => {
     if (camLoading) {
       setCallState(CALL_STATE.RINGING);
@@ -218,16 +245,18 @@ export default function VideoCall() {
     if (videoIconClicked) {
       startCall();
       if (isCallMinimised) {
-        setX([500, 100]);
-        setY([-200, -224]);
+        setX([-(boundX + 21), 80]);
+        setY([44, 24]);
         setScale(0.77);
         setCallContainerOpacity([1, 0]);
       } else {
-        setX([0, 0]);
-        setY([-200, -200]);
+        setX([-(boundX + 21), -(boundX + 21)]);
+        setY([44, 44]);
       }
+    } else {
+      setX([-(boundX + 21), -(boundX + 21)]);
     }
-  }, [videoIconClicked]);
+  }, [videoIconClicked, boundX]);
 
   useEffect(() => {
     // Emit event in case of call is not yet started but users mic is disabled
@@ -258,14 +287,14 @@ export default function VideoCall() {
     // call is minimised
     if (isCallMinimised) {
       setIsCallMinimised(false);
-      setX([100, 0]);
-      setY([-224, -200]);
+      setX([80, -(boundX + 21)]);
+      setY([24, 44]);
       setScale(1);
       setCallContainerOpacity([0, 1]);
     } else {
       setIsCallMinimised(true);
-      setX([0, 100]);
-      setY([-200, -224]);
+      setX([-(boundX + 21), 80]);
+      setY([44, 24]);
       setScale(0.77);
       setCallContainerOpacity([1, 0]);
     }
@@ -298,7 +327,7 @@ export default function VideoCall() {
     setCallState(CALL_STATE.IDLE);
     setCallType(CALL_TYPE.OUTGOING);
     setX([0, 500]);
-    setY([-200, -200]);
+    setY([44, 44]);
     setScale(1);
     setCallContainerOpacity([0, 1]);
     resetCallActions();
@@ -441,7 +470,11 @@ export default function VideoCall() {
     socket.off('user_is_calling_notification');
     socket.on('user_is_calling_notification', (data) => {
       // if cal state is not idle this means user is on another call or waiting to respond
-      if (callState !== CALL_STATE.IDLE) {
+      if (
+        callState !== CALL_STATE.IDLE &&
+        otherUserPeerId &&
+        otherUserPeerId !== data.peerId
+      ) {
         socket.emit('user_on_another_call', {
           from_user: data.to_user,
           to_user: data.from_user,
@@ -456,8 +489,8 @@ export default function VideoCall() {
       setCallType(CALL_TYPE.INCOMING);
 
       if (!videoIconClicked && !incomingCall) {
-        setX([500, 100]);
-        setY([-200, -224]);
+        setX([500, 80]);
+        setY([-200, 24]);
         setScale(0.77);
         setVideoIconClicked(false);
         setIncomingCall(true);
@@ -598,11 +631,11 @@ export default function VideoCall() {
     // if the user is disconnected(tab closed, internet issues, or log out)
     socket.off('call_user_disconnected');
     socket.on('call_user_disconnected', (data) => {
-      console.log(
-        'testing inside disconnect',
-        otherUserPeerId,
-        data.fromUserPeerId
-      );
+      // console.log(
+      //   'testing inside disconnect',
+      //   otherUserPeerId,
+      //   data.fromUserPeerId
+      // );
       // check if it is the same call or not
       if (otherUserPeerId && otherUserPeerId !== data.fromUserPeerId) {
         return;
@@ -649,7 +682,7 @@ export default function VideoCall() {
             initial={{ opacity: 0 }}
             // initial={false}
             exit={{ opacity: 0 }}
-            // style={{ x: '0%', y: '-50%' }}
+            // style={{ x: '0%', y: '-21%' }}
             src=""
             className={`${styles.incomingOutgoingCallWindow} ${styles.callMaximised}`}
           >
@@ -829,7 +862,7 @@ export default function VideoCall() {
             exit={{ opacity: 0 }}
             className={`${styles.callContainer}`}
           >
-            <div className={`${styles.callWrapper}`}>
+            <div ref={callWrapperRef} className={`${styles.callWrapper}`}>
               {!isCallMinimised && (
                 <FontAwesomeIcon
                   icon={faAngleUp}
@@ -837,6 +870,31 @@ export default function VideoCall() {
                   onClick={handleCallMinimiseMaximise}
                 />
               )}
+
+              <div className={`${styles.info}`} style={{ left: boundX + 40 }}>
+                <img src={videoPng} className={styles.videoPng} />
+                Video Call
+                <span>1.0</span>
+                <FontAwesomeIcon
+                  data-tooltip-id="info-tooltip"
+                  icon={faCircleInfo}
+                />
+                <Tooltip
+                  id="info-tooltip"
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 100,
+                    textAlign: 'center',
+                    borderRadius: 10,
+                    fontFamily: `system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`,
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span>Hello world! More</span>
+                    <span> features coming soon! </span>
+                  </div>
+                </Tooltip>
+              </div>
 
               <div src="" className={`${styles.receiverCard}`}>
                 <div className={`${styles.dummyCard}`}></div>
@@ -857,7 +915,6 @@ export default function VideoCall() {
                   className={`${styles.callerVideo}`}
                   src=""
                 ></motion.video>
-
                 <div className={`${styles.callActions} `}>
                   <FontAwesomeIcon
                     icon={micToggle ? faMicrophoneSlash : faMicrophone}

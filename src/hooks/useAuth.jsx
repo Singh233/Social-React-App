@@ -345,6 +345,7 @@ export const useProvideAuth = () => {
             _id: liveData.to_user,
           },
           message: `${liveData.message}`,
+          messageType: liveData.messageType ? liveData.messageType : 'text',
           createdAt: timestamp,
         });
 
@@ -356,6 +357,7 @@ export const useProvideAuth = () => {
             email: liveData.user_email,
           },
           message: liveData.message,
+          messageType: liveData.messageType ? liveData.messageType : 'text',
           timestamp: timestamp,
         };
       }

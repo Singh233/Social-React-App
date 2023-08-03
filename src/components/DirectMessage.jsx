@@ -46,6 +46,8 @@ export default function DirectMessage(props) {
     setCallReceiver,
     incomingCall,
     setCamLoading,
+    boundX,
+    setBoundX,
   } = useVideo();
   const socket = auth.socket;
   const lastMessageRef = useRef(null);
@@ -86,16 +88,18 @@ export default function DirectMessage(props) {
         setY(0);
         setScale(1);
       } else {
-        setX(115);
-        setY(-66);
-        setScale(1.3);
+        if (boundX !== 0) {
+          setX(boundX + 40);
+          setY(-20);
+          setScale(1.2);
+        }
       }
     } else {
       setX(0);
       setY(0);
       setScale(1);
     }
-  }, [videoIconClicked, isCallMinimised, incomingCall]);
+  }, [videoIconClicked, isCallMinimised, incomingCall, boundX]);
 
   useEffect(() => {
     // listen to typing event and show the typing status
@@ -201,6 +205,12 @@ export default function DirectMessage(props) {
   };
 
   const handleVideoButtonClick = () => {
+    if (window.innerWidth < 500) {
+      toast('Currently not available for Phones!', {
+        icon: '🚧',
+      })
+      return;
+    }
     initiateVideoCall();
     setCamLoading(true);
     setCallReceiver(friend);
@@ -212,7 +222,11 @@ export default function DirectMessage(props) {
       layout
       animate={{ x, y, scale }}
       transition={{ type: 'spring' }}
-      className={`${styles.container}`}
+      className={`${styles.container} ${
+        !isCallMinimised && (videoIconClicked || incomingCall)
+          ? styles.updateContainer
+          : ''
+      }`}
     >
       {
         // show overlay if chat is hidden
@@ -530,7 +544,7 @@ export default function DirectMessage(props) {
         </div>
       </div>
 
-      <div className={styles.bottomContainer}>
+      <div className={`${styles.bottomContainer}`}>
         <input
           type="text"
           placeholder="Type a message"
