@@ -139,3 +139,17 @@ function App() {
 }
 
 export default App;
+
+// console the developer info
+console.log(
+  "%c Hey! it's Sanambir Singh,",
+  'color : #00000; font-size : 1rem; font-weight : bold;'
+);
+console.log(
+  '%c Passionate Software engineer from India.',
+  'color : #00000; font-size : 0.8rem; font-weight : bold;'
+);
+console.log(
+  '%c React me at sanambir123@gmail.com',
+  'color : #00000; font-size : 0.8rem;'
+);

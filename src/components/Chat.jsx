@@ -67,7 +67,6 @@ const Chat = () => {
         setX(0);
         setY(0);
         setScale(1);
-        console.log('if');
       } else {
         if (boundX !== 0) {
           setX(boundX + 40);
@@ -76,7 +75,6 @@ const Chat = () => {
         }
       }
     } else {
-      console.log('else');
       setX(0);
       setY(0);
       setScale(1);

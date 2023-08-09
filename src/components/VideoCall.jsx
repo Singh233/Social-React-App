@@ -79,6 +79,7 @@ export default function VideoCall() {
   const [callee, setCallee] = useState(null);
 
   let mediaStream = null;
+  let peerId = null;
 
   const videoRef = useRef();
   const receiverVideoRef = useRef();
@@ -104,12 +105,12 @@ export default function VideoCall() {
   };
 
   const stopAudioAndVideo = async () => {
-    await mediaStream?.getTracks().forEach((track) => {
-      track.stop();
+    await mediaStream?.getTracks().forEach(async (track) => {
+      await track.stop();
     });
 
-    await currentAudioVideoStream?.getTracks().forEach((track) => {
-      track.stop();
+    await currentAudioVideoStream?.getTracks().forEach(async (track) => {
+      await track.stop();
     });
 
     setCurrentAudioVideoStream(null);
@@ -238,12 +239,7 @@ export default function VideoCall() {
   }, [isCallMinimised, currentAudioVideoStream]);
 
   useEffect(() => {
-    const startCall = async () => {
-      await initiateCall();
-      emitNotification();
-    };
     if (videoIconClicked) {
-      startCall();
       if (isCallMinimised) {
         setX([-(boundX + 21), 80]);
         setY([44, 24]);
@@ -257,6 +253,18 @@ export default function VideoCall() {
       setX([-(boundX + 21), -(boundX + 21)]);
     }
   }, [videoIconClicked, boundX]);
+
+  useEffect(() => {
+    const startCall = async () => {
+      await initiateCall();
+      emitNotification();
+    };
+    if (videoIconClicked) {
+      setCallState(CALL_STATE.RINGING);
+      setCallType(CALL_TYPE.OUTGOING);
+      startCall();
+    }
+  }, [videoIconClicked]);
 
   useEffect(() => {
     // Emit event in case of call is not yet started but users mic is disabled
@@ -300,37 +308,42 @@ export default function VideoCall() {
     }
   };
 
-  const handleCallExit = () => {
-    const { _id: toUserId } = callReceiver;
-    const { _id: fromUserId, name: selfName, avatar: selfProfile } = auth.user;
-    // emit event to the connected user
-    socket.emit('user_leaving_call', {
-      from_user: fromUserId,
-      to_user: toUserId,
-      user_name: selfName,
-      user_profile: selfProfile,
-      fromUserPeerId: myPeerId,
-    });
-    if (currentAudioVideoStream) displayCamStoppingToast();
+  const resetVideoCall = () => {
+    displayCamStoppingToast();
     exitVideoCall();
-    myPeer.destroy();
-    myPeer._cleanup();
-    setMyPeer(null);
-    setMyPeerId(null);
-    // setCurrentAudioVideoStream(null);
     // close connected peer call
     if (connectedPeer) {
       connectedPeer.close();
       setConnectedPeer(null);
     }
+    myPeer.destroy();
+    myPeer._cleanup();
+    setMyPeer(null);
+    setMyPeerId(null);
     setCamLoading(false);
     setCallState(CALL_STATE.IDLE);
     setCallType(CALL_TYPE.OUTGOING);
+    setOtherUserPeerId(null);
     setX([0, 500]);
     setY([44, 44]);
     setScale(1);
     setCallContainerOpacity([0, 1]);
     resetCallActions();
+  };
+
+  const handleCallExitClick = () => {
+    const { _id: toUserId } = callReceiver;
+    const { _id: fromUserId, name: selfName, avatar: selfProfile } = auth.user;
+    if (callState === CALL_STATE.RINGING || callState === CALL_STATE.ANSWERED)
+      // emit event to the connected user
+      socket.emit('user_leaving_call', {
+        from_user: fromUserId,
+        to_user: toUserId,
+        user_name: selfName,
+        user_profile: selfProfile,
+        fromUserPeerId: myPeerId,
+      });
+    resetVideoCall();
   };
 
   const handleCallAgainClick = async () => {
@@ -341,7 +354,18 @@ export default function VideoCall() {
   };
 
   const handleCloseCallClick = () => {
-    handleCallExit();
+    const { _id: toUserId } = callReceiver;
+    const { _id: fromUserId, name: selfName, avatar: selfProfile } = auth.user;
+    if (callState === CALL_STATE.RINGING || callState === CALL_STATE.ANSWERED)
+      // emit event to the connected user
+      socket.emit('user_leaving_call', {
+        from_user: fromUserId,
+        to_user: toUserId,
+        user_name: selfName,
+        user_profile: selfProfile,
+        fromUserPeerId: myPeerId,
+      });
+    resetVideoCall();
     setCallState(CALL_STATE.IDLE);
     setCallType(CALL_TYPE.OUTGOING);
   };
@@ -353,7 +377,7 @@ export default function VideoCall() {
       to_user: callee._id,
       fromUserPeerId: myPeerId,
     });
-    handleCallExit();
+    resetVideoCall();
     setCallState(CALL_STATE.IDLE);
     setCallType(CALL_TYPE.OUTGOING);
   };
@@ -361,6 +385,12 @@ export default function VideoCall() {
   const handleAnswerCallClick = async () => {
     setCallState(CALL_STATE.ANSWERED);
     await initiateCall();
+
+    socket.emit('join_video_call', {
+      to_user: callee._id,
+      from_user: auth.user._id,
+      peerId: myPeerId ? myPeerId : myPeer ? myPeer._id : null,
+    });
 
     // fire an event that the user answered call
     await socket.emit('user_answered_call', {
@@ -428,7 +458,17 @@ export default function VideoCall() {
       user_profile: selfProfile,
       user_email: selfEmail,
       callRoomId: callRoomId,
-      peerId: myPeerId,
+      peerId: myPeerId ? myPeerId : myPeer ? myPeer._id : peerId,
+    });
+
+    socket.emit('join_video_call', {
+      to_user: toUserId,
+      from_user: fromUserId,
+      user_name: selfName,
+      user_profile: selfProfile,
+      user_email: selfEmail,
+      callRoomId: callRoomId,
+      peerId: myPeerId ? myPeerId : myPeer ? myPeer._id : peerId,
     });
   };
 
@@ -438,6 +478,7 @@ export default function VideoCall() {
     });
     myPeer.on('open', (id) => {
       setMyPeerId(id);
+      peerId = id;
     });
     myPeer.on('call', (call) => {
       call.answer(mediaStream);
@@ -470,11 +511,7 @@ export default function VideoCall() {
     socket.off('user_is_calling_notification');
     socket.on('user_is_calling_notification', (data) => {
       // if cal state is not idle this means user is on another call or waiting to respond
-      if (
-        callState !== CALL_STATE.IDLE &&
-        otherUserPeerId &&
-        otherUserPeerId !== data.peerId
-      ) {
+      if (callState !== CALL_STATE.IDLE) {
         socket.emit('user_on_another_call', {
           from_user: data.to_user,
           to_user: data.from_user,
@@ -514,7 +551,6 @@ export default function VideoCall() {
 
       // set caller peer id
       setOtherUserPeerId(data.peerId);
-
       // if user tries to call again
       if (!currentAudioVideoStream) {
         initiateCall();
@@ -631,13 +667,12 @@ export default function VideoCall() {
     // if the user is disconnected(tab closed, internet issues, or log out)
     socket.off('call_user_disconnected');
     socket.on('call_user_disconnected', (data) => {
-      // console.log(
-      //   'testing inside disconnect',
-      //   otherUserPeerId,
-      //   data.fromUserPeerId
-      // );
       // check if it is the same call or not
-      if (otherUserPeerId && otherUserPeerId !== data.fromUserPeerId) {
+      if (
+        !otherUserPeerId ||
+        otherUserPeerId !== data.fromUserPeerId ||
+        callState === CALL_STATE.IDLE
+      ) {
         return;
       }
       // update is in call variable
@@ -935,7 +970,7 @@ export default function VideoCall() {
                   <FontAwesomeIcon
                     icon={faRightFromBracket}
                     className={`${styles.callExitIcon}`}
-                    onClick={handleCallExit}
+                    onClick={handleCallExitClick}
                   />
                 </div>
               </div>
