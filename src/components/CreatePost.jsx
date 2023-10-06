@@ -132,7 +132,7 @@ const CreatePost = () => {
             allowFileTypeValidation={true}
             acceptedFileTypes={['image/*']}
             allowFileSizeValidation={true}
-            maxFileSize={'5MB'}
+            maxFileSize={'10MB'}
             name="filepond" /* sets the file input name, it's filepond by default */
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           />

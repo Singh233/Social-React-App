@@ -186,7 +186,6 @@ const UserProfile = () => {
   return (
     <div className={styles.settingsContainer}>
       <LoadingBar color="#f11946" progress="100" />
-      <LeftNav />
 
       <div className={styles.profileContainer}>
         <div className={styles.smHeader}>

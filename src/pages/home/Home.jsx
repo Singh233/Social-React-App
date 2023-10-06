@@ -28,8 +28,6 @@ const Home = () => {
     <div className={styles.homeContainer}>
       {auth.loading ? '' : <LoadingBar color="#f11946" progress="100" />}
 
-      <LeftNav />
-
       <Main posts={posts.posts} />
 
       <RightNav />

@@ -16,6 +16,7 @@ import socketIo from 'socket.io-client';
 import env from '../utils/env';
 import Search from '../pages/Search';
 import SmCreatePost from '../pages/SmCreatePost';
+import LeftNav from '../pages/home/LeftNav.jsx';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -62,75 +63,79 @@ function App() {
       {auth.loading ? (
         <Loader />
       ) : (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Navbar />
-                <Home />
-                <SmBottomnNav />
-              </PrivateRoute>
-            }
-          />
-          {/* <Route path="/" element={<Home />} /> */}
+        <>
+          {auth.user ? <LeftNav /> : ''}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Navbar />
+                  <Home />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
+            {/* <Route path="/" element={<Home />} /> */}
 
-          <Route path="/login" element={<SignInUp />} />
+            <Route path="/login" element={<SignInUp />} />
 
-          <Route
-            path="/messages"
-            element={
-              <PrivateRoute>
-                <Messaging />
-              </PrivateRoute>
-            }
-          />
+            {/* For small devices */}
+            <Route
+              path="/messages"
+              element={
+                <PrivateRoute>
+                  <Messaging />
+                </PrivateRoute>
+              }
+            />
 
-          {/* For small devices */}
-          <Route
-            path="/search"
-            element={
-              <PrivateRoute>
-                <Search />
-                <SmBottomnNav />
-              </PrivateRoute>
-            }
-          />
+            {/* For small devices */}
+            <Route
+              path="/search"
+              element={
+                <PrivateRoute>
+                  <Search />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
 
-          {/* For small devices */}
-          <Route
-            path="/upload"
-            element={
-              <PrivateRoute>
-                <Navbar />
-                <SmCreatePost />
-                <SmBottomnNav />
-              </PrivateRoute>
-            }
-          />
+            {/* For small devices */}
+            <Route
+              path="/upload"
+              element={
+                <PrivateRoute>
+                  <Navbar />
+                  <SmCreatePost />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute>
-                <Navbar />
-                <Settings />
-                <SmBottomnNav />
-              </PrivateRoute>
-            }
-          />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <Navbar />
+                  <Settings />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
 
-          <Route
-            path="/users/profile/:userId"
-            element={
-              <PrivateRoute>
-                <Navbar />
-                <UserProfile />
-                <SmBottomnNav />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
+            <Route
+              path="/users/profile/:userId"
+              element={
+                <PrivateRoute>
+                  <Navbar />
+                  <UserProfile />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </>
       )}
 
       {/* For Small Devices */}
