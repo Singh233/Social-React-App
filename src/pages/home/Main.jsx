@@ -37,9 +37,9 @@ const Main = ({ posts }) => {
   return (
     <div className={styles.container}>
       <CreatePost />
-      {posts.map((post, index) => (
-        <Post post={post} key={`post-${post._id}`} />
-      ))}
+      {posts.map((post, index) => {
+        return post.isImg ? <Post post={post} key={`post-${post._id}`} /> : '';
+      })}
     </div>
   );
 };

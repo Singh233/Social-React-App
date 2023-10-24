@@ -218,7 +218,7 @@ const Post = ({ post }) => {
           <img
             loading="lazy"
             onDoubleClick={handlePostLikeClick}
-            src={post.myfile ? post.myfile : dummyImg}
+            src={post.imgPath ? post.imgPath : dummyImg}
           />
         </div>
       </div>
@@ -302,9 +302,9 @@ const Post = ({ post }) => {
 
       <div className={styles.postContent}>
         <p className={styles.nameAndContent}>
-          {post.user.name}&nbsp; -<span>{post.content}</span>
+          {post.user.name}&nbsp; -<span>{post.caption}</span>
         </p>
-        {/* <p className={styles.text}>{post.content}</p> */}
+        {/* <p className={styles.text}>{post.caption}</p> */}
         {/* <div className={styles.bottom}>
                     <p >3m</p>
                     <p >reply</p>                            

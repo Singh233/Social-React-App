@@ -16,7 +16,6 @@ const Loader = () => {
             <div className={styles.bar10}></div>
             <div className={styles.bar11}></div>
             <div className={styles.bar12}></div>
-
         </div>
     )
 };

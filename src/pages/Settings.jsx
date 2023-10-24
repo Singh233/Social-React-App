@@ -243,7 +243,7 @@ const Settings = () => {
               {auth.user.posts.map((post) => {
                 return (
                   <div className={styles.post} key={post._id}>
-                    <img src={post.myfile ? post.myfile : dummyImg} />
+                    <img src={post.imgPath ? post.imgPath : dummyImg} />
                   </div>
                 );
               })}
@@ -258,7 +258,7 @@ const Settings = () => {
                 return (
                   post && (
                     <div className={styles.post} key={index}>
-                      <img src={post.myfile ? post.myfile : dummyImg} />
+                      <img src={post.imgPath ? post.imgPath : dummyImg} />
                     </div>
                   )
                 );
