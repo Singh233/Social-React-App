@@ -29,6 +29,8 @@ export const useAuth = () => {
 export const useProvideAuth = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [clicked, setClicked] = useState(false);
+  const [isTabVisible, setIsTabVisible] = useState(true);
   const [loading, setLoading] = useState(true);
   // state for hide message component
   const [hideMessage, setHideMessage] = useState(false);
@@ -39,6 +41,13 @@ export const useProvideAuth = () => {
 
   useEffect(() => {
     // console.log('Inside use hooks use effect ********')
+    document.addEventListener('click', () => setClicked(true));
+
+    const handleVisibilityChange = () => {
+      setIsTabVisible(!document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const getUser = async () => {
       const userToken = getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY);
@@ -105,6 +114,9 @@ export const useProvideAuth = () => {
       setLoading(false);
     };
     getUser();
+    // return () => {
+    //   document.removeEventListener('visibilitychange', handleVisibilityChange);
+    // };
   }, [getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY)]);
 
   const signUp = async (name, email, password, confirmPassword) => {
@@ -429,6 +441,8 @@ export const useProvideAuth = () => {
   };
 
   return {
+    clicked,
+    isTabVisible,
     user,
     login,
     googleLogin,

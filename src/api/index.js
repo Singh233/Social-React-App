@@ -134,10 +134,10 @@ export const removeFriend = (fromUserId, toUserId) => {
   });
 };
 
-export const addPost = (content, file) => {
+export const addPost = (caption, file) => {
   // const fileInput = document.querySelector('input[type="file"]');
   // const formData = new FormData();
-  // // formData.append('content', content);
+  // // formData.append('caption', caption);
   // formData.append('file', fileInput.files[0]);
 
   // console.log('formData', formData, fileInput.files[0])
@@ -145,7 +145,7 @@ export const addPost = (content, file) => {
   const form = document.querySelector('#new-post-form');
   const formData = new FormData();
   formData.append('filepond', file[0]);
-  formData.append('content', content);
+  formData.append('caption', caption);
 
   // console.log('content', content)
   // return customFetch(API_URLS.createPost(), {

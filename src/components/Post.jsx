@@ -1,6 +1,6 @@
 import styles from '../styles/css/home/main.module.css';
 import { Link } from 'react-router-dom';
-import { lazy, useEffect, useState } from 'react';
+import { lazy, useEffect, useRef, useState } from 'react';
 import {
   addComment,
   deletePost,
@@ -34,6 +34,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { usePosts } from '../hooks/usePosts';
 import { useAuth } from '../hooks/useAuth';
+import VideoJS, { ReactPlayerWrapper } from './ReactPlayerWrapper';
+import ReactPlayer from 'react-player';
 
 const Post = ({ post }) => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -47,6 +49,42 @@ const Post = ({ post }) => {
 
   const posts = usePosts();
   const auth = useAuth();
+  const playerRef = useRef(null);
+
+  const videoOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: false,
+    fluid: true,
+    sources: [
+      {
+        src:
+          !post.isImg && post.video
+            ? `https://storage.googleapis.com/users_videos_bucket/${
+                post.video.qualities[
+                  post.video.qualities.findIndex(
+                    (ele) => ele.quality === 'high'
+                  )
+                ].videoPath
+              }/high.m3u8`
+            : '',
+        type: 'application/x-mpegURL',
+      },
+    ],
+  };
+
+  const handlePlayerReady = (player) => {
+    playerRef.current = player;
+
+    // You can handle player events here, for example:
+    player.on('waiting', () => {
+      videojs.log('player is waiting');
+    });
+
+    player.on('dispose', () => {
+      videojs.log('player will dispose');
+    });
+  };
 
   useEffect(() => {
     // check if the post is liked by the user
@@ -70,14 +108,14 @@ const Post = ({ post }) => {
       setImgLoaded(true);
     };
 
-    if (img.complete) {
+    if (img && img.complete) {
       handleLoaded();
-    } else {
+    } else if (img) {
       img.addEventListener('load', handleLoaded);
     }
 
     return () => {
-      img.removeEventListener('load', handleLoaded);
+      if (img) img.removeEventListener('load', handleLoaded);
     };
   }, []);
 
@@ -181,6 +219,7 @@ const Post = ({ post }) => {
 
   return (
     <div
+      id={post._id}
       className={`${styles.displayPosts} animate__animated animate__fadeIn`}
       key={`post-${post._id}`}
     >
@@ -211,16 +250,21 @@ const Post = ({ post }) => {
       </div>
 
       <div className={styles.post}>
-        <div
-          className={`${styles.blurLoad} ${imgLoaded ? styles.loaded : ''}`}
-          style={{ backgroundImage: `url(${post.thumbnail})` }}
-        >
-          <img
-            loading="lazy"
-            onDoubleClick={handlePostLikeClick}
-            src={post.imgPath ? post.imgPath : dummyImg}
-          />
-        </div>
+        {post.isImg ? (
+          <div
+            className={`${styles.blurLoad} ${imgLoaded ? styles.loaded : ''}`}
+            style={{ backgroundImage: `url(${post.thumbnail})` }}
+          >
+            <img
+              loading="lazy"
+              onDoubleClick={handlePostLikeClick}
+              src={post.imgPath ? post.imgPath : dummyImg}
+            />
+          </div>
+        ) : (
+          // <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+          <ReactPlayerWrapper src={videoOptions.sources[0].src} />
+        )}
       </div>
 
       <div className={styles.actions}>
