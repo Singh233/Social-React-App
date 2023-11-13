@@ -24,6 +24,9 @@ import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import { usePosts } from '../hooks/usePosts';
 import { useAuth } from '../hooks/useAuth';
+import { Box } from '@mui/material';
+import Button from '@mui/joy/Button';
+
 // Register the plugins
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -163,7 +166,7 @@ const CreatePost = () => {
           <p>Video</p>
         </button>
 
-        <button
+        {/* <button
           className={styles.postButton}
           onClick={handleAddPostClick}
           disabled={addingPost}
@@ -171,7 +174,16 @@ const CreatePost = () => {
           <p>{addingPost ? 'Adding' : 'Post'}</p>
 
           <FontAwesomeIcon className={styles.arrowIcon} icon={faArrowRight} />
-        </button>
+        </button> */}
+        <Button
+          onClick={handleAddPostClick}
+          loading={addingPost ? true : false}
+          variant="solid"
+          className={styles.postButtonNew}
+        >
+          Post
+          <FontAwesomeIcon className={styles.arrowIcon} icon={faArrowRight} />
+        </Button>
       </div>
     </div>
   );
