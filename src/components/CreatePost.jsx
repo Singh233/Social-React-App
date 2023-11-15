@@ -1,5 +1,5 @@
 import styles from '../styles/css/home/createpost.module.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { addPost } from '../api';
 import { toast } from 'react-hot-toast';
 
@@ -20,8 +20,9 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
-
+import FilePondPluginMediaPreview from 'filepond-plugin-media-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond-plugin-media-preview/dist/filepond-plugin-media-preview.min.css';
 import { usePosts } from '../hooks/usePosts';
 import { useAuth } from '../hooks/useAuth';
 import { Box } from '@mui/material';
@@ -32,16 +33,19 @@ registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginImagePreview,
   FilePondPluginFileValidateType,
-  FilePondPluginFileValidateSize
+  FilePondPluginFileValidateSize,
+  FilePondPluginMediaPreview
 );
 
-const CreatePost = () => {
-  const [post, setPost] = useState('');
+const CreatePost = ({ setShowProgressContainer, showProgressContainer }) => {
+  const [caption, setCaption] = useState('');
   const [file, setFile] = useState([]);
   const [showFileUpload, setShowFileUpload] = useState(true);
   const [addingPost, setAddingPost] = useState(false);
   const posts = usePosts();
   const auth = useAuth();
+  const fileName = useRef('');
+  const [fileType, setFileType] = useState('');
 
   // Throttling the add post function
   const throttle = (func, limit) => {
@@ -57,9 +61,9 @@ const CreatePost = () => {
     };
   };
 
-  const addPostFunction = async () => {
+  const handleAddPost = async () => {
     // validate the post
-    if (post.length < 1) {
+    if (caption.length < 1) {
       toast.error('Caption cannot be empty');
       return;
     }
@@ -69,20 +73,32 @@ const CreatePost = () => {
       return;
     }
 
+    if (showProgressContainer) {
+      toast.error('Only one file upload at a time is allowed!');
+      return;
+    }
+
     setAddingPost(true);
 
-    const response = await toast.promise(addPost(post, file), {
+    const response = await toast.promise(addPost(caption, file), {
       loading: 'Uploading post...',
-      success: 'Post created successfully',
+      success: 'Post uploaded successfully',
       error: 'Please try again later!',
     });
 
-    if (response.success) {
-      setPost('');
+    setCaption('');
+    if (fileType === 'image' && response.success) {
       auth.updateUserPosts(true, response.data.post);
       setTimeout(() => {
         posts.addPostToState(response.data.post);
       }, 700);
+    } else {
+      const data = {
+        title: fileName.current,
+        progress: 0,
+      };
+      localStorage.setItem('video_encoding_progress', JSON.stringify(data));
+      setShowProgressContainer(true);
     }
 
     setAddingPost(false);
@@ -91,7 +107,7 @@ const CreatePost = () => {
     setFile([]);
   };
 
-  const handleAddPostClick = throttle(addPostFunction, 1000);
+  const handleAddPostClick = throttle(handleAddPost, 1000);
 
   const toggleFileUpload = () => {
     setShowFileUpload(!showFileUpload);
@@ -102,8 +118,8 @@ const CreatePost = () => {
       <img className={styles.avatar} src={avatar} />
       <textarea
         placeholder="What's happening?"
-        onChange={(e) => setPost(e.target.value)}
-        value={post}
+        onChange={(e) => setCaption(e.target.value)}
+        value={caption}
         rows="1"
         name="content"
       />
@@ -129,13 +145,24 @@ const CreatePost = () => {
             onupdatefiles={(fileItems) => {
               // Set currently active file objects to this.state
               setFile(fileItems.map((fileItem) => fileItem.file));
+              fileItems.map((fileItem) => {
+                fileName.current = fileItem.file.name;
+                if (fileItem.file.type.includes('video')) {
+                  setFileType('video');
+                } else {
+                  setFileType('image');
+                }
+              });
+              if (fileItems.length === 0) {
+                setFileType('');
+              }
             }}
             allowMultiple={false}
             maxFiles={1}
             allowFileTypeValidation={true}
-            acceptedFileTypes={['image/*']}
+            acceptedFileTypes={['image/*', 'video/*']}
             allowFileSizeValidation={true}
-            maxFileSize={'10MB'}
+            maxFileSize={'100MB'}
             name="filepond" /* sets the file input name, it's filepond by default */
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           />
@@ -145,7 +172,7 @@ const CreatePost = () => {
       <div className={styles.buttons}>
         <button
           className={`${styles.photoButton} ${
-            !showFileUpload && styles.active
+            fileType === 'image' && styles.active
           }`}
           onClick={toggleFileUpload}
           disabled={addingPost}
@@ -155,11 +182,9 @@ const CreatePost = () => {
         </button>
         {/* <p className={styles.info}>or</p>     */}
         <button
-          className={styles.videoButton}
-          onClick={() => {
-            toast.success('Video upload is coming soon!');
-            toggleFileUpload();
-          }}
+          className={`${styles.videoButton}
+          ${fileType === 'video' && styles.active}`}
+          onClick={toggleFileUpload}
           disabled={addingPost}
         >
           <img className={styles.icon} src={videoIcon} />

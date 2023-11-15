@@ -10,6 +10,7 @@ export const usePosts = () => {
 export const useProvidePosts = () => {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isVideoProcessing, setIsVideoProcessing] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -106,6 +107,8 @@ export const useProvidePosts = () => {
   return {
     posts,
     loading,
+    isVideoProcessing,
+    setIsVideoProcessing,
     addPostToState,
     lazyLoadPosts,
     addComment,

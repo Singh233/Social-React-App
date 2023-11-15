@@ -1,6 +1,4 @@
-video {
-  border-radius: 30px;
-}
+
 .receiverVideo,
 .callerVideo {
   // width: 100%;
@@ -14,6 +12,8 @@ video {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */
   -moz-transform: rotateY(180deg); /* Firefox */
+  border-radius: 30px;
+
 }
 
 .incomingOutgoingCallWindow {

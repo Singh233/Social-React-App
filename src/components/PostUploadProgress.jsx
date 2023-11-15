@@ -1,10 +1,12 @@
-import { Avatar, Box, LinearProgress } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
+import LinearProgress from '@mui/joy/LinearProgress';
+
 import React from 'react';
 import videoIcon from '../styles/icon/video.png';
 
 import styles from '../styles/css/postUploadProgress.module.scss';
 
-export default function PostUploadProgress() {
+export default function PostUploadProgress({ encodingProgress, fileName }) {
   return (
     <Box className={styles.container}>
       <div className={styles.heading}>
@@ -16,16 +18,23 @@ export default function PostUploadProgress() {
       </p>
       <Box className={styles.progressCard}>
         <div className={styles.progress}>
-          <div className={styles.info}>
-            <p>File</p>
-            <span>example123.mp4</span>
-            <p>is processing...</p>
-          </div>
+          <p className={styles.progressPercent}>
+            {encodingProgress === 0
+              ? 'In queue'
+              : encodingProgress === 100
+              ? 'Almost there!'
+              : encodingProgress + '%'}
+          </p>
           <LinearProgress
-            variant="determinate"
-            value={70}
+            determinate
+            value={encodingProgress}
             className={styles.linearProgress}
           />
+          <div className={styles.info}>
+            <p>File</p>
+            <span>{fileName && fileName.substring(0, 15)}</span>
+            <p>is processing...</p>
+          </div>
         </div>
       </Box>
     </Box>

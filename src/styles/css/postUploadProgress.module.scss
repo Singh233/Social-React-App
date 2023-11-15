@@ -58,6 +58,12 @@
       display: grid;
       align-items: center;
       justify-content: center;
+
+      .progressPercent {
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
       .info {
         display: flex;
         align-items: center;
@@ -71,8 +77,8 @@
       }
 
       .linearProgress {
-        margin-top: -5px;
-        margin-bottom: 15px;
+        // margin-top: -5px;
+        // margin-bottom: 15px;
         border-radius: 10px;
         height: 6px;
       }
