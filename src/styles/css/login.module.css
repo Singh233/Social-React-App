@@ -1,68 +1,65 @@
-
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 500px;
-    transition: all 0.4s ease;
-    height: 649px;
-    overflow: hidden !important;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 500px;
+  transition: all 0.4s ease;
+  height: 649px;
+  overflow: hidden !important;
 }
 
 .animateForEmail {
-    height: 750px;
+  height: 750px;
 }
 
 .animateForRegister {
-    height: 870px;
+  height: 870px;
 }
 
 .loginForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
 .loginForm input {
-    cursor: pointer;
-    color: white;
-    font-size: 1rem;
-    padding: 15px;
-    border-radius: 15px;
-    border: none;
-    margin: 5px;
-    width: 20vw;
-    background-color: black;
-    padding-left: 50px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  padding: 15px;
+  border-radius: 15px;
+  border: none;
+  margin: 5px;
+  width: 20vw;
+  background-color: black;
+  padding-left: 50px;
 }
 
 .loginForm input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    /* -webkit-box-shadow: 0 0 0 30px rgb(44, 42, 42) inset !important; */
-    -webkit-text-fill-color: white !important;
-    transition: background-color 5000s ease-in-out 0s;
-        /* -webkit-background-clip: text; */
-
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  /* -webkit-box-shadow: 0 0 0 30px rgb(44, 42, 42) inset !important; */
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+  /* -webkit-background-clip: text; */
 }
 
 .loginForm input:focus {
-    outline: none;
+  outline: none;
 }
 
 .loginForm .inputIcon {
-    position: relative;
-    font-size: 1.1rem;
-    margin-right: -40px;
+  position: relative;
+  font-size: 1.1rem;
+  margin-right: -40px;
 }
 
-.loginButton {
+/* .loginButton {
     --primary-color: #645bff;
     --secondary-color: #fff;
     --hover-color: #111;
@@ -83,36 +80,35 @@ input:-webkit-autofill:active{
     font-weight: 500;
     width: 16vw;
     cursor: pointer;
-}
-
+} */
 
 .loginButton .arrow-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loginButton .arrow {
-    margin-top: 1px;
-    width: var(--arrow-width);
-    background: var(--primary-color);
-    height: var(--arrow-stroke);
-    position: relative;
-    transition: 0.2s;
+  margin-top: 1px;
+  width: var(--arrow-width);
+  background: var(--primary-color);
+  height: var(--arrow-stroke);
+  position: relative;
+  transition: 0.2s;
 }
 
 .loginButton .arrow::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    border: solid var(--secondary-color);
-    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
-    display: inline-block;
-    top: -3px;
-    right: 3px;
-    transition: 0.2s;
-    padding: 3px;
-    transform: rotate(-45deg);
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  border: solid var(--secondary-color);
+  border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+  display: inline-block;
+  top: -3px;
+  right: 3px;
+  transition: 0.2s;
+  padding: 3px;
+  transform: rotate(-45deg);
 }
 /* 
 .loginButton:hover {
@@ -120,150 +116,131 @@ input:-webkit-autofill:active{
 } */
 
 .loginButton:hover .arrow {
-    background: var(--secondary-color);
+  background: var(--secondary-color);
 }
 
 .loginButton:hover .arrow:before {
-    right: 0;
+  right: 0;
 }
 
-
 .signInOptions {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-
-
+  display: flex;
+  align-items: center;
+  margin: 10px;
 }
 
 .socialIcons {
-    margin: 10px;
-    margin-top: 0;
-    height: 80px;
-    
+  margin: 10px;
+  margin-top: 0;
+  height: 80px;
 }
 
 .emailOption {
-    padding: 12px;
-    background-color: #1B72E8;
-    border-radius: 20px;
-    width: 17vw;
-    min-width: 200px;
-    cursor: pointer;
-    transition: 0.2s all ease;
-    font-size: 0.9rem;
-    position: relative;
+  padding: 12px;
+  background-color: #1b72e8;
+  border-radius: 20px;
+  width: 17vw;
+  min-width: 200px;
+  cursor: pointer;
+  transition: 0.2s all ease;
+  font-size: 0.9rem;
+  position: relative;
 }
 
 .emailOption:hover {
-    background-color: #53a8f8;
+  background-color: #53a8f8;
 }
 
 .emailIcon {
-    font-size: 1.2rem;
-    margin-right: 7px;
-    position: absolute;
-    left: 1px;
-    background-color: white;
-    color: dodgerblue;
-    padding: 7px;
-    border-radius: 50%;
+  font-size: 1.2rem;
+  margin-right: 7px;
+  position: absolute;
+  left: 1px;
+  background-color: white;
+  color: dodgerblue;
+  padding: 7px;
+  border-radius: 50%;
 }
 
 .signUpLink {
-    transition: 0.5s all ease;
+  transition: 0.5s all ease;
 }
 
 .signUpLink span {
-    cursor: pointer;
-    font-weight: 600;
-    color: #1B72E8;
-    transition: all 0.2s ease;
+  cursor: pointer;
+  font-weight: 600;
+  color: #1b72e8;
+  transition: all 0.2s ease;
 }
 
 .signUpLink span:hover {
-    color: #53a8f8;
+  color: #53a8f8;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .avatar {
-    height: 300px;
+  height: 300px;
 }
 
 p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .welcomeText {
-    margin-top: -20px;
-    margin-bottom: -5px;
-    font-size: 3rem;
-    font-weight: 600;
-
-    
-    
+  margin-top: -20px;
+  margin-bottom: -5px;
+  font-size: 3rem;
+  font-weight: 600;
 }
 
 .arrowIcon {
-    background-color: white;
-    color: black;
-    border-radius: 50%;
-    font-size: 1rem;
-    padding: 5px;
-    margin-left: 7px;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  font-size: 1rem;
+  padding: 5px;
+  margin-left: 7px;
 }
 
 @media screen and (max-width: 500px) {
-    .container {
-        overflow: hidden;
-        min-width: 100%;
-        height: 550px;
+  .container {
+    overflow: hidden;
+    min-width: 100%;
+    height: 550px;
+  }
 
-    }
+  .loginForm input {
+    width: 50vw;
+  }
 
-    .loginForm input {
-        width: 50vw;
-    }
+  .loginForm .field {
+    margin-left: 15px;
+  }
+  .loginButton {
+    width: 50vw;
+  }
+  .animateForEmail {
+    height: 650px;
+  }
 
-    .loginForm .field {
-        margin-left: 15px;
-    }
-    .loginButton {
-        width: 50vw;
-    }
-    .animateForEmail {
-        height: 650px;
-    }
-    
-    .animateForRegister {
-        height: 750px;
-    }
+  .animateForRegister {
+    height: 750px;
+  }
 
-    .avatar {
-        height: 200px;
-    }
+  .avatar {
+    height: 200px;
+  }
 
-    .welcomeText {
-        font-size: 2rem;
-    }
+  .welcomeText {
+    font-size: 2rem;
+  }
 
-    .socialIcons {
-        height: 60px;
-    }
+  .socialIcons {
+    height: 60px;
+  }
 
-    .or {
-        margin: 5px;
-    }
+  .or {
+    margin: 5px;
+  }
 }

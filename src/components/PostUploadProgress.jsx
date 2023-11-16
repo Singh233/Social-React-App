@@ -10,7 +10,7 @@ export default function PostUploadProgress({ encodingProgress, fileName }) {
   return (
     <Box className={styles.container}>
       <div className={styles.heading}>
-        <Avatar alt="S S" src={videoIcon} />
+        <Avatar alt="Video" src={videoIcon} />
         <p>Your video is being processed</p>
       </div>
       <p className={styles.subHeading}>

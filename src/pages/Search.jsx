@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 
 import profile from '../styles/memojis/memo3.png';
 import toast from 'react-hot-toast';
+import { Avatar } from '@mui/joy';
 
 export default function Search() {
   const [results, setResults] = useState([]);
@@ -85,7 +86,14 @@ export default function Search() {
             >
               {/* <Link to={`/user/${user._id}`}> */}
               <Link to={'/users/profile/' + user._id}>
-                <img className={styles.resultsAvatar} src={profile} />
+                {/* <img className={styles.resultsAvatar} src={profile} /> */}
+                <Avatar
+                  src={user.avatar && user.avatar}
+                  alt={user.name}
+                  size="md"
+                  variant="solid"
+                  style={{ margin: 10 }}
+                />
                 <p>{user.name}</p>
               </Link>
             </div>

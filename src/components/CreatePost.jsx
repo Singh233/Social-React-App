@@ -27,6 +27,7 @@ import { usePosts } from '../hooks/usePosts';
 import { useAuth } from '../hooks/useAuth';
 import { Box } from '@mui/material';
 import Button from '@mui/joy/Button';
+import { Avatar } from '@mui/joy';
 
 // Register the plugins
 registerPlugin(
@@ -115,14 +116,17 @@ const CreatePost = ({ setShowProgressContainer, showProgressContainer }) => {
 
   return (
     <div id="new-post-form" className={styles.container}>
-      <img className={styles.avatar} src={avatar} />
-      <textarea
-        placeholder="What's happening?"
-        onChange={(e) => setCaption(e.target.value)}
-        value={caption}
-        rows="1"
-        name="content"
-      />
+      {/* <img className={styles.avatar} src={avatar} /> */}
+      <div className={styles.top}>
+        <Avatar src={avatar} alt="Video upload" size="lg" variant="plain" />
+        <textarea
+          placeholder="What's happening?"
+          onChange={(e) => setCaption(e.target.value)}
+          value={caption}
+          rows="1"
+          name="content"
+        />
+      </div>
 
       {/* Take file input */}
       {/* <input 
@@ -177,7 +181,8 @@ const CreatePost = ({ setShowProgressContainer, showProgressContainer }) => {
           onClick={toggleFileUpload}
           disabled={addingPost}
         >
-          <img className={styles.icon} src={photoIcon} />
+          <Avatar src={photoIcon} alt="Photo" size="sm" />
+          {/* <img className={styles.icon} src={photoIcon} /> */}
           <p>Photo</p>
         </button>
         {/* <p className={styles.info}>or</p>     */}
@@ -187,7 +192,14 @@ const CreatePost = ({ setShowProgressContainer, showProgressContainer }) => {
           onClick={toggleFileUpload}
           disabled={addingPost}
         >
-          <img className={styles.icon} src={videoIcon} />
+          <Avatar
+            src={videoIcon}
+            alt="Video upload"
+            size="sm"
+            variant="solid"
+          />
+
+          {/* <img className={styles.icon} src={videoIcon} /> */}
           <p>Video</p>
         </button>
 

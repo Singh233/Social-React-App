@@ -6,6 +6,7 @@ import message from '../styles/icon/message2.png';
 import avatar from '../styles/memojis/memo2.png';
 
 import env from '../utils/env';
+import { Avatar } from '@mui/joy';
 
 const FriendList = ({ friends }) => {
   const auth = useAuth();
@@ -24,13 +25,22 @@ const FriendList = ({ friends }) => {
 
                                 </div> */}
                   <Link to={`/users/profile/${friend.to_user._id}`}>
-                    <img
+                    {/* <img
                       className={
                         friend.to_user.avatar ? styles.profile : styles.avatar
                       }
                       src={
                         friend.to_user.avatar ? friend.to_user.avatar : avatar
                       }
+                    /> */}
+                    <Avatar
+                      src={
+                        friend.to_user.avatar ? friend.to_user.avatar : avatar
+                      }
+                      alt={friend.to_user.name}
+                      size="lg"
+                      variant="solid"
+                      style={{ margin: 10 }}
                     />
                   </Link>
                   <Link

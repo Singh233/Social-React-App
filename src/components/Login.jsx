@@ -23,6 +23,12 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Register from './Register';
 import { GoogleLogin } from '@react-oauth/google';
+import { Button } from '@mui/joy';
+import {
+  ArrowForward,
+  ArrowForwardIosTwoTone,
+  NextPlan,
+} from '@mui/icons-material';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -43,7 +49,7 @@ const Login = () => {
     setLoggingIn(true);
     if (!email || !password) {
       setLoggingIn(false);
-      return toast.error('Please enter both email and password!');
+      return toast.error('Please enter the credentials!');
     }
 
     const response = await auth.login(email, password);
@@ -119,7 +125,7 @@ const Login = () => {
           <p
             className={`${styles.welcomeText} animate__animated animate__fadeIn`}
           >
-            Ready to board?
+            Ready to Aboard?
           </p>
           <p>
             {' '}
@@ -154,7 +160,6 @@ const Login = () => {
         <>
           <form
             className={`animate__animated animate__fadeIn ${styles.loginForm}`}
-            onSubmit={handleSubmit}
           >
             <div className={styles.field}>
               <FontAwesomeIcon className={styles.inputIcon} icon={faEnvelope} />
@@ -179,12 +184,23 @@ const Login = () => {
             </div>
 
             <div className={styles.field}>
-              <button className={styles.loginButton} disabled={loggingIn}>
+              {/* <button className={styles.loginButton} disabled={loggingIn}>
                 {loggingIn ? 'Logging in ...' : 'Sign in'}
                 <div className={styles.arrowWrapper}>
                   <div className={styles.arrow}></div>
                 </div>
-              </button>
+              </button> */}
+              <Button
+                loading={loggingIn}
+                loadingPosition="end"
+                onClick={handleSubmit}
+                endDecorator={<ArrowForward />}
+                size="md"
+                variant="solid"
+                style={{ margin: 10, borderRadius: 20 }}
+              >
+                Sign in
+              </Button>
             </div>
           </form>
           <p

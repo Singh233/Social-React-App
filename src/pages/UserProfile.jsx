@@ -303,7 +303,7 @@ const UserProfile = () => {
             </div>
 
             <div
-              onClick={() => toast.success('Coming soon!')}
+              onClick={() => setCurrentHeader('userVideos')}
               className={`${styles.heading1} ${
                 currentHeader === 'userVideos' && styles.activeHeading
               }`}
@@ -315,23 +315,50 @@ const UserProfile = () => {
               <p>Videos</p>
             </div>
           </div>
+          {currentHeader === 'userPosts' && (
+            <div
+              className={styles.userPosts}
+              onClick={() => toast.success('Coming soon!')}
+            >
+              {user.posts.map((post) => {
+                return (
+                  <div className={styles.post} key={post._id}>
+                    <img src={post.imgPath ? post.imgPath : dummyImg} />
+                  </div>
+                );
+              })}
 
-          <div className={styles.userPosts}>
-            {user.posts.map((post) => {
-              return (
-                <div className={styles.post} key={post._id}>
-                  <img src={post.imgPath ? post.imgPath : dummyImg} />
+              {user.posts.length === 0 && (
+                <div className={styles.noPosts}>
+                  {/* <img src={dummyImg} /> */}
+                  <p>No posts from {user.name}</p>
                 </div>
-              );
-            })}
+              )}
+            </div>
+          )}
 
-            {user.posts.length === 0 && (
-              <div className={styles.noPosts}>
-                {/* <img src={dummyImg} /> */}
-                <p>No posts from {user.name}</p>
-              </div>
-            )}
-          </div>
+          {currentHeader === 'userVideos' && (
+            <div
+              className={styles.userPosts}
+              onClick={() => toast.success('Coming soon!')}
+            >
+              {user.posts.map((post) => {
+                if (!post.isImg)
+                  return (
+                    <div className={styles.post} key={post._id}>
+                      <img src={post.imgPath ? post.imgPath : dummyImg} />
+                    </div>
+                  );
+              })}
+
+              {user.posts.filter((post) => !post.isImg).length === 0 && (
+                <div className={styles.noPosts}>
+                  {/* <img src={dummyImg} /> */}
+                  <p>No Videos from {user.name}</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

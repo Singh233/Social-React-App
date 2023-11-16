@@ -36,6 +36,7 @@ import { usePosts } from '../hooks/usePosts';
 import { useAuth } from '../hooks/useAuth';
 import VideoJS, { ReactPlayerWrapper } from './ReactPlayerWrapper';
 import ReactPlayer from 'react-player';
+import { Avatar } from '@mui/joy';
 
 const Post = ({ post }) => {
   const [expandMenu, setExpandMenu] = useState(false);
@@ -225,7 +226,15 @@ const Post = ({ post }) => {
     >
       <div className={styles.header}>
         <div className={styles.userInfo}>
-          <img style={{ height: 50, width: 50 }} src={avatar} />
+          {/* <img style={{ height: 50, width: 50 }} src={avatar} /> */}
+          <Avatar
+            src={post.user.avatar ? post.user.avatar : avatar}
+            alt={post.user.name}
+            size="md"
+            variant="solid"
+            style={{margin: 5, marginLeft: 0}}
+          />
+
           {post.user._id === auth.user._id ? (
             <Link to="/settings">{post.user.name}</Link>
           ) : (

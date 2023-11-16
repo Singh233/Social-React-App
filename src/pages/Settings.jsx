@@ -210,7 +210,7 @@ const Settings = () => {
             </div>
 
             <div
-              onClick={() => toast.success('Coming soon!')}
+              onClick={() => setCurrentHeader('userVideos')}
               className={`${styles.heading1} ${
                 currentHeader === 'userVideos' && styles.activeHeading
               }`}
@@ -239,6 +239,7 @@ const Settings = () => {
           {currentHeader === 'userPosts' && (
             <div
               className={`${styles.userPosts} animate__animated animate__fadeIn`}
+              onClick={() => toast.success('Coming soon!')}
             >
               {auth.user.posts.map((post) => {
                 return (
@@ -247,12 +248,41 @@ const Settings = () => {
                   </div>
                 );
               })}
+              {auth.user.posts.length === 0 && (
+                <div className={styles.noPosts}>
+                  {/* <img src={dummyImg} /> */}
+                  <p>No posts uploaded</p>
+                </div>
+              )}
+            </div>
+          )}
+          {currentHeader === 'userVideos' && (
+            <div
+              className={styles.userPosts}
+              onClick={() => toast.success('Coming soon!')}
+            >
+              {auth.user.posts.map((post) => {
+                if (!post.isImg)
+                  return (
+                    <div className={styles.post} key={post._id}>
+                      <img src={post.imgPath ? post.imgPath : dummyImg} />
+                    </div>
+                  );
+              })}
+
+              {auth.user.posts.filter((post) => !post.isImg).length === 0 && (
+                <div className={styles.noPosts}>
+                  {/* <img src={dummyImg} /> */}
+                  <p>No Videos uploaded</p>
+                </div>
+              )}
             </div>
           )}
 
           {currentHeader === 'savedPosts' && (
             <div
               className={`${styles.savedPosts} animate__animated animate__fadeIn`}
+              onClick={() => toast.success('Coming soon!')}
             >
               {auth.user.savedPosts.map((post, index) => {
                 return (

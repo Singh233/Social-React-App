@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Delicious Handrawn');
 
 .navContainer {
   display: grid;
@@ -16,7 +17,7 @@
   top: 0;
   left: 0;
   width: 98%;
-  z-index: 1;
+  z-index: 999;
   background-color: #000000;
 }
 
@@ -35,6 +36,24 @@
   margin-left: 7px;
   font-size: 1.5rem;
   font-weight: 700;
+  position: relative;
+  font: 400 40px/72px Delicious Handrawn, sans-serif;
+  width: -moz-max-content;
+  width: max-content;
+  background: linear-gradient(
+    80.18deg,
+    #d1ccdd,
+    #c893e1 25%,
+    #eb47a7 50%,
+    #f94a73 75%,
+    #fb7a53
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  background-size: cover;
 }
 
 .branding svg {
@@ -50,20 +69,8 @@
 }
 
 .branding a span {
-  font-size: 0.9rem;
-}
-
-.branding a sup {
-  font-size: 1.5rem;
-}
-
-.branding a .s {
-  font-size: 1.7rem;
-  font-weight: 800;
-}
-
-.branding a .social {
   margin-top: 5px;
+  font: 400 30px/72px Delicious Handrawn, sans-serif;
 }
 
 .brandingIcon {
@@ -315,10 +322,12 @@ input:hover {
   right: 0;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .navContainer {
     grid-template-columns: 1fr auto;
     border-radius: 0 0 20px 20px;
+    padding: 0;
+    padding-bottom: 25px;
   }
 
   .branding {
@@ -333,15 +342,11 @@ input:hover {
   }
 
   .branding a {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 30px;
   }
 
-  .branding a p {
-    margin-left: 40px;
-  }
-  .branding a p span {
-    font-family: cursive;
+  .branding a span {
+    font-size: 25px;
   }
 
   .navOptions,

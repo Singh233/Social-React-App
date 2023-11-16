@@ -24,6 +24,7 @@ import moment from 'moment';
 import { useVideo } from '../hooks/useVideo';
 import { useAuth } from '../hooks/useAuth';
 import { usePosts } from '../hooks/usePosts';
+import { Avatar } from '@mui/joy';
 
 const Chat = () => {
   const auth = useAuth();
@@ -307,7 +308,14 @@ const Chat = () => {
                 Messages
               </p>
               <Link to={`/settings`}>
-                <img src={auth.user.avatar ? auth.user.avatar : dummyImg} />
+                {/* <img src={auth.user.avatar ? auth.user.avatar : dummyImg} /> */}
+                <Avatar
+                  src={auth.user.avatar && auth.user.avatar}
+                  alt={auth.user.name}
+                  size="md"
+                  variant="solid"
+                  // style={{ margin: '0px 5px', marginLeft: 10 }}
+                />
               </Link>
             </div>
 
@@ -331,7 +339,15 @@ const Chat = () => {
                     onClick={() => handleFriendClick(friend)}
                     className={`animate__animated animate__fadeIn ${styles.friend}`}
                   >
-                    <img src={friend.avatar ? friend.avatar : dummyImg} />
+                    {/* <img src={friend.avatar ? friend.avatar : dummyImg} /> */}
+
+                    <Avatar
+                      src={friend.avatar && friend.avatar}
+                      alt={friend.name}
+                      size="md"
+                      variant="solid"
+                      style={{ margin: '0px 5px', marginLeft: 10 }}
+                    />
                     <div className={styles.friendInfo}>
                       <p className={styles.friendName}>
                         {friend.name.substring(0, 15)}
@@ -443,6 +459,7 @@ const Chat = () => {
                             className={styles.recommendation}
                           >
                             <img src={user.avatar ? user.avatar : dummyImg} />
+
                             <p className={styles.recommendationName}>
                               {user.name.split(' ')[0]}
                             </p>

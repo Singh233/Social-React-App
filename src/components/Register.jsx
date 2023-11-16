@@ -11,6 +11,8 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 import { toast } from 'react-hot-toast';
+import { Button } from '@mui/joy';
+import { ArrowForward } from '@mui/icons-material';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -114,12 +116,17 @@ const Register = () => {
       </div>
 
       <div className={styles.field}>
-        <button className={styles.loginButton} disabled={signingUp}>
-          {signingUp ? 'Signing Up ...' : 'Sign Up'}
-          <div className={styles.arrowWrapper}>
-            <div className={styles.arrow}></div>
-          </div>
-        </button>
+        <Button
+          loading={signingUp}
+          loadingPosition="end"
+          onClick={handleSubmit}
+          endDecorator={<ArrowForward />}
+          size="md"
+          variant="solid"
+          style={{ margin: 10, borderRadius: 20 }}
+        >
+          Sign Up
+        </Button>
       </div>
     </form>
   );

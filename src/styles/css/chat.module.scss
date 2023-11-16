@@ -108,12 +108,12 @@
         }
       }
 
-      img {
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
+      // img {
+      //   height: 35px;
+      //   width: 35px;
+      //   border-radius: 50%;
+      //   object-fit: cover;
+      // }
     }
 
     .searchBar {
@@ -195,11 +195,11 @@
       }
 
       img {
-        height: 35px;
-        width: 35px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin: 0 10px;
+        // height: 35px;
+        // width: 35px;
+        // border-radius: 50%;
+        // object-fit: cover;
+        // margin: 5px 10px;
       }
 
       .friendInfo {
@@ -226,7 +226,7 @@
             border-radius: 50%;
 
             position: absolute;
-            left: 37px;
+            left: 45px;
           }
 
           .circleGray {
@@ -241,7 +241,7 @@
             border-radius: 50%;
 
             position: absolute;
-            left: 37px;
+            left: 45px;
           }
 
           .status {
@@ -363,7 +363,7 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .chatContainer {
     width: 100%;
     height: 100vh;
@@ -373,6 +373,9 @@
 
     .header {
       .info {
+        position: fixed;
+        top: 0;
+        width: 90%;
         .text {
           .sendIcon {
             display: none;
@@ -384,11 +387,18 @@
           }
         }
       }
+      .searchBar {
+        margin-top: 75px;
+      }
     }
 
     .friendsList {
-      max-height: 70%;
+      max-height: 75%;
       overflow-y: auto;
+    }
+
+    .footer {
+      border-radius: 30px 30px 0 0;
     }
   }
 }
