@@ -7,7 +7,7 @@ The application uses API endpoints from one of my own Node.js web application ch
 
 Through building this project, I gained experience with user authentication, posting messages, following other users, and liking and commenting on posts. This project was a great opportunity to practice my skills and improve my knowledge of full-stack web development.
 
-⛔️ Please note that the application is a work in progress, so it might throw some unexpected errors.
+⛔️ Please note that the application is a work in progress, some features might not work.
 
 
 
@@ -22,6 +22,7 @@ https://chillsanam.me/ 🚀
 - Google Sign In/Up 🚀
 - Actions
     - Post image 🌆
+    - Video uploads 🎥
     - Comment on Post 💬
     - Like Post ❤️
     - Save Post 🛟
@@ -46,8 +47,6 @@ https://chillsanam.me/ 🚀
 - Receive incoming message notification 🔔
 - Responsivity
   - Tablet
-- Video uploads 🎥
-- Email of message request ✉️
 
 
 ## Run Project Locally
