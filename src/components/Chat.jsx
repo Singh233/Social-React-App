@@ -302,7 +302,7 @@ const Chat = () => {
             <div className={styles.info}>
               <p className={styles.text}>
                 <img src={send} className={styles.sendIcon} />
-                <Link to="/">
+                <Link to={-1}>
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </Link>
                 Messages

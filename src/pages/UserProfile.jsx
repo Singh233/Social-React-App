@@ -8,7 +8,11 @@ import avatar from '../styles/memojis/memo3.png';
 import LoadingBar from 'react-top-loading-bar';
 import coverImg from '../styles/img/dummy.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChartSimple,
+  faCircle,
+  faPlayCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { faCloud } from '@fortawesome/free-solid-svg-icons';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
@@ -31,6 +35,7 @@ import LeftNav from './home/LeftNav';
 import env from '../utils/env';
 
 import moment from 'moment';
+import { PlayCircleFilled } from '@mui/icons-material';
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
@@ -317,14 +322,29 @@ const UserProfile = () => {
           </div>
           {currentHeader === 'userPosts' && (
             <div
-              className={styles.userPosts}
-              onClick={() => toast.success('Coming soon!')}
+              className={`${styles.userPosts} animate__animated animate__fadeIn`}
             >
               {user.posts.map((post) => {
                 return (
-                  <div className={styles.post} key={post._id}>
-                    <img src={post.imgPath ? post.imgPath : dummyImg} />
-                  </div>
+                  // <div className={styles.post} key={post._id}>
+                  //   <img src={post.imgPath ? post.imgPath : dummyImg} />
+                  // </div>
+                  <Link
+                    to={{
+                      pathname: `/posts/post/${post._id}`,
+                    }}
+                    state={{ user: post.user }}
+                    className={styles.post}
+                    key={post._id}
+                  >
+                    {post.imgPath ? (
+                      <img src={post.imgPath} />
+                    ) : (
+                      <div>
+                        <FontAwesomeIcon icon={faPlayCircle} />
+                      </div>
+                    )}
+                  </Link>
                 );
               })}
 
@@ -339,15 +359,28 @@ const UserProfile = () => {
 
           {currentHeader === 'userVideos' && (
             <div
-              className={styles.userPosts}
+              className={`${styles.userPosts} animate__animated animate__fadeIn`}
               onClick={() => toast.success('Coming soon!')}
             >
               {user.posts.map((post) => {
                 if (!post.isImg)
                   return (
-                    <div className={styles.post} key={post._id}>
-                      <img src={post.imgPath ? post.imgPath : dummyImg} />
-                    </div>
+                    <Link
+                      to={{
+                        pathname: `/posts/post/${post._id}`,
+                      }}
+                      state={{ user: post.user }}
+                      className={styles.post}
+                      key={post._id}
+                    >
+                      {post.imgPath ? (
+                        <img src={post.imgPath} />
+                      ) : (
+                        <div>
+                          <FontAwesomeIcon icon={faPlayCircle} />
+                        </div>
+                      )}
+                    </Link>
                   );
               })}
 

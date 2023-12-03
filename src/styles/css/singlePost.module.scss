@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  min-height: 90vh;
+  justify-content: center;
+  margin-left: 20vw;
+  padding-top: 85px;
+
+  .noPost {
+    color: gray;
+    border: 1px solid gray;
+    border-radius: 20px;
+    height: max-content;
+    align-self: center;
+    text-align: center;
+    padding: 20px 20px;
+
+    svg {
+      margin-right: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    position: relative;
+    z-index: 0;
+
+    grid-template-columns: 1fr;
+    // margin-top: -100px;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: 0;
+    padding-bottom: 60px;
+  }
+}

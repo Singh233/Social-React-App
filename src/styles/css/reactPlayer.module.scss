@@ -6,6 +6,10 @@
   height: 100%;
   position: relative;
 
+  video {
+    border-radius: 30px;
+  }
+
   svg {
     position: absolute;
     top: 50%;

@@ -13,7 +13,7 @@ import styles from '../styles/css/reactPlayer.module.scss';
 import { BounceLoader } from 'react-spinners';
 import { useAuth } from '../hooks/useAuth';
 
-export const ReactPlayerWrapper = ({ src }) => {
+export const ReactPlayerWrapper = ({ src, expandMenu, isAuthUser }) => {
   const playerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -87,6 +87,9 @@ export const ReactPlayerWrapper = ({ src }) => {
       )}
 
       <motion.div
+        animate={{
+          y: expandMenu && isAuthUser ? 150 : expandMenu ? 90 : 0,
+        }}
         layout
         transition={{ duration: 0.2 }}
         className={styles.muteUnmuteButton}

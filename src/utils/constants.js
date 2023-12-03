@@ -13,6 +13,8 @@ export const API_URLS = {
   posts: (page, limit) => `${API_ROOT}/posts`, //
   getPosts: (offset, limit) =>
     `${API_ROOT}/posts/index?offset=${offset}&limit=${limit}`,
+  getSinglePost: (postId) =>
+    `${API_ROOT}/posts/post/${postId}`,
   createPost: () => `${API_ROOT}/posts/create`, //
   deletePost: (postId) => `${API_ROOT}/posts/delete/${postId}`, //
   savePost: (postId) => `${API_ROOT}/posts/save/${postId}`, //

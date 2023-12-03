@@ -424,7 +424,7 @@ export const useProvideAuth = () => {
   const handleSavePost = async (postId) => {
     const response = await savePost(postId);
     if (response.success) {
-      user.savedPosts.push(response.data.post);
+      user.savedPosts.unshift(response.data.post);
     }
     return response;
   };

@@ -9,6 +9,7 @@ import {
   unsavePost,
 } from '../api';
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 import env from '../utils/env';
 
@@ -20,6 +21,7 @@ import send from '../styles/icon/send2.png';
 import likeWhite from '../styles/icon/heartwhite.png';
 import likeFill from '../styles/icon/heartfill.png';
 import comment from '../styles/icon/document.png';
+import shareIcon from '../styles/icon/forward.png';
 
 import dummyImg from '../styles/img/dummy.jpeg';
 import avatar from '../styles/memojis/memo3.png';
@@ -37,8 +39,24 @@ import { useAuth } from '../hooks/useAuth';
 import VideoJS, { ReactPlayerWrapper } from './ReactPlayerWrapper';
 import ReactPlayer from 'react-player';
 import { Avatar } from '@mui/joy';
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  TwitterShareButton,
+  XIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  RedditShareButton,
+  RedditIcon,
+  TelegramShareButton,
+  TelegramIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from 'react-share';
 
-const Post = ({ post }) => {
+const Post = (props) => {
+  const [post, setPost] = useState(props.post);
+  const { setSinglePost } = props;
   const [expandMenu, setExpandMenu] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -47,7 +65,7 @@ const Post = ({ post }) => {
   const [commentContent, setCommentContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false); // State to track if the image is loaded or not
-
+  const [enableShare, setEnableShare] = useState(false);
   const posts = usePosts();
   const auth = useAuth();
   const playerRef = useRef(null);
@@ -129,17 +147,25 @@ const Post = ({ post }) => {
     setLoading(true);
     // console.log('inside comment')
 
-    const response = await addComment(commentContent, post._id);
+    const response = await toast.promise(addComment(commentContent, post._id), {
+      loading: 'Adding comment...',
+      success: <b>Comment added!</b>,
+      error: <b>Something went wrong!</b>,
+    });
 
     if (response.success) {
       setCommentContent('');
       posts.addComment(response.data.comment, post._id);
-      toast.success('Comment added successfully!');
+      addNewComment(response.data.comment, post._id);
     } else {
       toast.error(response.message);
     }
 
     setLoading(false);
+  };
+
+  const addNewComment = (comment, id) => {
+    setPost({ ...post, comments: [comment, ...post.comments] });
   };
 
   const handlePostLikeClick = async () => {
@@ -186,13 +212,14 @@ const Post = ({ post }) => {
 
     const response = await toast.promise(deletePost(post._id), {
       loading: 'Deleting post...',
-      success: <b>Post deleted successfully!</b>,
+      success: <b>Post deleted!</b>,
       error: <b>Failed to delete post!</b>,
     });
 
     if (response.success) {
       posts.deletePost(post._id);
       auth.updateUserPosts(false, response.data.post);
+      if (setSinglePost) setSinglePost(null);
     } else {
       toast.error(response.message);
     }
@@ -232,7 +259,7 @@ const Post = ({ post }) => {
             alt={post.user.name}
             size="md"
             variant="solid"
-            style={{margin: 5, marginLeft: 0}}
+            style={{ margin: 5, marginLeft: 0 }}
           />
 
           {post.user._id === auth.user._id ? (
@@ -272,26 +299,33 @@ const Post = ({ post }) => {
           </div>
         ) : (
           // <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
-          <ReactPlayerWrapper src={videoOptions.sources[0].src} />
+          <ReactPlayerWrapper
+            src={videoOptions.sources[0].src}
+            expandMenu={expandMenu}
+            isAuthUser={post.user._id === auth.user._id}
+          />
         )}
       </div>
-
-      <div className={styles.actions}>
-        <div
-          className={`${
-            expandMenu
-              ? styles.menuExpand +
-                ' animate__animated animate__faster animate__fadeInUp'
-              : styles.hide
-          }`}
+      <motion.div
+        animate={{
+          display: expandMenu ? 'flex' : 'none',
+        }}
+        transition={{ delay: expandMenu ? 0 : 0.6 }}
+      >
+        <motion.div
+          animate={{
+            opacity: expandMenu ? 1 : 0,
+            y: expandMenu ? 0 : -100,
+          }}
+          className={`${styles.menuExpand}`}
         >
-          <FontAwesomeIcon
-            icon={faXmark}
-            className={styles.closeIcon}
-            onClick={() => setExpandMenu(!expandMenu)}
-          />
+          {/* <FontAwesomeIcon
+          icon={faXmark}
+          className={styles.closeIcon}
+          onClick={() => setExpandMenu(!expandMenu)}
+        /> */}
           <div className={styles.menuItem}>
-            {post.user._id == auth.user._id && (
+            {post.user._id === auth.user._id && (
               <p onClick={handleDeletePostClick} className={styles.delete}>
                 {' '}
                 <FontAwesomeIcon
@@ -321,8 +355,10 @@ const Post = ({ post }) => {
               )}
             </p>
           </div>
-        </div>
+        </motion.div>
+      </motion.div>
 
+      <div className={styles.actions}>
         <div className={styles.leftIcons}>
           <div
             onClick={handlePostLikeClick}
@@ -341,7 +377,122 @@ const Post = ({ post }) => {
             <img src={comment} className={styles.iconBg} />
             <p className={styles.likeCount}>{post.comments.length}</p>
           </div>
+
+          <div
+            onClick={() => setEnableShare(!enableShare)}
+            className={styles.commentButton}
+          >
+            <img src={shareIcon} className={styles.iconBg} />
+          </div>
         </div>
+
+        <motion.div
+          animate={{
+            display: enableShare ? 'flex' : 'none',
+          }}
+          transition={{ delay: enableShare ? 0 : 0.7 }}
+          className={styles.shareIcons}
+        >
+          <motion.div
+            animate={{
+              y: enableShare ? 0 : -20,
+              opacity: enableShare ? 1 : 0,
+            }}
+            transition={{ delay: 0 }}
+            className={styles.shareButton}
+          >
+            <FacebookShareButton
+              url={window.location.href}
+              className="Demo__some-network__share-button"
+            >
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+          </motion.div>
+          <motion.div
+            animate={{
+              y: enableShare ? 0 : -20,
+              opacity: enableShare ? 1 : 0,
+            }}
+            transition={{ delay: 0.1 }}
+            className={styles.shareButton}
+          >
+            <TwitterShareButton
+              url={window.location.href}
+              title={`Checkout this post from ${post.user.name}`}
+              className="Demo__some-network__share-button"
+            >
+              <XIcon size={32} round />
+            </TwitterShareButton>
+          </motion.div>
+          <motion.div
+            animate={{
+              y: enableShare ? 0 : -20,
+              opacity: enableShare ? 1 : 0,
+            }}
+            transition={{ delay: 0.3 }}
+            className={styles.shareButton}
+          >
+            <WhatsappShareButton
+              url={window.location.href}
+              title={`Checkout this post from ${post.user.name}`}
+              separator="- "
+              className="Demo__some-network__share-button"
+            >
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+          </motion.div>
+          <motion.div
+            animate={{
+              y: enableShare ? 0 : -20,
+              opacity: enableShare ? 1 : 0,
+            }}
+            transition={{ delay: 0.4 }}
+            className={styles.shareButton}
+          >
+            <LinkedinShareButton
+              url={window.location.href}
+              title={`Checkout this post from ${post.user.name}`}
+              separator="- "
+              className="Demo__some-network__share-button"
+            >
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+          </motion.div>
+          <motion.div
+            animate={{
+              y: enableShare ? 0 : -20,
+              opacity: enableShare ? 1 : 0,
+            }}
+            transition={{ delay: 0.5 }}
+            className={styles.shareButton}
+          >
+            <TelegramShareButton
+              url={window.location.href}
+              title={`Checkout this post from ${post.user.name}`}
+              separator="- "
+              className="Demo__some-network__share-button"
+            >
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+          </motion.div>
+          <motion.div
+            animate={{
+              y: enableShare ? 0 : -20,
+              opacity: enableShare ? 1 : 0,
+            }}
+            transition={{ delay: 0.6 }}
+            className={styles.shareButton}
+          >
+            <RedditShareButton
+              url={window.location.href}
+              title={`Checkout this post from ${post.user.name}`}
+              separator="- "
+              className="Demo__some-network__share-button"
+            >
+              <RedditIcon size={32} round />
+            </RedditShareButton>
+          </motion.div>
+        </motion.div>
 
         <div className={styles.rightIcons}>
           <div onClick={handlePostSaveClick} className={styles.saveButton}>

@@ -16,14 +16,15 @@ function Comment({ comment, postId }) {
   const posts = usePosts();
   const auth = useAuth();
 
-  const [likes, setLikes] = useState(comment.likes.length);
+  const [commentState, setCommentState] = useState(comment);
+  const [likes, setLikes] = useState(commentState && commentState.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
-
   useEffect(() => {
+    if (!commentState) return;
     // check if the comment is liked by the user
-    for (let like of comment.likes) {
+    for (let like of commentState.likes) {
       if (like.user == auth.user._id) {
         setIsLiked(true);
       }
@@ -41,7 +42,7 @@ function Comment({ comment, postId }) {
 
     setIsActive(true);
 
-    const response = await toggleLike(comment._id, 'Comment');
+    const response = await toggleLike(commentState._id, 'Comment');
 
     if (response.success) {
       if (response.data.deleted) {
@@ -67,60 +68,74 @@ function Comment({ comment, postId }) {
 
   // handle comment deleq click
   const handleCommentDeleteClick = async () => {
-    const response = await deleteComment(comment._id);
-
+    const response = await toast.promise(deleteComment(commentState._id), {
+      loading: 'Deleting comment...',
+      success: <b>Comment deleted!</b>,
+      error: <b>Something went wrong!</b>,
+    });
     if (response.success) {
-      posts.deleteComment(comment._id, postId);
-      toast.success('Comment deleted successfully!');
+      posts.deleteComment(commentState._id, postId);
+      deleteCommentFromState(commentState._id, postId);
     } else {
       toast.error(response.message);
     }
   };
 
+  const deleteCommentFromState = (commentId, postId) => {
+    setCommentState(null);
+  };
+
   return (
-    <div className={styles.commentDisplay}>
-      <Link to={`/users/profile/${comment.user._id}`}>
-        <img
-          style={{ height: 50, width: 50 }}
-          src={avatar}
-          className={styles.commentAvatar}
-        />
-      </Link>
-      <div className={styles.middleSection}>
-        <div className={styles.upper}>
-          <p className={styles.commentUserName}> {comment.user.name} </p>
-          <p className={styles.commentUserContent}> {comment.content} </p>
-        </div>
-
-        <div className={styles.bottom}>
-          <p className={styles.time}>{moment(comment.createdAt).fromNow()}</p>
-          {/* <p >reply</p>    */}
-          {comment.user._id == auth.user._id && (
-            <p
-              className={styles.deleteButton}
-              onClick={handleCommentDeleteClick}
-            >
-              delete
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div>
-        <div
-          onClick={handleCommentLikeClick}
-          className={`animate__animated animate__fadeInDown ${styles.commentLikeButton}`}
-        >
+    commentState && (
+      <div className={styles.commentDisplay}>
+        <Link to={`/users/profile/${commentState.user._id}`}>
           <img
-            src={`${isLiked ? likeFill : likeWhite}`}
-            className={`animate__animated ${
-              isActive ? 'animate__bounceIn' : ''
-            }  ${styles.iconBg}`}
+            style={{ height: 50, width: 50 }}
+            src={avatar}
+            className={styles.commentAvatar}
           />
-          <p className={styles.likeCount}>{likes}</p>
+        </Link>
+        <div className={styles.middleSection}>
+          <div className={styles.upper}>
+            <p className={styles.commentUserName}> {commentState.user.name} </p>
+            <p className={styles.commentUserContent}>
+              {' '}
+              {commentState.content}{' '}
+            </p>
+          </div>
+
+          <div className={styles.bottom}>
+            <p className={styles.time}>
+              {moment(commentState.createdAt).fromNow()}
+            </p>
+            {/* <p >reply</p>    */}
+            {commentState.user._id == auth.user._id && (
+              <p
+                className={styles.deleteButton}
+                onClick={handleCommentDeleteClick}
+              >
+                delete
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <div
+            onClick={handleCommentLikeClick}
+            className={`animate__animated animate__fadeInDown ${styles.commentLikeButton}`}
+          >
+            <img
+              src={`${isLiked ? likeFill : likeWhite}`}
+              className={`animate__animated ${
+                isActive ? 'animate__bounceIn' : ''
+              }  ${styles.iconBg}`}
+            />
+            <p className={styles.likeCount}>{likes}</p>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 }
 

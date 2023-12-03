@@ -8,7 +8,7 @@ import styles from '../styles/css/settings.module.css';
 import env from '../utils/env';
 
 import { toast } from 'react-hot-toast';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+import { faL, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import LeftNav from './home/LeftNav';
 
 import coverImg from '../styles/img/dummy.jpeg';
@@ -239,13 +239,25 @@ const Settings = () => {
           {currentHeader === 'userPosts' && (
             <div
               className={`${styles.userPosts} animate__animated animate__fadeIn`}
-              onClick={() => toast.success('Coming soon!')}
             >
               {auth.user.posts.map((post) => {
                 return (
-                  <div className={styles.post} key={post._id}>
-                    <img src={post.imgPath ? post.imgPath : dummyImg} />
-                  </div>
+                  <Link
+                    to={{
+                      pathname: `/posts/post/${post._id}`,
+                    }}
+                    state={{ user: post.user }}
+                    className={styles.post}
+                    key={post._id}
+                  >
+                    {post.imgPath ? (
+                      <img src={post.imgPath} />
+                    ) : (
+                      <div>
+                        <FontAwesomeIcon icon={faPlayCircle} />
+                      </div>
+                    )}
+                  </Link>
                 );
               })}
               {auth.user.posts.length === 0 && (
@@ -258,15 +270,27 @@ const Settings = () => {
           )}
           {currentHeader === 'userVideos' && (
             <div
-              className={styles.userPosts}
-              onClick={() => toast.success('Coming soon!')}
+              className={`${styles.userPosts} animate__animated animate__fadeIn`}
             >
               {auth.user.posts.map((post) => {
                 if (!post.isImg)
                   return (
-                    <div className={styles.post} key={post._id}>
-                      <img src={post.imgPath ? post.imgPath : dummyImg} />
-                    </div>
+                    <Link
+                      to={{
+                        pathname: `/posts/post/${post._id}`,
+                      }}
+                      state={{ user: post.user }}
+                      className={styles.post}
+                      key={post._id}
+                    >
+                      {post.imgPath ? (
+                        <img src={post.imgPath} />
+                      ) : (
+                        <div>
+                          <FontAwesomeIcon icon={faPlayCircle} />
+                        </div>
+                      )}
+                    </Link>
                   );
               })}
 
@@ -282,14 +306,26 @@ const Settings = () => {
           {currentHeader === 'savedPosts' && (
             <div
               className={`${styles.savedPosts} animate__animated animate__fadeIn`}
-              onClick={() => toast.success('Coming soon!')}
             >
               {auth.user.savedPosts.map((post, index) => {
                 return (
                   post && (
-                    <div className={styles.post} key={index}>
-                      <img src={post.imgPath ? post.imgPath : dummyImg} />
-                    </div>
+                    <Link
+                      to={{
+                        pathname: `/posts/post/${post._id}`,
+                      }}
+                      state={{ user: post.user }}
+                      className={styles.post}
+                      key={post._id}
+                    >
+                      {post.imgPath ? (
+                        <img src={post.imgPath} />
+                      ) : (
+                        <div>
+                          <FontAwesomeIcon icon={faPlayCircle} />
+                        </div>
+                      )}
+                    </Link>
                   )
                 );
               })}

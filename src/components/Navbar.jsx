@@ -128,7 +128,10 @@ const Navbar = () => {
     <>
       <div className={styles.navContainer}>
         <div className={styles.branding}>
-          <Link className={styles.name} to="/">
+          <Link
+            className={styles.name}
+            to={window.location.href.includes('post') ? -1 : '/'}
+          >
             {/* <FontAwesomeIcon className={styles.hashIcon} icon={faCloud} /> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"

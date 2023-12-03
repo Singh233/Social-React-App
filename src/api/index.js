@@ -68,6 +68,12 @@ export const getPosts = (page = 1, limit = 5) => {
   });
 };
 
+export const getSinglePost = (postId) => {
+  return customFetch(API_URLS.getSinglePost(postId), {
+    method: 'GET',
+  });
+};
+
 export const lazyLoadGetPosts = (offset, limit) => {
   return customFetch(API_URLS.getPosts(offset, limit), {
     method: 'GET',

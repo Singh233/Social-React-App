@@ -217,7 +217,30 @@
   object-fit: cover;
 }
 
-@media screen and (max-width: 500px) {
+.postsContainer .userPosts .post div,
+.savedPosts .post div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  width: 180px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.615);
+  margin-bottom: 5px;
+}
+
+.postsContainer .userPosts .post svg,
+.savedPosts .post svg {
+  height: 60px;
+  width: 60px;
+}
+
+.postsContainer .userPosts .post svg path,
+.savedPosts .post svg path {
+  fill: rgba(255, 255, 255, 0.682);
+}
+
+@media screen and (max-width: 600px) {
   .settingsContainer {
     position: relative;
     z-index: 1;
@@ -331,7 +354,7 @@
   }
 
   .postsContainer .header .imgIcon {
-    color: white;
+    /* color: white; */
 
     /* box-shadow: #161C21 0px 8px 24px; */
   }
@@ -342,7 +365,7 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .settingsContainer {
     margin-left: 0;
   }

@@ -36,7 +36,7 @@ export const useProvidePosts = () => {
   const addComment = (comment, id) => {
     const newPosts = posts.map((post) => {
       if (post._id === id) {
-        return { ...post, comments: [...post.comments, comment] };
+        return { ...post, comments: [comment, ...post.comments] };
       }
       return post;
     });

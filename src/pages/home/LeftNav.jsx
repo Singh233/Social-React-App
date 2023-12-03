@@ -30,17 +30,34 @@ const LeftNav = () => {
         <div className={styles.header}></div>
 
         <div className={styles.content}>
-          <Link to="/" className={`${styles.menu} ${styles.currentMenu}`}>
+          <Link
+            to="/"
+            className={`${styles.menu} ${
+              !window.location.href.includes('settings') &&
+              !window.location.href.includes('profile') &&
+              styles.currentMenu
+            }`}
+          >
             <img style={{ height: 30, width: 30 }} src={homeIcon} />
             <p></p>
           </Link>
 
-          <Link to="/settings" className={`${styles.menu} `}>
+          <Link
+            to="/settings"
+            className={`${styles.menu} ${
+              window.location.href.includes('profile') && styles.currentMenu
+            }`}
+          >
             <img style={{ height: 30, width: 30 }} src={profile} />
             <p></p>
           </Link>
 
-          <Link to="/settings" className={`${styles.menu} `}>
+          <Link
+            to="/settings"
+            className={`${styles.menu} ${
+              window.location.href.includes('settings') && styles.currentMenu
+            }`}
+          >
             <img style={{ height: 30, width: 30 }} src={settings} />
           </Link>
         </div>

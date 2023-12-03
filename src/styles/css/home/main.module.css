@@ -14,6 +14,7 @@
   border-radius: 30px;
   margin-top: 20px;
   transition: all 0.5s ease;
+  position: relative;
 }
 
 .displayPosts .post {
@@ -73,6 +74,7 @@
 
 .displayPosts .header {
   position: relative;
+  z-index: 1;
 
   margin-bottom: -70px;
   display: flex;
@@ -87,16 +89,16 @@
   cursor: pointer;
 }
 
-.displayPosts .actions .menuExpand {
+.menuExpand {
   position: absolute;
-  bottom: 0;
+  top: -14px;
   left: 0;
   z-index: 0;
   background-color: #000000;
   padding: 10px 0px;
   border-radius: 20px;
   width: 100%;
-  padding-bottom: 60px;
+  padding-top: 60px;
 
   background: rgba(0, 0, 0, 0.5);
   -webkit-backdrop-filter: blur(10px);
@@ -104,43 +106,47 @@
   border: 1px solid rgba(0, 0, 0, 0.18);
 }
 
-.displayPosts .actions .hide {
+.removeExpandMenu {
+  display: none;
+}
+
+.displayPosts .hide {
   display: none !important;
 }
-.displayPosts .actions .menuExpand .menuItem .group {
+.displayPosts .menuExpand .menuItem .group {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.displayPosts .actions .menuExpand .menuItem .group .likeButton,
+.displayPosts .menuExpand .menuItem .group .likeButton,
 .group .commentButton {
   background-color: rgb(255, 255, 255);
 }
 
-.displayPosts .actions .menuExpand .menuItem p {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-  padding-bottom: 20px;
+.displayPosts .menuExpand .menuItem p {
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 20px;
   cursor: pointer;
   font-size: 1.1rem;
   transition: all 0.2s ease;
   width: 100%;
 }
-.displayPosts .actions .menuExpand .menuItem .delete {
+.displayPosts .menuExpand .menuItem .delete {
   color: red;
   font-weight: 600;
   cursor: pointer;
 }
 
-.displayPosts .actions .menuExpand .menuItem .delete:hover {
+.displayPosts .menuExpand .menuItem .delete:hover {
   color: rgb(255, 118, 118);
 }
 
-.displayPosts .actions .menuExpand .icon {
+.displayPosts .menuExpand .icon {
   margin-right: 10px;
 }
 
-.displayPosts .actions .menuExpand .closeIcon {
+.displayPosts .menuExpand .closeIcon {
   position: absolute;
   right: 0px;
   top: 0px;
@@ -205,7 +211,8 @@ a {
 
 .likeButton,
 .commentButton,
-.saveButton {
+.saveButton,
+.shareButton {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,10 +229,25 @@ a {
 }
 
 .likeButton,
-.commentButton {
+.commentButton,
+.shareButton {
   height: 45px;
   padding: 0px 5px;
   border-radius: 30px;
+}
+
+.shareButton {
+  padding: 0px 7px;
+  padding-top: 2px;
+}
+
+.shareIcons {
+  position: absolute;
+  top: 1px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .likeCount {
@@ -425,7 +447,7 @@ a {
   cursor: pointer;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .container {
     max-width: 100vw;
   }
@@ -442,5 +464,9 @@ a {
   .displayPosts .post img {
     height: 480px;
     width: 370px;
+  }
+
+  .shareIcons {
+    left: 0;
   }
 }

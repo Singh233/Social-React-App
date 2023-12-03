@@ -17,6 +17,7 @@ import env from '../utils/env';
 import Search from '../pages/Search';
 import SmCreatePost from '../pages/SmCreatePost';
 import LeftNav from '../pages/home/LeftNav.jsx';
+import SinglePost from '../pages/SinglePost.jsx';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -64,13 +65,19 @@ function App() {
         <Loader />
       ) : (
         <>
-          {auth.user ? <LeftNav /> : ''}
+          {auth.user ? (
+            <>
+              {' '}
+              <Navbar /> <LeftNav />{' '}
+            </>
+          ) : (
+            ''
+          )}
           <Routes>
             <Route
               path="/"
               element={
                 <PrivateRoute>
-                  <Navbar />
                   <Home />
                   <SmBottomnNav />
                 </PrivateRoute>
@@ -106,7 +113,6 @@ function App() {
               path="/upload"
               element={
                 <PrivateRoute>
-                  <Navbar />
                   <SmCreatePost />
                   <SmBottomnNav />
                 </PrivateRoute>
@@ -117,8 +123,17 @@ function App() {
               path="/settings"
               element={
                 <PrivateRoute>
-                  <Navbar />
                   <Settings />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/posts/post/:postId"
+              element={
+                <PrivateRoute>
+                  <SinglePost />
                   <SmBottomnNav />
                 </PrivateRoute>
               }
@@ -128,7 +143,6 @@ function App() {
               path="/users/profile/:userId"
               element={
                 <PrivateRoute>
-                  <Navbar />
                   <UserProfile />
                   <SmBottomnNav />
                 </PrivateRoute>
