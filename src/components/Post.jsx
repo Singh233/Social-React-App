@@ -29,7 +29,12 @@ import 'animate.css';
 
 import Comment from './Comment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faClone,
+  faCopy,
+  faFile,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -245,6 +250,13 @@ const Post = (props) => {
     }
   };
 
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(
+      `https://react.chillsanam.social/posts/post/${post._id}`
+    );
+    toast.success('Link copied!');
+  };
+
   return (
     <div
       id={post._id}
@@ -395,14 +407,13 @@ const Post = (props) => {
         >
           <motion.div
             animate={{
-              y: enableShare ? 0 : -20,
               opacity: enableShare ? 1 : 0,
             }}
             transition={{ delay: 0 }}
             className={styles.shareButton}
           >
             <FacebookShareButton
-              url={window.location.href}
+              url={`https://react.chillsanam.social/posts/post${post._id}`}
               className="Demo__some-network__share-button"
             >
               <FacebookIcon size={32} round />
@@ -410,14 +421,13 @@ const Post = (props) => {
           </motion.div>
           <motion.div
             animate={{
-              y: enableShare ? 0 : -20,
               opacity: enableShare ? 1 : 0,
             }}
             transition={{ delay: 0.1 }}
             className={styles.shareButton}
           >
             <TwitterShareButton
-              url={window.location.href}
+              url={`https://react.chillsanam.social/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               className="Demo__some-network__share-button"
             >
@@ -426,14 +436,13 @@ const Post = (props) => {
           </motion.div>
           <motion.div
             animate={{
-              y: enableShare ? 0 : -20,
               opacity: enableShare ? 1 : 0,
             }}
             transition={{ delay: 0.3 }}
             className={styles.shareButton}
           >
             <WhatsappShareButton
-              url={window.location.href}
+              url={`https://react.chillsanam.social/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               separator="- "
               className="Demo__some-network__share-button"
@@ -443,14 +452,13 @@ const Post = (props) => {
           </motion.div>
           <motion.div
             animate={{
-              y: enableShare ? 0 : -20,
               opacity: enableShare ? 1 : 0,
             }}
             transition={{ delay: 0.4 }}
             className={styles.shareButton}
           >
             <LinkedinShareButton
-              url={window.location.href}
+              url={`https://react.chillsanam.social/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               separator="- "
               className="Demo__some-network__share-button"
@@ -460,14 +468,13 @@ const Post = (props) => {
           </motion.div>
           <motion.div
             animate={{
-              y: enableShare ? 0 : -20,
               opacity: enableShare ? 1 : 0,
             }}
             transition={{ delay: 0.5 }}
             className={styles.shareButton}
           >
             <TelegramShareButton
-              url={window.location.href}
+              url={`https://react.chillsanam.social/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               separator="- "
               className="Demo__some-network__share-button"
@@ -477,20 +484,13 @@ const Post = (props) => {
           </motion.div>
           <motion.div
             animate={{
-              y: enableShare ? 0 : -20,
               opacity: enableShare ? 1 : 0,
             }}
             transition={{ delay: 0.6 }}
             className={styles.shareButton}
+            onClick={handleCopyUrl}
           >
-            <RedditShareButton
-              url={window.location.href}
-              title={`Checkout this post from ${post.user.name}`}
-              separator="- "
-              className="Demo__some-network__share-button"
-            >
-              <RedditIcon size={32} round />
-            </RedditShareButton>
+            <FontAwesomeIcon className={styles.copyIcon} icon={faClone} />
           </motion.div>
         </motion.div>
 

@@ -36,10 +36,10 @@ const development = {
 };
 
 const production = {
-  API_URL: 'https://sanam.social/api/v1',
+  API_URL: 'https://chillsanam.social/api/v1',
   google_client_id: process.env.VITE_GOOGLE_CLIENT_ID,
-  file_url: 'https://sanam.social',
-  socket_url: 'https://sanam.social',
+  file_url: 'https://chillsanam.social',
+  socket_url: 'https://chillsanam.social',
   peer: {
     config: {
       iceServers: [
