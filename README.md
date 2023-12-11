@@ -20,6 +20,7 @@ https://react.chillsanam.social/ 🚀
   - Post image 🌆
   - Video uploads 🎥
   - Comment on Post 💬
+  - Share Post ✉️
   - Like Post ❤️
   - Save Post 🛟
   - Follow/Unfollow Users 👀
