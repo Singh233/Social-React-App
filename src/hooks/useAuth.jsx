@@ -21,6 +21,7 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import socketIo from 'socket.io-client';
 import env from '../utils/env';
+import { useVideo } from './useVideo';
 
 export const useAuth = () => {
   return useContext(AuthContext);

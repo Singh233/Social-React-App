@@ -52,6 +52,7 @@ export default function DirectMessage(props) {
   const socket = auth.socket;
   const lastMessageRef = useRef(null);
   const videoIcon = useRef();
+  const messageInputRef = useRef();
 
   //state for last message
   const [lastMessage, setLastMessage] = useState(null);
@@ -147,6 +148,7 @@ export default function DirectMessage(props) {
   const handleSendMessageClick = async () => {
     if (message.trim().length === 0) {
       toast.error('Message cannot be empty');
+      if (messageInputRef.current) messageInputRef.current.focus();
       return;
     }
 
@@ -208,7 +210,7 @@ export default function DirectMessage(props) {
     if (window.innerWidth < 500) {
       toast('Currently not available for Phones!', {
         icon: '🚧',
-      })
+      });
       return;
     }
     initiateVideoCall();
@@ -546,6 +548,7 @@ export default function DirectMessage(props) {
 
       <div className={`${styles.bottomContainer}`}>
         <input
+          ref={messageInputRef}
           type="text"
           placeholder="Type a message"
           value={message}
