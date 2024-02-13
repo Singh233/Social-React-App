@@ -10,23 +10,27 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import env from './utils/env';
 import { VideoProvider } from './providers/VideoProvider';
+import { QueryClient, QueryClientProvider } from 'react-query';
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-      <AuthProvider>
-        <PostsProvider>
-          <VideoProvider>
-            <GoogleOAuthProvider
-              clientId={env.google_client_id}
-              scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
-            >
-              <App />
-            </GoogleOAuthProvider>
-          </VideoProvider>
-        </PostsProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <PostsProvider>
+            <VideoProvider>
+              <GoogleOAuthProvider
+                clientId={env.google_client_id}
+                scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+              >
+                <App />
+              </GoogleOAuthProvider>
+            </VideoProvider>
+          </PostsProvider>
+        </AuthProvider>
+      </QueryClientProvider>
 
       <Toaster
         toastOptions={{

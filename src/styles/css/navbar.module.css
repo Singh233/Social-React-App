@@ -103,6 +103,7 @@
 .searchBarNav {
   display: flex;
   align-items: center;
+  margin-left: 110px;
 
   position: relative;
 }

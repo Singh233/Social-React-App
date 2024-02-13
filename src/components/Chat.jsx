@@ -25,6 +25,7 @@ import { useVideo } from '../hooks/useVideo';
 import { useAuth } from '../hooks/useAuth';
 import { usePosts } from '../hooks/usePosts';
 import { Avatar } from '@mui/joy';
+import { GlobalChat } from './GlobalChat';
 
 const Chat = () => {
   const auth = useAuth();
@@ -57,6 +58,8 @@ const Chat = () => {
   const [chatFriends, setChatFriends] = useState(auth.user.friends);
   // state for direct message
   const [isDirectMessageOpen, setIsDirectMessageOpen] = useState(false);
+  // state for global chat
+  const [isGlobalChatOpen, setIsGlobalChatOpen] = useState(false);
   // state for clicked user
   const [clickedUser, setClickedUser] = useState(null);
   // state for chat room
@@ -246,14 +249,8 @@ const Chat = () => {
   };
 
   const handleGlobalChatClick = () => {
-    let to_user = 'global';
-    let from_user = auth.user._id;
-    // show toast notification of work in progress
-    toast((t) => (
-      <span>
-        Coming <b>soon!</b>
-      </span>
-    ));
+    setIsGlobalChatOpen(true);
+    toast.success("Global chat joined!")
   };
 
   return (
@@ -270,6 +267,15 @@ const Chat = () => {
           setY={setY}
           scale={scale}
           setScale={setScale}
+        />
+      ) : isGlobalChatOpen ? (
+        <GlobalChat
+          isGlobalChatOpen={isGlobalChatOpen}
+          setIsGlobalChatOpen={setIsGlobalChatOpen}
+          chatRoom={chatRoom}
+          x={x}
+          y={y}
+          scale={scale}
         />
       ) : (
         <motion.div
