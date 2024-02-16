@@ -1,7 +1,6 @@
 import styles from '../styles/css/home/createpost.module.css';
 import { useRef, useState } from 'react';
 import { addPost } from '../api';
-import { toast } from 'react-hot-toast';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +27,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Box } from '@mui/material';
 import Button from '@mui/joy/Button';
 import { Avatar } from '@mui/joy';
+import { toast } from 'sonner';
 
 // Register the plugins
 registerPlugin(
@@ -81,11 +81,9 @@ const CreatePost = ({ setShowProgressContainer, showProgressContainer }) => {
 
     setAddingPost(true);
 
-    const response = await toast.promise(addPost(caption, file), {
-      loading: 'Uploading post...',
-      success: 'Post uploaded successfully',
-      error: 'Please try again later!',
-    });
+    const toastId = toast.loading('Adding post...');
+
+    const response = await addPost(caption, file);
 
     setCaption('');
     if (fileType === 'image' && response.success) {
@@ -93,13 +91,23 @@ const CreatePost = ({ setShowProgressContainer, showProgressContainer }) => {
       setTimeout(() => {
         posts.addPostToState(response.data.post);
       }, 700);
-    } else {
+      toast.success('Post created!', {
+        id: toastId,
+      });
+    } else if (response.success) {
       const data = {
         title: fileName.current,
         progress: 0,
       };
       localStorage.setItem('video_encoding_progress', JSON.stringify(data));
       setShowProgressContainer(true);
+      toast.success('Processing video', {
+        id: toastId,
+      });
+    } else {
+      toast.error(response.message, {
+        id: toastId,
+      });
     }
 
     setAddingPost(false);

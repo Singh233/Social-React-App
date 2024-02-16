@@ -104,7 +104,18 @@ textarea:focus {
   margin-left: 7px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1175px) {
+  .container {
+    max-width: 50vw;
+    min-width: 50vw;
+  }
+
+  textarea {
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 700px) {
   .container {
     max-width: 85vw;
     min-width: 85vw;

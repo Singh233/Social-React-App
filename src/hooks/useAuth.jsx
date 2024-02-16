@@ -17,11 +17,11 @@ import {
   removeItemInLocalStorage,
   getItemInLocalStorage,
 } from '../utils';
-import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import socketIo from 'socket.io-client';
 import env from '../utils/env';
 import { useVideo } from './useVideo';
+import { toast } from 'sonner';
 
 export const useAuth = () => {
   return useContext(AuthContext);

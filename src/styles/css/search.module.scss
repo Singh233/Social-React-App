@@ -9,7 +9,7 @@
     justify-content: space-between;
     position: fixed;
     z-index: 2;
-    width: 90%;
+    width: 97%;
     padding: 10px;
     background-color: black;
 
@@ -94,6 +94,22 @@
 
     svg {
       margin-right: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .searchContainer {
+    .header {
+      width: 93%;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .searchContainer {
+    .header {
+      width: 90%;
     }
   }
 }

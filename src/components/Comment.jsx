@@ -4,13 +4,13 @@ import likeWhite from '../styles/icon/heartwhite.png';
 import likeFill from '../styles/icon/heartfill.png';
 
 import { deleteComment, toggleLike } from '../api';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { useEffect, useRef, useState } from 'react';
 
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { usePosts } from '../hooks/usePosts';
 import { useAuth } from '../hooks/useAuth';
+import { toast } from 'sonner';
 
 function Comment({ comment, postId }) {
   const posts = usePosts();
@@ -20,6 +20,9 @@ function Comment({ comment, postId }) {
   const [likes, setLikes] = useState(commentState && commentState.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const isRequestProcessing = useRef(false);
+  const timeoutId = useRef(null);
+  const toastId = useRef(null);
 
   useEffect(() => {
     if (!commentState) return;
@@ -68,17 +71,43 @@ function Comment({ comment, postId }) {
 
   // handle comment deleq click
   const handleCommentDeleteClick = async () => {
-    const response = await toast.promise(deleteComment(commentState._id), {
-      loading: 'Deleting comment...',
-      success: <b>Comment deleted!</b>,
-      error: <b>Something went wrong!</b>,
-    });
+    if (isRequestProcessing.current) {
+      toast.loading('Please wait...', {
+        id: toastId.current,
+      });
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+      timeoutId.current = setTimeout(() => {
+        if (isRequestProcessing.current)
+          toast.loading('Deleting comment...', {
+            id: toastId.current,
+          });
+      }, 1000);
+
+      return;
+    }
+    isRequestProcessing.current = true;
+    toastId.current = toastId.current
+      ? toast.loading('Deleting comment...', {
+          id: toastId.current,
+        })
+      : toast.loading('Deleting comment...');
+
+    const response = await deleteComment(commentState._id);
     if (response.success) {
       posts.deleteComment(commentState._id, postId);
       deleteCommentFromState(commentState._id, postId);
+      toast.success('Comment deleted!', {
+        id: toastId.current,
+      });
     } else {
-      toast.error(response.message);
+      toast.error(response.message, {
+        id: toastId.current,
+      });
     }
+    isRequestProcessing.current = false;
+    clearTimeout(timeoutId.current);
   };
 
   const deleteCommentFromState = (commentId, postId) => {

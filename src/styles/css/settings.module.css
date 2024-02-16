@@ -240,7 +240,7 @@
   fill: rgba(255, 255, 255, 0.682);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1175px) {
   .settingsContainer {
     position: relative;
     z-index: 1;
@@ -365,7 +365,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1175px) {
   .settingsContainer {
     margin-left: 0;
   }

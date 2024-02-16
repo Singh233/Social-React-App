@@ -18,10 +18,10 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { createMessage, fetchMessages } from '../api';
-import toast from 'react-hot-toast';
 import moment from 'moment';
 import _ from 'lodash';
 import { useVideo } from '../hooks/useVideo';
+import { toast } from 'sonner';
 
 export default function DirectMessage(props) {
   const {
@@ -207,7 +207,7 @@ export default function DirectMessage(props) {
   };
 
   const handleVideoButtonClick = () => {
-    if (window.innerWidth < 500) {
+    if (window.innerWidth <= 1175) {
       toast('Currently not available for Phones!', {
         icon: '🚧',
       });

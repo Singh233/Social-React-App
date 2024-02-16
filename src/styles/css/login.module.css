@@ -203,7 +203,7 @@ p {
   margin-left: 7px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1175px) {
   .container {
     overflow: hidden;
     min-width: 100%;

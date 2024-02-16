@@ -6,8 +6,6 @@ import { useAuth } from '../hooks/useAuth.jsx';
 import styles from '../styles/css/settings.module.css';
 
 import env from '../utils/env';
-
-import { toast } from 'react-hot-toast';
 import { faL, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import LeftNav from './home/LeftNav';
 
@@ -30,6 +28,7 @@ import dummyImg from '../styles/img/dummy.jpeg';
 
 import moment from 'moment';
 import { fetchUserProfile } from '../api';
+import { toast } from 'sonner';
 
 const Settings = () => {
   const auth = useAuth();
@@ -143,7 +142,7 @@ const Settings = () => {
             Hi this is sample about🔥 Professional Cake Cutter
           </p>
           <div className={styles.buttons}>
-            <button onClick={() => toast.success('More Updates Coming Soon')}>
+            <button onClick={() => toast.info('More Updates Coming Soon')}>
               Edit Profile
             </button>
           </div>

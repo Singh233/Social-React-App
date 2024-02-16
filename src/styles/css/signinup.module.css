@@ -30,14 +30,14 @@
   transition: all 0.3s ease;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1175px) {
   .loginContainer {
     height: auto;
     min-height: 70vh;
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1175px) {
   .container {
     overflow: hidden !important;
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),

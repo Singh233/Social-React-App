@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Post } from '../components';
 import { getSinglePost } from '../api';
-import toast from 'react-hot-toast';
 
 import styles from '../styles/css/singlePost.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +10,7 @@ import Card from '@mui/joy/Card';
 import Skeleton from '@mui/joy/Skeleton';
 import Typography from '@mui/joy/Typography';
 import PostCardSkeleton from '../components/PostCardSkeleton';
+import { toast } from 'sonner';
 
 export default function SinglePost() {
   const [post, setSinglePost] = useState(null);
@@ -20,17 +20,20 @@ export default function SinglePost() {
     const url = window.location.href.split('/');
     const postId = url[url.length - 1];
 
-    const response = await toast.promise(getSinglePost(postId), {
-      loading: 'loading...',
-      success: <b>Post loaded!</b>,
-      error: <b>Something went wrong!</b>,
-    });
+    const toastId = toast.loading('Loading...');
+
+    const response = await getSinglePost(postId);
     if (response) {
       setSinglePost(response.data.post);
       setLoading(false);
+      toast.success('Post fetched', {
+        id: toastId,
+      });
       return;
     }
-    toast.error('Something went wrong!');
+    toast.error('Something went wrong!', {
+      id: toastId,
+    });
   };
 
   useEffect(() => {

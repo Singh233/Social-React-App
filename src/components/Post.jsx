@@ -8,7 +8,6 @@ import {
   toggleLike,
   unsavePost,
 } from '../api';
-import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 
 import env from '../utils/env';
@@ -58,6 +57,7 @@ import {
   LinkedinShareButton,
   LinkedinIcon,
 } from 'react-share';
+import { toast } from 'sonner';
 
 const Post = (props) => {
   const [post, setPost] = useState(props.post);
@@ -71,9 +71,14 @@ const Post = (props) => {
   const [loading, setLoading] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false); // State to track if the image is loaded or not
   const [enableShare, setEnableShare] = useState(false);
+  const isRequestProcessing = useRef(false);
+  const timeoutId = useRef(null);
+  const toastId = useRef(null);
+
   const posts = usePosts();
   const auth = useAuth();
   const playerRef = useRef(null);
+  const inputRef = useRef();
 
   const videoOptions = {
     autoplay: true,
@@ -144,28 +149,52 @@ const Post = (props) => {
   }, []);
 
   const handleCreateCommentClick = async () => {
+    if (isRequestProcessing.current) {
+      toast.loading('Please wait...', {
+        id: toastId.current,
+      });
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+      timeoutId.current = setTimeout(() => {
+        if (isRequestProcessing.current)
+          toast.loading('Adding comment...', {
+            id: toastId.current,
+          });
+      }, 1000);
+
+      return;
+    }
     if (commentContent.length < 1) {
       toast.error('Comment cannot be empty');
       return;
     }
 
     setLoading(true);
-    // console.log('inside comment')
+    isRequestProcessing.current = true;
+    toastId.current = toastId
+      ? toast.loading('Adding comment...', {
+          id: toastId.current,
+        })
+      : toast.loading('Adding comment...');
 
-    const response = await toast.promise(addComment(commentContent, post._id), {
-      loading: 'Adding comment...',
-      success: <b>Comment added!</b>,
-      error: <b>Something went wrong!</b>,
-    });
+    const response = await addComment(commentContent, post._id);
 
     if (response.success) {
       setCommentContent('');
       posts.addComment(response.data.comment, post._id);
       addNewComment(response.data.comment, post._id);
+      toast.success('Comment added!', {
+        id: toastId.current,
+      });
     } else {
-      toast.error(response.message);
+      toast.error(response.message, {
+        id: toastId.current,
+      });
     }
 
+    isRequestProcessing.current = false;
+    clearTimeout(timeoutId.current);
     setLoading(false);
   };
 
@@ -213,21 +242,45 @@ const Post = (props) => {
 
   // handle delete post click
   const handleDeletePostClick = async () => {
-    // const response = await deletePost(post._id);
+    if (isRequestProcessing.current) {
+      toast.loading('Please wait...', {
+        id: toastId.current,
+      });
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+      timeoutId.current = setTimeout(() => {
+        if (isRequestProcessing.current)
+          toast.loading('Deleting post...', {
+            id: toastId.current,
+          });
+      }, 1000);
 
-    const response = await toast.promise(deletePost(post._id), {
-      loading: 'Deleting post...',
-      success: <b>Post deleted!</b>,
-      error: <b>Failed to delete post!</b>,
-    });
+      return;
+    }
+    toastId.current = toastId.current
+      ? toast.loading('Deleting post...', {
+          id: toastId.current,
+        })
+      : toast.loading('Deleting post...');
+    isRequestProcessing.current = true;
+    const response = await deletePost(post._id);
 
     if (response.success) {
       posts.deletePost(post._id);
       auth.updateUserPosts(false, response.data.post);
       if (setSinglePost) setSinglePost(null);
+      toast.success('Post Deleted', {
+        id: toastId.current,
+      });
     } else {
-      toast.error(response.message);
+      toast.error(response.message, {
+        id: toastId.current,
+      });
     }
+
+    isRequestProcessing.current = false;
+    clearTimeout(timeoutId.current);
   };
 
   // handle post save click
@@ -385,7 +438,10 @@ const Post = (props) => {
             <p className={styles.likeCount}>{likes}</p>
           </div>
 
-          <div className={styles.commentButton}>
+          <div
+            onClick={() => inputRef.current?.focus()}
+            className={styles.commentButton}
+          >
             <img src={comment} className={styles.iconBg} />
             <p className={styles.likeCount}>{post.comments.length}</p>
           </div>
@@ -520,6 +576,7 @@ const Post = (props) => {
       <div className={styles.comments}>
         <div className={styles.postComment}>
           <input
+            ref={inputRef}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleCreateCommentClick();

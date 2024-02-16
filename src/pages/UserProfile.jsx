@@ -22,7 +22,6 @@ import settingsIcon from '../styles/icon/setting.png';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import dummyImg from '../styles/img/dummy.jpeg';
 
-import { toast } from 'react-hot-toast';
 import { faL, faUnderline } from '@fortawesome/free-solid-svg-icons';
 import {
   addFriend,
@@ -36,6 +35,7 @@ import env from '../utils/env';
 
 import moment from 'moment';
 import { PlayCircleFilled } from '@mui/icons-material';
+import { toast } from 'sonner';
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
@@ -44,6 +44,7 @@ const UserProfile = () => {
   const [followingCount, setFollowingCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [requestInProgress, setRequestInProgress] = useState(false);
+
   const { userId } = useParams();
   const navigate = useNavigate();
   const auth = useAuth();
@@ -120,20 +121,22 @@ const UserProfile = () => {
     const fromUserId = auth.user._id;
     const toUserId = userId;
 
-    // const response = await addFriend(fromUserId, toUserId); // (from, to)
-    const response = await toast.promise(addFriend(fromUserId, toUserId), {
-      loading: 'Adding friend...',
-      success: 'Friend added successfully!',
-      error: 'Something went wrong!',
-    });
+    const toastId = toast.loading('Adding friend...');
+
+    const response = await addFriend(fromUserId, toUserId);
 
     if (response.success) {
       const { friendship } = response.data;
       auth.updateUserFriends(true, friendship);
       setFollowersCount(followersCount + 1);
       setIsFriend(true);
+      toast.success('Friend added!', {
+        id: toastId,
+      });
     } else {
-      toast.error(response.message);
+      toast.error(response.message, {
+        id: toastId,
+      });
       setIsFriend(false);
     }
     // console.log(isFriend)
@@ -146,12 +149,10 @@ const UserProfile = () => {
     const fromUserId = auth.user._id;
     const toUserId = userId;
 
+    const toastId = toast.loading('Removing friend...');
+
     // const response = await removeFriend(auth.user._id);
-    const response = await toast.promise(removeFriend(fromUserId, toUserId), {
-      loading: 'Removing friend...',
-      success: 'Friend removed successfully!',
-      error: 'Something went wrong!',
-    });
+    const response = await removeFriend(fromUserId, toUserId);
 
     if (response.success) {
       const friendship = response.data;
@@ -159,8 +160,14 @@ const UserProfile = () => {
       auth.updateUserFriends(false, friendship);
       setFollowersCount(followersCount - 1);
       setIsFriend(false);
+      toast.success('Friend removed!', {
+        id: toastId,
+      });
     } else {
       setIsFriend(true);
+      toast.error('Something went wrong!', {
+        id: toastId,
+      });
     }
     setRequestInProgress(false);
   };
@@ -184,7 +191,7 @@ const UserProfile = () => {
       }
       auth.handleUserMessageClick(friends[index]);
     } else {
-      toast.success(`Follow ${user.name} to send message`);
+      toast.info(`Follow ${user.name} to send message`);
     }
   };
 
@@ -218,16 +225,14 @@ const UserProfile = () => {
             {isFriend ? (
               <button
                 className="animate__animated animate__fadeIn"
-                onClick={handleRemoveFriendClick}
-                disabled={requestInProgress}
+                onClick={!requestInProgress ? handleRemoveFriendClick : ''}
               >
                 Unfollow
               </button>
             ) : (
               <button
                 className="animate__animated animate__fadeIn"
-                onClick={handleAddFriendClick}
-                disabled={requestInProgress}
+                onClick={!requestInProgress ? handleAddFriendClick : ''}
               >
                 Follow
               </button>
@@ -360,7 +365,7 @@ const UserProfile = () => {
           {currentHeader === 'userVideos' && (
             <div
               className={`${styles.userPosts} animate__animated animate__fadeIn`}
-              onClick={() => toast.success('Coming soon!')}
+              onClick={() => toast.info('Coming soon!')}
             >
               {user.posts.map((post) => {
                 if (!post.isImg)

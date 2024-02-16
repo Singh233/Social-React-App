@@ -1,22 +1,21 @@
-import { createContext } from "react";
-import { useProvideAuth } from "../hooks/useAuth";
-
+import { createContext } from 'react';
+import { useProvideAuth } from '../hooks/useAuth';
 
 const initialState = {
-    user: null, 
-    login: () => {},
-    googleLogin: () => {},
-    logout: () => {},
-    loading: true,
-    signUp: () => {},
-    updateUser: () => {},
-    updateUserFriends: () => {},
-}
+  user: null,
+  login: async () => {},
+  googleLogin: async () => {},
+  logout: () => {},
+  loading: true,
+  signUp: async () => {},
+  updateUser: () => {},
+  updateUserFriends: () => {},
+};
 
 export const AuthContext = createContext(initialState);
 
-export const AuthProvider = ({children}) => {
-    const auth = useProvideAuth();
+export const AuthProvider = ({ children }) => {
+  const auth = useProvideAuth();
 
-    return <AuthContext.Provider value={auth}> {children} </AuthContext.Provider>
-}
+  return <AuthContext.Provider value={auth}> {children} </AuthContext.Provider>;
+};

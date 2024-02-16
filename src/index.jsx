@@ -4,13 +4,14 @@ import './styles/css/index.css';
 import App from './components/App.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { Toaster } from 'react-hot-toast';
 import { AuthProvider, PostsProvider } from './providers';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import env from './utils/env';
 import { VideoProvider } from './providers/VideoProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Toaster } from '@/components/ui/sonner';
+
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,8 +32,16 @@ root.render(
           </PostsProvider>
         </AuthProvider>
       </QueryClientProvider>
-
       <Toaster
+        position="top-center"
+        richColors={true}
+        theme={'dark'}
+        toastOptions={{
+          closeButton: true,
+        }}
+      />
+
+      {/* <Toaster
         toastOptions={{
           className: 'toast',
           // position: 'bottom-center',
@@ -44,7 +53,7 @@ root.render(
             WebkitBackdropFilter: 'blur(12px)',
           },
         }}
-      />
+      /> */}
     </Router>
   </React.StrictMode>
 );

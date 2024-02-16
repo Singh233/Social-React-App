@@ -15,9 +15,9 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { createMessage, fetchMessages } from '../api';
-import toast from 'react-hot-toast';
 import _ from 'lodash';
 import { useQuery } from 'react-query';
+import { toast } from 'sonner';
 
 export const GlobalChat = (props) => {
   const { isGlobalChatOpen, setIsGlobalChatOpen, x, y, scale } = props;
@@ -131,7 +131,7 @@ export const GlobalChat = (props) => {
 
   const handleSendMessageClick = async () => {
     if (message.trim().length === 0) {
-      toast.error('Message cannot be empty');
+      toast.warning('Message cannot be empty');
       if (messageInputRef.current) messageInputRef.current.focus();
       return;
     }
@@ -171,7 +171,7 @@ export const GlobalChat = (props) => {
         handleSendMessageClick();
         return;
       }
-      toast.error('Message cannot be empty');
+      toast.warning('Message cannot be empty');
     }
   };
 
@@ -272,11 +272,16 @@ export const GlobalChat = (props) => {
                                 : message.time}
                             </sup>
                           </span>
+
                           <img
                             src={
-                              auth.user.avatar
+                              messages &&
+                              messages[index + 1].sender.name !==
+                                message.sender.name
                                 ? auth.user.avatar
-                                : `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png`
+                                  ? auth.user.avatar
+                                  : `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png`
+                                : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
                             }
                           />
                           {/* <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" /> */}
@@ -333,7 +338,15 @@ export const GlobalChat = (props) => {
                       // if previous message is same as current message
                       messages[index + 1]?.sender._id === message.sender._id ? (
                         <>
-                          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" />
+                          <img
+                            src={
+                              messages &&
+                              messages[index + 1].sender.name !==
+                                message.sender.name
+                                ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+                                : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='
+                            }
+                          />
                           {message.messageType &&
                           message.messageType === 'call' ? (
                             <FontAwesomeIcon
@@ -372,7 +385,15 @@ export const GlobalChat = (props) => {
                         </>
                       ) : (
                         <>
-                          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" />
+                          <img
+                            src={
+                              messages &&
+                              messages[index + 1]?.sender?.name !==
+                                message.sender.name
+                                ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+                                : ''
+                            }
+                          />
                           {message.messageType &&
                           message.messageType === 'call' ? (
                             <FontAwesomeIcon
@@ -412,7 +433,12 @@ export const GlobalChat = (props) => {
                       )
                     }
                   </div>
-                  <sub>{message.sender.name}</sub>
+                  {messages &&
+                  messages[index + 1]?.sender?.name !== message.sender.name ? (
+                    <sub>{message.sender.name}</sub>
+                  ) : (
+                    ''
+                  )}
                 </div>
               );
             })}

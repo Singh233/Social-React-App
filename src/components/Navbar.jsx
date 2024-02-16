@@ -23,8 +23,8 @@ import profile from '../styles/memojis/memo3.png';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { searchUsers } from '../api';
-import toast from 'react-hot-toast';
 import { Avatar } from '@mui/joy';
+import { toast } from 'sonner';
 
 const Navbar = () => {
   const [results, setResults] = useState([]);
@@ -39,6 +39,9 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      const toastId = toast.loading('Searching...', {
+        position: 'top-right',
+      });
       const response = await searchUsers(searchText);
 
       if (response.success) {
@@ -49,10 +52,18 @@ const Navbar = () => {
         setResults(filteredUsers);
 
         if (response.data.users.length === 0) {
-          toast.error('No users found');
+          toast.info('No users found', {
+            id: toastId,
+          });
+          return;
         }
+        toast.success('Users found', {
+          id: toastId,
+        });
       } else {
-        toast.error('Something went wrong');
+        toast.error('Something went wrong', {
+          id: toastId,
+        });
       }
     };
 
@@ -226,7 +237,11 @@ const Navbar = () => {
             src={send}
           />
           <img
-            onClick={() => toast.success('In progress')}
+            onClick={() =>
+              toast.info('Work in progress', {
+                position: 'bottom-right',
+              })
+            }
             style={{ height: 40 }}
             src={notification}
           />

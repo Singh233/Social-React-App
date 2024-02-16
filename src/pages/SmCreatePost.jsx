@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 import { usePosts } from '../hooks/usePosts';
 import gsap from 'gsap';
 import PostUploadProgress from '../components/PostUploadProgress';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export default function SmCreatePost() {
   const { user, socket, updateUserPosts } = useAuth();

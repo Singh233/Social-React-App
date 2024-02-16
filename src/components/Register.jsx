@@ -10,9 +10,9 @@ import { faArrowRight, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 
-import { toast } from 'react-hot-toast';
 import { Button } from '@mui/joy';
 import { ArrowForward } from '@mui/icons-material';
+import { toast } from 'sonner';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -30,17 +30,15 @@ const Register = () => {
 
     if (!email || !password || !name || !confirmPassword) {
       setSigningUp(false);
-      return toast.error('Please fill all the fields!');
+      return toast.warning('Please fill all the fields!');
     }
 
     if (password !== confirmPassword) {
       setSigningUp(false);
-      return toast.error("Passwords doesn't match!");
+      return toast.warning("Passwords doesn't match!");
     }
 
-    toast.loading('Signing Up...', {
-      duration: 700,
-    });
+    const toastId = toast.loading('Signing Up...');
 
     setTimeout(async () => {
       const response = await auth.signUp(
@@ -49,20 +47,19 @@ const Register = () => {
         password,
         confirmPassword
       );
-      // const response = await toast.promise(auth.signUp(name, email, password, confirmPassword), {
-      //     loading: 'Signing Up...',
-      //     success: 'Sign Up Successfull!',
-      //     error: 'Account already exists!'
-      // });
       setSigningUp(false);
 
       if (response.success) {
         navigate('/');
-        return toast.success('Sign Up Successfull!');
+        return toast.success('Sign Up Successfull!', {
+          id: toastId,
+        });
       } else {
         setSigningUp(false);
 
-        return toast.error(response.message);
+        return toast.error("User already exists!", {
+          id: toastId,
+        });
       }
     }, 700);
   };

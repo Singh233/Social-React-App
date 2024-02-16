@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 import styles from '../styles/css/chat.module.scss';
 import env from '../utils/env';
+import { Button } from '@/components/ui/button';
 
 // images
 import dummyImg from '../styles/img/dummy.jpeg';
@@ -18,14 +20,41 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { Link } from 'react-router-dom';
 import DirectMessage from './DirectMessage';
-import socketIo from 'socket.io-client';
-import toast from 'react-hot-toast';
 import moment from 'moment';
 import { useVideo } from '../hooks/useVideo';
 import { useAuth } from '../hooks/useAuth';
 import { usePosts } from '../hooks/usePosts';
 import { Avatar } from '@mui/joy';
 import { GlobalChat } from './GlobalChat';
+
+const throwToast = (data) => {
+  toast(
+    <div className={styles.toastNotification}>
+      <span className={styles.time}>{data.time}</span>
+      <div className={styles.heading}>
+        <img
+          src={
+            data?.user_profile
+              ? data.user_profile
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+          }
+        />
+        <p className={styles.userName}>
+          {' '}
+          {'New message from ' + data.user_name.split(' ')[0]}
+        </p>
+      </div>
+
+      <div className={styles.message}>
+        <span>{data.message.substring(0, 50)}</span>
+      </div>
+    </div>,
+    {
+      position: 'top-left',
+      duration: 20000,
+    }
+  );
+};
 
 const Chat = () => {
   const auth = useAuth();
@@ -102,38 +131,14 @@ const Chat = () => {
 
       auth.updateFriendsMessage(null, null, data);
       if (!isUserChatBoxOpened) {
-        toast.success('New message from ' + data.user_name.split(' ')[0], {
-          position: 'top-left',
-          duration: 5000,
-          icon: '👋',
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-          },
-        });
+        throwToast(data);
       } else if (
         clickedUser &&
         clickedUser._id !== data.to_user &&
         clickedUser._id !== data.from_user &&
         data.user_email !== auth.user.email
       ) {
-        toast.success(
-          `${data.user_name.split(' ')[0]} says ${data.message.substring(
-            0,
-            10
-          )}`,
-          {
-            position: 'top-left',
-            duration: 5000,
-            icon: `💬`,
-            style: {
-              borderRadius: '10px',
-              background: '#333',
-              color: '#fff',
-            },
-          }
-        );
+        throwToast(data);
       }
     });
     // }
@@ -250,8 +255,12 @@ const Chat = () => {
 
   const handleGlobalChatClick = () => {
     setIsGlobalChatOpen(true);
-    toast.success("Global chat joined!")
+    toast.success('Global chat joined');
   };
+
+  if (window.innerWidth >= 1175 && window.location.href.includes('messages')) {
+    return '';
+  }
 
   return (
     <>

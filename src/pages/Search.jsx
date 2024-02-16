@@ -17,8 +17,8 @@ import { useAuth } from '../hooks/useAuth.jsx';
 import { Link } from 'react-router-dom';
 
 import profile from '../styles/memojis/memo3.png';
-import toast from 'react-hot-toast';
 import { Avatar } from '@mui/joy';
+import { toast } from 'sonner';
 
 export default function Search() {
   const [results, setResults] = useState([]);

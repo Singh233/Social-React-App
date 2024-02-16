@@ -18,12 +18,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../hooks/useAuth.jsx';
 import Peer from 'peerjs';
-import { toast } from 'react-hot-toast';
 import { useVideo } from '../hooks/useVideo';
 import env from '../utils/env.js';
 import videoPng from '../styles/icon/video.png';
 import _ from 'lodash';
 import { Tooltip } from 'react-tooltip';
+import { toast } from 'sonner';
 
 export default function VideoCall() {
   const auth = useAuth();
@@ -179,18 +179,20 @@ export default function VideoCall() {
   };
 
   const displayCamLoadingToast = async () => {
-    await toast.promise(initiateCall(), {
+    toast.promise(initiateCall(), {
       error: 'Failed to get camera access!',
       success: 'Camera and mic accessed!',
       loading: 'Getting camera and mic access...',
+      closeButton: false,
     });
   };
 
   const displayCamStoppingToast = async () => {
-    await toast.promise(stopAudioAndVideo(), {
+    toast.promise(stopAudioAndVideo(), {
       error: 'Something went wrong!',
       success: 'Camera and mic stopped!',
       loading: 'Closing camera and mic...',
+      closeButton: false,
     });
   };
 
@@ -407,7 +409,7 @@ export default function VideoCall() {
     }
 
     toggleAudioOnly(!micToggle);
-    toast.success(`Mic ${micToggle ? 'enabled!' : 'disabled!'}`);
+    toast.info(`Mic ${micToggle ? 'enabled!' : 'disabled!'}`);
     setMicToggle(!micToggle);
   };
 
@@ -418,7 +420,7 @@ export default function VideoCall() {
       if (cameraToggle) emitCameraToggleSocket(!cameraToggle);
     }
     toggleVideoOnly(!cameraToggle);
-    toast.success(`Camera ${cameraToggle ? 'enabled!' : 'disabled!'}`);
+    toast.info(`Camera ${cameraToggle ? 'enabled!' : 'disabled!'}`);
     setCameraToggle(!cameraToggle);
   };
 
@@ -576,11 +578,11 @@ export default function VideoCall() {
       setCallState(CALL_STATE.IDLE);
 
       if (data.from_user === auth.user._id) {
-        toast.success('Call ended!', {
+        toast.info('Call ended!', {
           duration: 2000,
         });
       } else {
-        toast.success(
+        toast.info(
           `${data.user_name && data.user_name.split(' ')[0]} ended call!`,
           {
             duration: 2000,

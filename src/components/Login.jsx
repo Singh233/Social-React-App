@@ -19,7 +19,6 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 
-import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Register from './Register';
 import { GoogleLogin } from '@react-oauth/google';
@@ -29,6 +28,7 @@ import {
   ArrowForwardIosTwoTone,
   NextPlan,
 } from '@mui/icons-material';
+import { toast } from 'sonner';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -49,25 +49,31 @@ const Login = () => {
     setLoggingIn(true);
     if (!email || !password) {
       setLoggingIn(false);
-      return toast.error('Please enter the credentials!');
+      return toast.warning('Please enter the credentials!');
     }
+    const toastId = toast.loading('Loading...');
 
     const response = await auth.login(email, password);
 
     if (response.success) {
       // console.log(auth);
       navigate('/');
-      toast.success('Successfully logged in!');
+      toast.success('Successfully logged in!', {
+        id: toastId,
+      });
+      // toast.success('Successfully logged in!');
     } else {
-      toast.error(response.message);
+      toast.error(response.message, {
+        id: toastId,
+      });
     }
     setLoggingIn(false);
   };
 
   const handleGoogleLogin = async (cred, type) => {
-    toast.loading(type == 'login' ? 'Signing In...' : 'Signing Up...', {
-      duration: 700,
-    });
+    const toastId = toast.loading(
+      type == 'login' ? 'Signing In...' : 'Signing Up...'
+    );
 
     const token = cred.credential;
     const response = await auth.googleLogin(token);
@@ -75,12 +81,18 @@ const Login = () => {
     if (response.success) {
       navigate('/');
       if (type == 'login') {
-        return toast.success('Sign In Successfull!');
+        return toast.success('Sign In Successfull!', {
+          id: toastId,
+        });
       } else {
-        return toast.success('Sign Up Successfull!');
+        return toast.success('Sign Up Successfull!', {
+          id: toastId,
+        });
       }
     } else {
-      return toast.error(response.message);
+      return toast.error(response.message, {
+        id: toastId,
+      });
     }
   };
 

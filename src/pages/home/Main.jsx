@@ -7,13 +7,13 @@ import { onHover } from '../../styles/js/main.js';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CreatePost, Post } from '../../components';
-import toast from 'react-hot-toast';
 import _ from 'lodash';
 import { usePosts } from '../../hooks/usePosts';
 import React from 'react';
 import PostUploadProgress from '../../components/PostUploadProgress.jsx';
 import gsap from 'gsap';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import { toast } from 'sonner';
 
 const Main = ({ posts }) => {
   const { socket, updateUserPosts } = useAuth();
