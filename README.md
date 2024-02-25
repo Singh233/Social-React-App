@@ -34,6 +34,7 @@ https://react.chillsanam.social/ 🚀
 - Responsivity
   - 🖥️ Desktop
   - 📱 Mobile
+  - ⬛️ Tablet
 
 ## 🚧Work in progress
 
@@ -41,8 +42,6 @@ https://react.chillsanam.social/ 🚀
 - Global Messaging 🌍
 - Email of message request 📧
 - Receive incoming message notification 🔔
-- Responsivity
-  - Tablet
 
 ## Run Project Locally
 
