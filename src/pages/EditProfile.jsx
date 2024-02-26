@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import '../styles/css/EditProfileDialog.scss';
@@ -7,17 +7,45 @@ import { FilePond } from 'react-filepond';
 import '../styles/css/home/filepond.css';
 import { Avatar } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const EditProfile = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const nameInputRef = useRef(null);
+  const [file, setFile] = useState([]);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleSaveChangesClick = () => {
-    // save changes
+  const handleSaveChangesClick = async () => {
+    // validate the fields
+    if (nameInputRef.current?.value < 1) {
+      toast.error('Name cannot be empty');
+      return;
+    }
+    setIsUpdating(true);
+
+    const toastId = toast.loading('Updating user...');
+
+    const response = await auth.updateUser(nameInputRef.current.value, file);
+
+    if (response.success) {
+      toast.success(response.message, {
+        id: toastId,
+      });
+    } else {
+      toast.error(response.message, {
+        id: toastId,
+      });
+    }
+
+    setIsUpdating(false);
+
+    // clear the file input
+    setFile([]);
   };
 
   return (
-    <Dialog.Root open={true}>
+    <Dialog.Root open>
       <Dialog.Portal>
         {/* <Dialog.Overlay className="DialogOverlay" /> */}
         <Dialog.Content className="DialogContent">
@@ -36,7 +64,11 @@ const EditProfile = () => {
           </div>
 
           <FilePond
-            files={''}
+            files={file}
+            onupdatefiles={(fileItems) => {
+              // Set currently active file objects to this.state
+              setFile(fileItems.map((fileItem) => fileItem.file));
+            }}
             allowMultiple={false}
             maxFiles={1}
             allowFileTypeValidation={true}
@@ -50,7 +82,12 @@ const EditProfile = () => {
             <label className="Label" htmlFor="name">
               Name
             </label>
-            <input className="Input" id="name" defaultValue={auth.user.name} />
+            <input
+              ref={nameInputRef}
+              className="Input"
+              id="name"
+              defaultValue={auth.user.name}
+            />
           </fieldset>
           <fieldset className="Fieldset">
             <label className="Label" htmlFor="username">
@@ -70,19 +107,20 @@ const EditProfile = () => {
               justifyContent: 'space-between',
             }}
           >
-            <Dialog.Close asChild>
-              <button
-                onClick={() => navigate('/settings')}
-                className="Button green"
-              >
-                Go back
-              </button>
-            </Dialog.Close>
-            <Dialog.Close asChild>
-              <button onClick={handleSaveChangesClick} className="Button green">
-                Save changes
-              </button>
-            </Dialog.Close>
+            <button
+              onClick={() => navigate('/settings')}
+              className="Button green"
+            >
+              Go back
+            </button>
+
+            <button
+              onClick={handleSaveChangesClick}
+              disabled={isUpdating}
+              className="Button green"
+            >
+              {isUpdating ? 'Updating...' : 'Save changes'}
+            </button>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

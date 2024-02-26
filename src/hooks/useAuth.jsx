@@ -9,6 +9,7 @@ import {
   googleLoginAPI,
   unsavePost,
   savePost,
+  updateUserProfile,
 } from '../api';
 import { signUp as userSignUp } from '../api';
 import {
@@ -140,18 +141,17 @@ export const useProvideAuth = () => {
     }
   };
 
-  const updateUser = async (userId, name, password, confirmPassword) => {
-    const response = await editProfile(userId, name, password, confirmPassword);
-    // console.log('response', response)
+  const updateUser = async (name, file) => {
+    const response = await updateUserProfile(name, file);
     if (response.success) {
-      setUser(response.data.user);
-      setItemInLocalStorage(
-        LOCALSTORAGE_TOKEN_KEY,
-        response.data.token ? response.data.token : null
-      );
-
+      setUser({
+        ...user,
+        name: response.data.user.name,
+        avatar: response.data.user.avatar,
+      });
       return {
         success: true,
+        message: response.message,
       };
     } else {
       return {

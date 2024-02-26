@@ -41,6 +41,8 @@ export const API_URLS = {
   createMessage: () => `${API_ROOT}/chat/createmessage/`,
 
   searchUsers: (searchText) => `${API_ROOT}/users/search?search=${searchText}`,
+
+  updateUserProfile: () => `${API_ROOT}/users/update`,
 };
 
 export const LOCALSTORAGE_TOKEN_KEY = '__social_token__';

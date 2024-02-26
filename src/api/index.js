@@ -147,8 +147,6 @@ export const addPost = (caption, file) => {
   // formData.append('file', fileInput.files[0]);
 
   // console.log('formData', formData, fileInput.files[0])
-
-  const form = document.querySelector('#new-post-form');
   const formData = new FormData();
   formData.append('filepond', file[0]);
   formData.append('caption', caption);
@@ -261,5 +259,34 @@ export const createMessage = (
       chatRoomId: chatRoomId,
       messageType: messageType,
     },
+  });
+};
+
+// update user profile
+export const updateUserProfile = (name, file) => {
+  const formData = new FormData();
+  formData.append('filepond', file[0]);
+  formData.append('name', name);
+
+  return new Promise(function (resolve, reject) {
+    // make an xmlhttprequest to the server
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        const data = JSON.parse(xhr.responseText);
+        // console.log('data', data);
+        resolve(data);
+        return {
+          data: data.data,
+          success: true,
+        };
+      }
+    };
+    xhr.open('POST', API_URLS.updateUserProfile());
+    xhr.setRequestHeader(
+      'Authorization',
+      `Bearer ${window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)}`
+    );
+    xhr.send(formData);
   });
 };
