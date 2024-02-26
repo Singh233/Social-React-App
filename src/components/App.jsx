@@ -18,9 +18,9 @@ import Search from '../pages/Search';
 import SmCreatePost from '../pages/SmCreatePost';
 import LeftNav from '../pages/home/LeftNav.jsx';
 import SinglePost from '../pages/SinglePost.jsx';
+import EditProfile from '../pages/EditProfile.jsx';
 
 function PrivateRoute({ children }) {
-  const auth = useAuth();
   return getItemInLocalStorage(LOCALSTORAGE_TOKEN_KEY) ? (
     children
   ) : (
@@ -87,37 +87,53 @@ function App() {
 
             <Route path="/login" element={<SignInUp />} />
 
-            {/* For small devices */}
-            <Route
-              path="/messages"
-              element={
-                <PrivateRoute>
-                  <Messaging />
-                </PrivateRoute>
-              }
-            />
+            {
+              /* For small devices */
+              window.innerWidth < 768 ? (
+                <>
+                  <Route
+                    path="/messages"
+                    element={
+                      <PrivateRoute>
+                        <Messaging />
+                      </PrivateRoute>
+                    }
+                  />
 
-            {/* For small devices */}
-            <Route
-              path="/search"
-              element={
-                <PrivateRoute>
-                  <Search />
-                  <SmBottomnNav />
-                </PrivateRoute>
-              }
-            />
+                  <Route
+                    path="/search"
+                    element={
+                      <PrivateRoute>
+                        <Search />
+                        <SmBottomnNav />
+                      </PrivateRoute>
+                    }
+                  />
 
-            {/* For small devices */}
-            <Route
-              path="/upload"
-              element={
-                <PrivateRoute>
-                  <SmCreatePost />
-                  <SmBottomnNav />
-                </PrivateRoute>
-              }
-            />
+                  <Route
+                    path="/upload"
+                    element={
+                      <PrivateRoute>
+                        <SmCreatePost />
+                        <SmBottomnNav />
+                      </PrivateRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/edit-profile"
+                    element={
+                      <PrivateRoute>
+                        <EditProfile />
+                        <SmBottomnNav />
+                      </PrivateRoute>
+                    }
+                  />
+                </>
+              ) : (
+                ''
+              )
+            }
 
             <Route
               path="/settings"
@@ -148,11 +164,19 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="*"
+              element={
+                <PrivateRoute>
+                  <Home />
+                  <SmBottomnNav />
+                </PrivateRoute>
+              }
+            />
           </Routes>
+          {/* handle 404 route */}
         </>
       )}
-
-      {/* For Small Devices */}
     </div>
   );
 }

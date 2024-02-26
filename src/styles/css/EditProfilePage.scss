@@ -1,0 +1,192 @@
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/green.css';
+@import '@radix-ui/colors/mauve.css';
+@import '@radix-ui/colors/violet.css';
+
+/* reset */
+button,
+fieldset,
+input {
+  all: unset;
+}
+
+.DialogOverlay {
+  background-color: var(--black-a9);
+  // position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.DialogContent {
+  background-color: black;
+  // border: 1px solid rgba(87, 87, 87, 0.522);
+  border-radius: 30px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: relative;
+  // top: 40%;
+  // left: 50%;
+  // z-index: 2;
+  margin-left: 9.5vw;
+  // transform: translate(-50%, -50%);
+  width: 90vw;
+  // height: 90vh;
+  // max-width: 450px;
+  height: 14vh;
+  // max-height: 800px;
+  padding: 25px;
+  margin: 50px 0;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.DialogContent:focus {
+  outline: none;
+}
+
+.DialogTitle {
+  margin: 0;
+  font-weight: 600;
+  color: white;
+  font-size: 22px;
+
+}
+
+.DialogDescription {
+  margin: 10px 0 20px;
+  color: var(--mauve-11);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px !important;
+  padding: 2px 25px !important;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 500;
+  height: 35px;
+}
+.Button.violet {
+  background-color: white;
+  color: var(--violet-11);
+  box-shadow: 0 2px 10px var(--black-a7);
+}
+.Button.violet:hover {
+  background-color: var(--mauve-3);
+}
+.Button.violet:focus {
+  box-shadow: 0 0 0 2px black;
+}
+.Button.green {
+  background-color: black;
+  color: white;
+  border: 1px solid gray;
+  transition: background-color 100ms, color 100ms;
+}
+.Button.green:hover {
+  background-color: white;
+  color: black;
+}
+.Button.green:focus {
+  box-shadow: 0 0 0 2px var(--green-7);
+}
+
+.IconButton {
+  font-family: inherit;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--violet-11);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.IconButton:hover {
+  background-color: var(--violet-4);
+}
+.IconButton:focus {
+  box-shadow: 0 0 0 2px var(--violet-7);
+}
+
+.Avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .MuiAvatar-root {
+    width: 100px;
+    height: 100px;
+  }
+}
+.Fieldset {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.Label {
+  font-size: 15px;
+  color: var(--violet-11);
+  width: 90px;
+  text-align: right;
+}
+
+.Input,
+.emailInput {
+  width: 100%;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 15px;
+  line-height: 1;
+  color: white;
+  box-shadow: 0 0 0 1px var(--violet-7);
+  height: 35px;
+}
+.Input:focus {
+  box-shadow: 0 0 0 2px var(--violet-8);
+}
+.emailInput {
+  box-shadow: 0 0 0 1px rgb(63, 63, 63);
+  color: gray;
+
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .DialogContent {
+    margin-left: 0;
+  }
+}

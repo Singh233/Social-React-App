@@ -23,7 +23,8 @@ import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import EditProfile from '../components/EditProfile';
+import EditProfile from '../components/EditProfile.jsx';
+import { Button } from '@/components/ui/button';
 import dummyImg from '../styles/img/dummy.jpeg';
 
 import moment from 'moment';
@@ -109,170 +110,136 @@ const Settings = () => {
   };
 
   return (
-    <div className={styles.settingsContainer}>
-      <LoadingBar color="#f11946" progress="100" />
+    <>
+      <div className={styles.settingsContainer}>
+        <LoadingBar color="#f11946" progress="100" />
 
-      <div className={styles.profileContainer}>
-        <div className={styles.smHeader}>
-          <img className={styles.avatar} src={avatar} />
-          <div className={styles.otherAccounts}>
+        <div className={styles.profileContainer}>
+          <div className={styles.smHeader}>
+            <img className={styles.avatar} src={avatar} />
+            <div className={styles.otherAccounts}>
+              <FontAwesomeIcon
+                onClick={extendHeader}
+                className={styles.arrowDown}
+                icon={faChevronDown}
+              />
+              <p className={styles.userName}>{auth.user.name}</p>
+            </div>
+
+            {/* <img className={styles.settingsIcon} src={settingsIcon} /> */}
+
             <FontAwesomeIcon
-              onClick={extendHeader}
-              className={styles.arrowDown}
-              icon={faChevronDown}
+              onClick={auth.logout}
+              className={styles.icon}
+              icon={faRightFromBracket}
             />
+          </div>
+
+          <div className={styles.coverImg}></div>
+
+          <div className={styles.profileDetail}>
+            <img className={styles.avatar} src={avatar} />
             <p className={styles.userName}>{auth.user.name}</p>
-          </div>
-
-          {/* <img className={styles.settingsIcon} src={settingsIcon} /> */}
-
-          <FontAwesomeIcon
-            onClick={auth.logout}
-            className={styles.icon}
-            icon={faRightFromBracket}
-          />
-        </div>
-
-        <div className={styles.coverImg}></div>
-
-        <div className={styles.profileDetail}>
-          <img className={styles.avatar} src={avatar} />
-          <p className={styles.userName}>{auth.user.name}</p>
-          <p className={styles.bio}>
-            Hi this is sample about🔥 Professional Cake Cutter
-          </p>
-          <div className={styles.buttons}>
-            <button onClick={() => toast.info('More Updates Coming Soon')}>
-              Edit Profile
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.stats}>
-          <div className={styles.followers}>
-            <p className={styles.header}>Posts</p>
-            <p className={styles.stat}> {auth.user.posts.length} </p>
-            <FontAwesomeIcon className={styles.icon} icon={faCloud} />
-          </div>
-
-          <div className={styles.border}></div>
-
-          <div className={styles.followers}>
-            <p className={styles.header}>Followers</p>
-            <p className={styles.stat}>{auth.user.followersCount}</p>
-            <FontAwesomeIcon className={styles.icon} icon={faChartLine} />
-          </div>
-
-          <div className={styles.border}></div>
-
-          <div className={styles.following}>
-            <p className={styles.header}>Following</p>
-            <p className={styles.stat}>{auth.user.followingCount}</p>
-            <FontAwesomeIcon className={styles.icon} icon={faChartSimple} />
-          </div>
-
-          <div className={styles.border}></div>
-
-          <div className={styles.joined}>
-            <p className={styles.header}>Joined</p>
-            <p className={styles.stat}>
-              {moment(auth.user.createdAt).format('MMMM YYYY').split(' ')[0]}{' '}
+            <p className={styles.bio}>
+              Hi this is sample about🔥 Professional Cake Cutter
             </p>
-            <p className={styles.footer}>
-              {' '}
-              {
-                moment(auth.user.createdAt).format('MMMM YYYY').split(' ')[1]
-              }{' '}
-            </p>
+            <div className={styles.buttons}>
+              <EditProfile />
+            </div>
           </div>
 
-          {/* <div className={styles.border}></div> */}
+          <div className={styles.stats}>
+            <div className={styles.followers}>
+              <p className={styles.header}>Posts</p>
+              <p className={styles.stat}> {auth.user.posts.length} </p>
+              <FontAwesomeIcon className={styles.icon} icon={faCloud} />
+            </div>
 
-          {/* <div className={styles.dob}>
+            <div className={styles.border}></div>
+
+            <div className={styles.followers}>
+              <p className={styles.header}>Followers</p>
+              <p className={styles.stat}>{auth.user.followersCount}</p>
+              <FontAwesomeIcon className={styles.icon} icon={faChartLine} />
+            </div>
+
+            <div className={styles.border}></div>
+
+            <div className={styles.following}>
+              <p className={styles.header}>Following</p>
+              <p className={styles.stat}>{auth.user.followingCount}</p>
+              <FontAwesomeIcon className={styles.icon} icon={faChartSimple} />
+            </div>
+
+            <div className={styles.border}></div>
+
+            <div className={styles.joined}>
+              <p className={styles.header}>Joined</p>
+              <p className={styles.stat}>
+                {moment(auth.user.createdAt).format('MMMM YYYY').split(' ')[0]}{' '}
+              </p>
+              <p className={styles.footer}>
+                {' '}
+                {
+                  moment(auth.user.createdAt).format('MMMM YYYY').split(' ')[1]
+                }{' '}
+              </p>
+            </div>
+
+            {/* <div className={styles.border}></div> */}
+
+            {/* <div className={styles.dob}>
                         <p className={styles.header}>Birthday</p>
                         <p className={styles.stat} >3 June</p>
                         <p className={styles.footer} >2000</p>
 
                     </div> */}
-        </div>
-
-        <div className={styles.postsContainer}>
-          <div className={styles.header}>
-            <div
-              onClick={() => setCurrentHeader('userPosts')}
-              className={`${styles.heading1} ${
-                currentHeader === 'userPosts' && styles.activeHeading
-              }`}
-            >
-              <FontAwesomeIcon className={styles.imgIcon} icon={faClone} />
-              <p>Posts</p>
-            </div>
-
-            <div
-              onClick={() => setCurrentHeader('userVideos')}
-              className={`${styles.heading1} ${
-                currentHeader === 'userVideos' && styles.activeHeading
-              }`}
-            >
-              <FontAwesomeIcon
-                className={styles.videoIcon}
-                icon={faClapperboard}
-              />
-              <p>Videos</p>
-            </div>
-
-            <div
-              onClick={() => setCurrentHeader('savedPosts')}
-              className={`${styles.heading1} ${
-                currentHeader === 'savedPosts' && styles.activeHeading
-              }`}
-            >
-              <FontAwesomeIcon
-                className={styles.bookmarkIcon}
-                icon={faBookmark}
-              />
-              <p>Saved</p>
-            </div>
           </div>
 
-          {currentHeader === 'userPosts' && (
-            <div
-              className={`${styles.userPosts} animate__animated animate__fadeIn`}
-            >
-              {auth.user.posts.map((post) => {
-                return (
-                  <Link
-                    to={{
-                      pathname: `/posts/post/${post._id}`,
-                    }}
-                    state={{ user: post.user }}
-                    className={styles.post}
-                    key={post._id}
-                  >
-                    {post.imgPath ? (
-                      <img src={post.imgPath} />
-                    ) : (
-                      <div>
-                        <FontAwesomeIcon icon={faPlayCircle} />
-                      </div>
-                    )}
-                  </Link>
-                );
-              })}
-              {auth.user.posts.length === 0 && (
-                <div className={styles.noPosts}>
-                  {/* <img src={dummyImg} /> */}
-                  <p>No posts uploaded</p>
-                </div>
-              )}
+          <div className={styles.postsContainer}>
+            <div className={styles.header}>
+              <div
+                onClick={() => setCurrentHeader('userPosts')}
+                className={`${styles.heading1} ${
+                  currentHeader === 'userPosts' && styles.activeHeading
+                }`}
+              >
+                <FontAwesomeIcon className={styles.imgIcon} icon={faClone} />
+                <p>Posts</p>
+              </div>
+
+              <div
+                onClick={() => setCurrentHeader('userVideos')}
+                className={`${styles.heading1} ${
+                  currentHeader === 'userVideos' && styles.activeHeading
+                }`}
+              >
+                <FontAwesomeIcon
+                  className={styles.videoIcon}
+                  icon={faClapperboard}
+                />
+                <p>Videos</p>
+              </div>
+
+              <div
+                onClick={() => setCurrentHeader('savedPosts')}
+                className={`${styles.heading1} ${
+                  currentHeader === 'savedPosts' && styles.activeHeading
+                }`}
+              >
+                <FontAwesomeIcon
+                  className={styles.bookmarkIcon}
+                  icon={faBookmark}
+                />
+                <p>Saved</p>
+              </div>
             </div>
-          )}
-          {currentHeader === 'userVideos' && (
-            <div
-              className={`${styles.userPosts} animate__animated animate__fadeIn`}
-            >
-              {auth.user.posts.map((post) => {
-                if (!post.isImg)
+
+            {currentHeader === 'userPosts' && (
+              <div
+                className={`${styles.userPosts} animate__animated animate__fadeIn`}
+              >
+                {auth.user.posts.map((post) => {
                   return (
                     <Link
                       to={{
@@ -291,48 +258,81 @@ const Settings = () => {
                       )}
                     </Link>
                   );
-              })}
+                })}
+                {auth.user.posts.length === 0 && (
+                  <div className={styles.noPosts}>
+                    {/* <img src={dummyImg} /> */}
+                    <p>No posts uploaded</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {currentHeader === 'userVideos' && (
+              <div
+                className={`${styles.userPosts} animate__animated animate__fadeIn`}
+              >
+                {auth.user.posts.map((post) => {
+                  if (!post.isImg)
+                    return (
+                      <Link
+                        to={{
+                          pathname: `/posts/post/${post._id}`,
+                        }}
+                        state={{ user: post.user }}
+                        className={styles.post}
+                        key={post._id}
+                      >
+                        {post.imgPath ? (
+                          <img src={post.imgPath} />
+                        ) : (
+                          <div>
+                            <FontAwesomeIcon icon={faPlayCircle} />
+                          </div>
+                        )}
+                      </Link>
+                    );
+                })}
 
-              {auth.user.posts.filter((post) => !post.isImg).length === 0 && (
-                <div className={styles.noPosts}>
-                  {/* <img src={dummyImg} /> */}
-                  <p>No Videos uploaded</p>
-                </div>
-              )}
-            </div>
-          )}
+                {auth.user.posts.filter((post) => !post.isImg).length === 0 && (
+                  <div className={styles.noPosts}>
+                    {/* <img src={dummyImg} /> */}
+                    <p>No Videos uploaded</p>
+                  </div>
+                )}
+              </div>
+            )}
 
-          {currentHeader === 'savedPosts' && (
-            <div
-              className={`${styles.savedPosts} animate__animated animate__fadeIn`}
-            >
-              {auth.user.savedPosts.map((post, index) => {
-                return (
-                  post && (
-                    <Link
-                      to={{
-                        pathname: `/posts/post/${post._id}`,
-                      }}
-                      state={{ user: post.user }}
-                      className={styles.post}
-                      key={post._id}
-                    >
-                      {post.imgPath ? (
-                        <img src={post.imgPath} />
-                      ) : (
-                        <div>
-                          <FontAwesomeIcon icon={faPlayCircle} />
-                        </div>
-                      )}
-                    </Link>
-                  )
-                );
-              })}
-            </div>
-          )}
-        </div>
+            {currentHeader === 'savedPosts' && (
+              <div
+                className={`${styles.savedPosts} animate__animated animate__fadeIn`}
+              >
+                {auth.user.savedPosts.map((post, index) => {
+                  return (
+                    post && (
+                      <Link
+                        to={{
+                          pathname: `/posts/post/${post._id}`,
+                        }}
+                        state={{ user: post.user }}
+                        className={styles.post}
+                        key={post._id}
+                      >
+                        {post.imgPath ? (
+                          <img src={post.imgPath} />
+                        ) : (
+                          <div>
+                            <FontAwesomeIcon icon={faPlayCircle} />
+                          </div>
+                        )}
+                      </Link>
+                    )
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
-        {/* <div className={styles.field}>
+          {/* <div className={styles.field}>
 
                     <div className={styles.fieldName}>Email</div>
                     <div className={styles.fieldValue}>{auth.user?.email}</div>
@@ -401,10 +401,11 @@ const Settings = () => {
                     <button onClick={() => setEditMode(true)} className={styles.editButton}> Edit Profile</button>
                     }
                 </div> */}
-      </div>
+        </div>
 
-      {/* <EditProfile /> */}
-    </div>
+        {/* <EditProfile /> */}
+      </div>
+    </>
   );
 };
 

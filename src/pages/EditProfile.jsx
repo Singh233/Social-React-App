@@ -16,22 +16,10 @@ const EditProfile = () => {
     // save changes
   };
 
-  const handleEditProfileClick = () => {
-    // navigate to edit profile if it is small device
-    if (window.innerWidth < 768) {
-      navigate('/edit-profile');
-    }
-  };
-
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <button onClick={handleEditProfileClick} className="Button">
-          Edit profile
-        </button>
-      </Dialog.Trigger>
+    <Dialog.Root open={true}>
       <Dialog.Portal>
-        <Dialog.Overlay className="DialogOverlay" />
+        {/* <Dialog.Overlay className="DialogOverlay" /> */}
         <Dialog.Content className="DialogContent">
           <Dialog.Title className="DialogTitle">Edit profile</Dialog.Title>
           <Dialog.Description className="DialogDescription">
@@ -79,20 +67,23 @@ const EditProfile = () => {
             style={{
               display: 'flex',
               marginTop: 35,
-              justifyContent: 'flex-end',
+              justifyContent: 'space-between',
             }}
           >
+            <Dialog.Close asChild>
+              <button
+                onClick={() => navigate('/settings')}
+                className="Button green"
+              >
+                Go back
+              </button>
+            </Dialog.Close>
             <Dialog.Close asChild>
               <button onClick={handleSaveChangesClick} className="Button green">
                 Save changes
               </button>
             </Dialog.Close>
           </div>
-          <Dialog.Close asChild>
-            <button className="IconButton" aria-label="Close">
-              <Cross2Icon />
-            </button>
-          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
