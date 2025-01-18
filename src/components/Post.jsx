@@ -305,7 +305,7 @@ const Post = (props) => {
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(
-      `https://react.chillsanam.social/posts/post/${post._id}`
+      `https://react.chillsanam.com/posts/post/${post._id}`
     );
     toast.success('Link copied!');
   };
@@ -469,7 +469,7 @@ const Post = (props) => {
             className={styles.shareButton}
           >
             <FacebookShareButton
-              url={`https://react.chillsanam.social/posts/post${post._id}`}
+              url={`https://react.chillsanam.com/posts/post${post._id}`}
               className="Demo__some-network__share-button"
             >
               <FacebookIcon size={32} round />
@@ -483,7 +483,7 @@ const Post = (props) => {
             className={styles.shareButton}
           >
             <TwitterShareButton
-              url={`https://react.chillsanam.social/posts/post${post._id}`}
+              url={`https://react.chillsanam.com/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               className="Demo__some-network__share-button"
             >
@@ -498,7 +498,7 @@ const Post = (props) => {
             className={styles.shareButton}
           >
             <WhatsappShareButton
-              url={`https://react.chillsanam.social/posts/post${post._id}`}
+              url={`https://react.chillsanam.com/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               separator="- "
               className="Demo__some-network__share-button"
@@ -514,7 +514,7 @@ const Post = (props) => {
             className={styles.shareButton}
           >
             <LinkedinShareButton
-              url={`https://react.chillsanam.social/posts/post${post._id}`}
+              url={`https://react.chillsanam.com/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               separator="- "
               className="Demo__some-network__share-button"
@@ -530,7 +530,7 @@ const Post = (props) => {
             className={styles.shareButton}
           >
             <TelegramShareButton
-              url={`https://react.chillsanam.social/posts/post${post._id}`}
+              url={`https://react.chillsanam.com/posts/post${post._id}`}
               title={`Checkout this post from ${post.user.name}`}
               separator="- "
               className="Demo__some-network__share-button"

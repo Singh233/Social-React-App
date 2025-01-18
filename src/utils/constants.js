@@ -1,7 +1,7 @@
 import env from './env';
 // const API_ROOT = 'https://codeial.codingninjas.com:8000/api/v2/';
 const API_ROOT = env.API_URL;
-// const API_ROOT = 'https://chillsanam.social/api/v1/';
+// const API_ROOT = 'https://social.chillsanam.com/api/v1/';
 
 // doc url - https://www.notion.so/aakashcn/Codeial-API-docs-3a4d0b5a42c54f0a94d951a42aabc13f
 export const API_URLS = {

@@ -2,7 +2,7 @@
 
 My social media React application is a platform for users to create accounts, post images, messages, and follow other users and I built this application to get hands-on experience developing a full-stack web application using React, Node.js, Express, and MongoDB.
 
-The application uses API endpoints from one of my own Node.js web application checkout here (https://chillsanam.social 🚀) and allows users to view their feed and interact with other users by liking and commenting on their posts. The application is built using React, Node.js, Express, MongoDB, CSS, and HTML. Future development plans include adding more features, improving the UI/UX.
+The application uses API endpoints from one of my own Node.js web application checkout here (https://social.chillsanam.com 🚀) and allows users to view their feed and interact with other users by liking and commenting on their posts. The application is built using React, Node.js, Express, MongoDB, CSS, and HTML. Future development plans include adding more features, improving the UI/UX.
 
 Through building this project, I gained experience with user authentication, posting messages, following other users, and liking and commenting on posts. This project was a great opportunity to practice my skills and improve my knowledge of full-stack web development.
 
@@ -10,7 +10,7 @@ Through building this project, I gained experience with user authentication, pos
 
 ## 👀 Demo
 
-https://react.chillsanam.social/ 🚀
+https://react.chillsanam.com/ 🚀
 
 ## Features
 

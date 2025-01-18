@@ -27,7 +27,7 @@ export const GlobalChat = (props) => {
   const messageInputRef = useRef();
   const fetchGlobalChatMessages = async () => {
     const response = await fetch(
-      `https://chillsanam.social/api/v1/chat/global/${auth.user._id}/all/global`
+      `https://social.chillsanam.com/api/v1/chat/global/${auth.user._id}/all/global`
     );
     return await response.json();
   };
